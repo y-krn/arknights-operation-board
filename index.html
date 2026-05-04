@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Operation Board - Arknights Event Squad Hub</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="rail" aria-label="イベントナビゲーション">
+        <div class="brand">
+          <span class="brand-mark">OB</span>
+          <div>
+            <strong>Operation Board</strong>
+            <span>Event squad database</span>
+          </div>
+        </div>
+
+        <section class="panel current-event">
+          <div class="section-label">開催中イベント</div>
+          <h1>曇りなき紅煙</h1>
+          <p>周回、勲章加工、少人数、低レア。投稿編成をステージ単位で探せます。</p>
+          <div class="event-meta">
+            <span>残り 11日</span>
+            <span>投稿 248</span>
+          </div>
+        </section>
+
+        <section class="panel stage-list">
+          <div class="section-label">ステージ</div>
+          <button class="stage-button active" data-stage="HS-8">
+            <span>HS-8</span>
+            <small>周回 / 素材</small>
+          </button>
+          <button class="stage-button" data-stage="HS-9">
+            <span>HS-9</span>
+            <small>勲章加工</small>
+          </button>
+          <button class="stage-button" data-stage="HS-EX-8">
+            <span>HS-EX-8</span>
+            <small>強襲</small>
+          </button>
+          <button class="stage-button" data-stage="S-5">
+            <span>S-5</span>
+            <small>高難度</small>
+          </button>
+        </section>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <div class="section-label">検索条件</div>
+            <h2 id="stageTitle">HS-8 攻略編成</h2>
+          </div>
+          <button class="primary-action" id="openComposer" type="button">編成を投稿</button>
+        </header>
+
+        <section class="search-strip" aria-label="編成検索">
+          <label>
+            <span>キーワード</span>
+            <input id="searchInput" type="search" placeholder="例: 放置、ムリナール、低レア" />
+          </label>
+          <label>
+            <span>並び順</span>
+            <select id="sortSelect">
+              <option value="saved">保存数</option>
+              <option value="clear">成功報告</option>
+              <option value="new">新着</option>
+            </select>
+          </label>
+          <label class="checkbox-label">
+            <input id="ownedOnly" type="checkbox" />
+            <span>自分の手持ちで組める編成だけ</span>
+          </label>
+        </section>
+
+        <section class="content-grid">
+          <div class="main-column">
+            <div class="filter-tabs" aria-label="タグフィルター">
+              <button class="tag-filter active" data-tag="all">すべて</button>
+              <button class="tag-filter" data-tag="周回">周回</button>
+              <button class="tag-filter" data-tag="放置">放置</button>
+              <button class="tag-filter" data-tag="低レア">低レア</button>
+              <button class="tag-filter" data-tag="少人数">少人数</button>
+              <button class="tag-filter" data-tag="勲章">勲章</button>
+            </div>
+            <div class="squad-list" id="squadList"></div>
+          </div>
+
+          <aside class="insight-column">
+            <section class="panel stats-card">
+              <div class="section-label">このステージの傾向</div>
+              <div class="stat-row">
+                <strong id="clearRate">92%</strong>
+                <span>投稿編成の成功報告率</span>
+              </div>
+              <div class="stat-row">
+                <strong id="avgOps">7.3</strong>
+                <span>平均採用人数</span>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="section-heading">
+                <div>
+                  <div class="section-label">採用率</div>
+                  <h3>人気オペレーター</h3>
+                </div>
+                <span id="operatorCount">48名</span>
+              </div>
+              <div class="operator-ranking" id="operatorRanking"></div>
+            </section>
+
+            <section class="panel owned-panel">
+              <div class="section-label">手持ちメモ</div>
+              <p>未所持として扱うオペレーターを外すと、組める編成だけに絞り込めます。</p>
+              <div class="owned-grid" id="ownedGrid"></div>
+            </section>
+          </aside>
+        </section>
+      </section>
+    </main>
+
+    <dialog class="composer" id="composer">
+      <form method="dialog" class="composer-form" id="composerForm">
+        <div class="composer-head">
+          <div>
+            <div class="section-label">投稿</div>
+            <h2>イベント編成を登録</h2>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="閉じる" type="submit">×</button>
+        </div>
+        <label>
+          <span>編成タイトル</span>
+          <input id="titleField" required placeholder="例: HS-8 置くだけ高速周回" />
+        </label>
+        <label>
+          <span>採用オペレーター</span>
+          <input id="operatorsField" required placeholder="例: ティフォン, スズラン, サリア" />
+        </label>
+        <label>
+          <span>タグ</span>
+          <input id="tagsField" placeholder="例: 周回, 放置, 6人" />
+        </label>
+        <label>
+          <span>攻略メモ</span>
+          <textarea id="noteField" rows="4" placeholder="配置順、スキルタイミング、代替候補など"></textarea>
+        </label>
+        <button class="primary-action wide" value="default" type="submit">投稿する</button>
+      </form>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
