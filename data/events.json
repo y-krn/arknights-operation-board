@@ -1,0 +1,15 @@
+[
+  {
+    "id": "cloudless-red-smoke",
+    "title": "曇りなき紅煙",
+    "description": "周回、勲章加工、少人数、低レア。投稿編成をステージ単位で探せます。",
+    "startsAt": "2026-05-01",
+    "endsAt": "2026-05-15",
+    "stages": [
+      { "code": "HS-8", "label": "周回 / 素材" },
+      { "code": "HS-9", "label": "勲章加工" },
+      { "code": "HS-EX-8", "label": "強襲" },
+      { "code": "S-5", "label": "高難度" }
+    ]
+  }
+]

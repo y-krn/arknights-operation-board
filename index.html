@@ -19,32 +19,16 @@
 
         <section class="panel current-event">
           <div class="section-label">開催中イベント</div>
-          <h1>曇りなき紅煙</h1>
-          <p>周回、勲章加工、少人数、低レア。投稿編成をステージ単位で探せます。</p>
+          <h1 id="eventTitle">曇りなき紅煙</h1>
+          <p id="eventDescription">周回、勲章加工、少人数、低レア。投稿編成をステージ単位で探せます。</p>
           <div class="event-meta">
-            <span>残り 11日</span>
-            <span>投稿 248</span>
+            <span id="eventDaysLeft">残り 11日</span>
+            <span id="postCount">投稿 248</span>
           </div>
         </section>
 
-        <section class="panel stage-list">
+        <section class="panel stage-list" id="stageList">
           <div class="section-label">ステージ</div>
-          <button class="stage-button active" data-stage="HS-8">
-            <span>HS-8</span>
-            <small>周回 / 素材</small>
-          </button>
-          <button class="stage-button" data-stage="HS-9">
-            <span>HS-9</span>
-            <small>勲章加工</small>
-          </button>
-          <button class="stage-button" data-stage="HS-EX-8">
-            <span>HS-EX-8</span>
-            <small>強襲</small>
-          </button>
-          <button class="stage-button" data-stage="S-5">
-            <span>S-5</span>
-            <small>高難度</small>
-          </button>
         </section>
       </aside>
 
@@ -133,6 +117,10 @@
           <button class="icon-button" value="cancel" aria-label="閉じる" type="submit">×</button>
         </div>
         <label>
+          <span>投稿者名</span>
+          <input id="authorField" required placeholder="例: Dr. Rhodes" />
+        </label>
+        <label>
           <span>編成タイトル</span>
           <input id="titleField" required placeholder="例: HS-8 置くだけ高速周回" />
         </label>
@@ -148,10 +136,15 @@
           <span>攻略メモ</span>
           <textarea id="noteField" rows="4" placeholder="配置順、スキルタイミング、代替候補など"></textarea>
         </label>
+        <label>
+          <span>攻略リンク</span>
+          <input id="linkField" type="url" placeholder="https://youtu.be/..." />
+        </label>
         <button class="primary-action wide" value="default" type="submit">投稿する</button>
       </form>
     </dialog>
 
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="./app.js"></script>
   </body>
 </html>
