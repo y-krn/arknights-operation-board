@@ -2,6 +2,7 @@ const STORAGE_KEYS = {
   squads: "operation-board:squads:v2",
   owned: "operation-board:owned:v2",
   saved: "operation-board:saved:v2",
+  clientToken: "operation-board:client-token:v1",
   legacySquads: "operation-board:squads:v1",
   legacyOwned: "operation-board:owned:v1",
   legacySaved: "operation-board:saved:v1",
@@ -102,6 +103,7 @@ const seedSquads = [
 
 function createLocalStorageAdapter() {
   return {
+    mode: "local",
     async loadSquads() {
       return loadJson(STORAGE_KEYS.squads, STORAGE_KEYS.legacySquads, seedSquads).map(normalizeSquad).filter(Boolean);
     },
@@ -115,10 +117,145 @@ function createLocalStorageAdapter() {
       localStorage.setItem(STORAGE_KEYS.owned, JSON.stringify([...owned]));
     },
     async loadSavedSquads() {
-      return new Set(loadJson(STORAGE_KEYS.saved, STORAGE_KEYS.legacySaved, []).map(Number));
+      return new Set(loadJson(STORAGE_KEYS.saved, STORAGE_KEYS.legacySaved, []).map(String));
     },
     async saveSavedSquads(savedSquads) {
       localStorage.setItem(STORAGE_KEYS.saved, JSON.stringify([...savedSquads]));
+    },
+    async createSquad(squad) {
+      return normalizeSquad(squad);
+    },
+    async setSaved(squad, shouldSave, savedSquads) {
+      if (shouldSave) {
+        savedSquads.add(String(squad.id));
+        squad.saved += 1;
+      } else {
+        savedSquads.delete(String(squad.id));
+        squad.saved = Math.max(0, squad.saved - 1);
+      }
+      await this.saveSavedSquads(savedSquads);
+      await this.saveSquads(squads);
+      return squad;
+    },
+    async reportSuccess(squad) {
+      squad.successReports += 1;
+      squad.attempts += 1;
+      await this.saveSquads(squads);
+      return squad;
+    },
+  };
+}
+
+function createSupabaseAdapter({ url, anonKey }) {
+  const endpoint = url.replace(/\/$/, "");
+  const clientToken = getClientToken();
+
+  async function request(path, options = {}) {
+    const response = await fetch(`${endpoint}/rest/v1/${path}`, {
+      ...options,
+      headers: {
+        apikey: anonKey,
+        Authorization: `Bearer ${anonKey}`,
+        "Content-Type": "application/json",
+        ...(options.headers || {}),
+      },
+    });
+    if (!response.ok) {
+      const message = await response.text();
+      throw new Error(message || `Supabase request failed: ${response.status}`);
+    }
+    if (response.status === 204) return null;
+    return response.json();
+  }
+
+  async function rpc(name, body) {
+    const rows = await request(`rpc/${name}`, {
+      method: "POST",
+      headers: { Prefer: "return=representation" },
+      body: JSON.stringify(body),
+    });
+    return Array.isArray(rows) ? rows[0] : rows;
+  }
+
+  return {
+    mode: "supabase",
+    async loadSquads() {
+      const rows = await request(
+        `squads?select=*,squad_operators(name,slot_order),squad_tags(tag)&event_id=eq.${encodeURIComponent(
+          activeEvent.id
+        )}&order=created_at.desc`
+      );
+      return rows.map(mapSupabaseSquad).map(normalizeSquad).filter(Boolean);
+    },
+    async saveSquads() {},
+    async loadOwned(defaultOperators) {
+      return new Set(loadJson(STORAGE_KEYS.owned, STORAGE_KEYS.legacyOwned, defaultOperators));
+    },
+    async saveOwned(owned) {
+      localStorage.setItem(STORAGE_KEYS.owned, JSON.stringify([...owned]));
+    },
+    async loadSavedSquads() {
+      return new Set(loadJson(STORAGE_KEYS.saved, STORAGE_KEYS.legacySaved, []).map(String));
+    },
+    async saveSavedSquads(savedSquads) {
+      localStorage.setItem(STORAGE_KEYS.saved, JSON.stringify([...savedSquads]));
+    },
+    async createSquad(squad) {
+      const [created] = await request("squads", {
+        method: "POST",
+        headers: { Prefer: "return=representation" },
+        body: JSON.stringify({
+          event_id: squad.eventId,
+          stage_code: squad.stage,
+          title: squad.title,
+          author: squad.author,
+          note: squad.note,
+          link: squad.link,
+          saved_count: squad.saved,
+          success_reports: squad.successReports,
+          attempts: squad.attempts,
+          featured: squad.featured,
+        }),
+      });
+      await request("squad_operators", {
+        method: "POST",
+        body: JSON.stringify(
+          squad.operators.map((name, index) => ({
+            squad_id: created.id,
+            name,
+            slot_order: index,
+          }))
+        ),
+      });
+      await request("squad_tags", {
+        method: "POST",
+        body: JSON.stringify(squad.tags.map((tag) => ({ squad_id: created.id, tag }))),
+      });
+      return normalizeSquad({ ...squad, id: created.id, created: created.created_at });
+    },
+    async setSaved(squad, shouldSave, savedSquads) {
+      const result = await rpc("set_squad_saved", {
+        p_squad_id: squad.id,
+        p_client_token: clientToken,
+        p_saved: shouldSave,
+      });
+      if (shouldSave) {
+        savedSquads.add(String(squad.id));
+      } else {
+        savedSquads.delete(String(squad.id));
+      }
+      await this.saveSavedSquads(savedSquads);
+      squad.saved = Number(result?.saved_count ?? squad.saved);
+      return squad;
+    },
+    async reportSuccess(squad) {
+      const result = await rpc("report_squad_success", {
+        p_squad_id: squad.id,
+        p_client_token: clientToken,
+      });
+      squad.successReports = Number(result?.success_reports ?? squad.successReports);
+      squad.attempts = Number(result?.attempts ?? squad.attempts);
+      return squad;
     },
   };
 }
@@ -157,14 +294,49 @@ function normalizeSquad(squad) {
   };
 }
 
-const store = createLocalStorageAdapter();
+function mapSupabaseSquad(row) {
+  return {
+    id: row.id,
+    eventId: row.event_id,
+    stage: row.stage_code,
+    title: row.title,
+    author: row.author,
+    saved: row.saved_count,
+    successReports: row.success_reports,
+    attempts: row.attempts,
+    created: row.created_at,
+    tags: (row.squad_tags || []).map((item) => item.tag),
+    operators: (row.squad_operators || [])
+      .sort((a, b) => Number(a.slot_order || 0) - Number(b.slot_order || 0))
+      .map((item) => item.name),
+    note: row.note,
+    link: row.link,
+    featured: row.featured,
+  };
+}
+
+function getClientToken() {
+  const existing = localStorage.getItem(STORAGE_KEYS.clientToken);
+  if (existing) return existing;
+  const token = crypto.randomUUID();
+  localStorage.setItem(STORAGE_KEYS.clientToken, token);
+  return token;
+}
+
+function getStore() {
+  const supabase = window.OPERATION_BOARD_CONFIG?.supabase;
+  if (supabase?.url && supabase?.anonKey) return createSupabaseAdapter(supabase);
+  return createLocalStorageAdapter();
+}
+
+const store = getStore();
 let squads = [];
 let allOperators = [];
 let activeStage = activeEvent.stages[0].code;
 let activeTag = "all";
 let owned = new Set();
 let savedSquads = new Set();
-let highlightedSquadId = Number(new URLSearchParams(window.location.search).get("squad")) || null;
+let highlightedSquadId = new URLSearchParams(window.location.search).get("squad") || null;
 
 const squadList = document.querySelector("#squadList");
 const stageTitle = document.querySelector("#stageTitle");
@@ -284,7 +456,7 @@ function renderSquads() {
     .map(
       (squad) => `
         <article class="squad-card ${squad.featured ? "featured" : ""} ${
-        highlightedSquadId === squad.id ? "linked" : ""
+        highlightedSquadId === String(squad.id) ? "linked" : ""
       }" data-squad-id="${squad.id}">
           <div class="squad-head">
             <div>
@@ -316,7 +488,7 @@ function renderSquads() {
             <div class="tag-row">${squad.tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
             <div class="action-cluster">
               <button class="ghost-action" data-action="save" data-id="${squad.id}" type="button">
-                ${savedSquads.has(squad.id) ? "保存済み" : "保存"}
+                ${savedSquads.has(String(squad.id)) ? "保存済み" : "保存"}
               </button>
               <button class="ghost-action" data-action="clear" data-id="${squad.id}" type="button">成功報告</button>
             </div>
@@ -411,32 +583,32 @@ document.querySelector("#openComposer").addEventListener("click", () => composer
 squadList.addEventListener("click", async (event) => {
   const button = event.target.closest("button[data-action]");
   if (!button) return;
-  const squad = squads.find((item) => item.id === Number(button.dataset.id));
+  const squad = squads.find((item) => String(item.id) === button.dataset.id);
   if (!squad) return;
 
   if (button.dataset.action === "save") {
-    if (!savedSquads.has(squad.id)) {
-      savedSquads.add(squad.id);
-      squad.saved += 1;
-      showToast("編成を保存しました");
-    } else {
-      savedSquads.delete(squad.id);
-      squad.saved = Math.max(0, squad.saved - 1);
-      showToast("保存を解除しました");
+    const shouldSave = !savedSquads.has(String(squad.id));
+    try {
+      await store.setSaved(squad, shouldSave, savedSquads);
+      showToast(shouldSave ? "編成を保存しました" : "保存を解除しました");
+    } catch {
+      showToast("保存の反映に失敗しました");
+      return;
     }
-    await store.saveSavedSquads(savedSquads);
-    await store.saveSquads(squads);
   }
 
   if (button.dataset.action === "clear") {
-    squad.successReports += 1;
-    squad.attempts += 1;
-    await store.saveSquads(squads);
-    showToast("成功報告を反映しました");
+    try {
+      await store.reportSuccess(squad);
+      showToast("成功報告を反映しました");
+    } catch {
+      showToast("成功報告に失敗しました");
+      return;
+    }
   }
 
   if (button.dataset.action === "share") {
-    highlightedSquadId = squad.id;
+    highlightedSquadId = String(squad.id);
     const url = new URL(window.location.href);
     url.searchParams.set("squad", squad.id);
     window.history.replaceState({}, "", url);
@@ -466,7 +638,7 @@ document.querySelector("#composerForm").addEventListener("submit", async (event)
     return;
   }
 
-  squads.unshift({
+  const draft = {
     id: Date.now(),
     eventId: activeEvent.id,
     stage: activeStage,
@@ -480,8 +652,18 @@ document.querySelector("#composerForm").addEventListener("submit", async (event)
     operators,
     note: document.querySelector("#noteField").value.trim() || "攻略メモは未入力です。",
     link,
-  });
+    featured: false,
+  };
 
+  let createdSquad;
+  try {
+    createdSquad = await store.createSquad(draft);
+  } catch {
+    showToast("投稿に失敗しました");
+    return;
+  }
+
+  squads.unshift(createdSquad);
   operators.forEach((operator) => {
     if (!allOperators.includes(operator)) allOperators.push(operator);
     owned.add(operator);
@@ -500,7 +682,7 @@ async function init() {
   allOperators = getAllOperators(squads);
   owned = await store.loadOwned(allOperators);
   savedSquads = await store.loadSavedSquads();
-  const linkedSquad = squads.find((squad) => squad.id === highlightedSquadId);
+  const linkedSquad = squads.find((squad) => String(squad.id) === highlightedSquadId);
   if (linkedSquad) activeStage = linkedSquad.stage;
   renderAll();
 }
