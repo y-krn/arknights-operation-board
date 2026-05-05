@@ -49,6 +49,7 @@ const fallbackOperators = [
 const knownOperators = window.OPERATION_BOARD_OPERATORS || fallbackOperators;
 const operatorMetadata = window.OPERATION_BOARD_OPERATOR_METADATA || {};
 const operatorIcons = window.OPERATION_BOARD_OPERATOR_ICONS || {};
+const eventMaster = window.OPERATION_BOARD_EVENT_MASTER || [];
 const skillCatalog = window.OPERATION_BOARD_SKILLS || {};
 const moduleCatalog = window.OPERATION_BOARD_MODULES || {};
 
@@ -197,7 +198,11 @@ function createSupabaseAdapter({ url, anonKey }) {
     });
     if (!response.ok) {
       const message = await response.text();
-      throw new Error(message || `Supabase request failed: ${response.status}`);
+      const error = new Error(message || `Supabase request failed: ${response.status}`);
+      error.status = response.status;
+      error.path = path;
+      console.error("Supabase request failed", { path, status: response.status, message });
+      throw error;
     }
     if (response.status === 204) return null;
     const text = await response.text();
@@ -252,6 +257,12 @@ function createSupabaseAdapter({ url, anonKey }) {
       localStorage.setItem(STORAGE_KEYS.saved, JSON.stringify([...savedSquads]));
     },
     async createSquad(squad) {
+      const [stage] = await request(
+        `stages?select=event_id,code&event_id=eq.${encodeURIComponent(squad.eventId)}&code=eq.${encodeURIComponent(squad.stage)}&limit=1`
+      );
+      if (!stage) {
+        throw new Error(`投稿先ステージがSupabaseに存在しません: ${squad.eventId} / ${squad.stage}`);
+      }
       const [created] = await request("squads", {
         method: "POST",
         headers: { Prefer: "return=representation" },
@@ -441,6 +452,7 @@ let highlightedSquadId = new URLSearchParams(window.location.search).get("squad"
 
 const squadList = document.querySelector("#squadList");
 const stageTitle = document.querySelector("#stageTitle");
+const stageSubtitle = document.querySelector("#stageSubtitle");
 const searchInput = document.querySelector("#searchInput");
 const sortSelect = document.querySelector("#sortSelect");
 const ownedOnly = document.querySelector("#ownedOnly");
@@ -458,6 +470,7 @@ const toast = document.querySelector("#toast");
 const eventTitle = document.querySelector("#eventTitle");
 const eventDescription = document.querySelector("#eventDescription");
 const eventDaysLeft = document.querySelector("#eventDaysLeft");
+const eventSelect = document.querySelector("#eventSelect");
 const stageList = document.querySelector("#stageList");
 const operatorsField = document.querySelector("#operatorsField");
 const selectedOperatorsEl = document.querySelector("#selectedOperators");
@@ -567,13 +580,52 @@ function isSafeUrl(value) {
 }
 
 function formatDate(dateText) {
-  return new Intl.DateTimeFormat("ja-JP", { month: "numeric", day: "numeric" }).format(new Date(dateText));
+  return new Intl.DateTimeFormat("ja-JP", { year: "numeric", month: "numeric", day: "numeric" }).format(new Date(dateText));
 }
 
 function daysLeft(dateText) {
+  if (!dateText) return null;
   const today = new Date();
   const endDate = new Date(`${dateText}T23:59:59`);
   return Math.max(Math.ceil((endDate - today) / 86400000), 0);
+}
+
+function mapMasterEvent(event) {
+  const playableStages = event.stages.filter(
+    (stage) =>
+      !stage.isChallenge && !/-ST(?:-|\d|$)/.test(stage.code) && !/-TR(?:-|\d|$)/.test(stage.code) && (stage.canPractice || stage.apCost !== null)
+  );
+  return {
+    id: event.id,
+    title: event.title,
+    description: `${event.entryType === "MAINLINE" ? "メインテーマ" : event.entryType === "MINI_ACTIVITY" ? "ショートイベント" : "サイドストーリー"} / ${playableStages.length}戦闘ステージ`,
+    startsAt: event.startsAt || "1970-01-01",
+    endsAt: event.endsAt || event.startsAt || "2099-12-31",
+    stages: playableStages.map((stage) => ({
+      code: stage.code,
+      label: stage.name || [stage.difficulty, stage.apCost === null ? "" : `理性 ${stage.apCost}`].filter(Boolean).join(" / "),
+    })),
+  };
+}
+
+function availableEvents() {
+  const includeFallback = activeStore.mode !== "supabase" || activeEvent.id === fallbackEvent.id;
+  const events = [...(includeFallback ? [fallbackEvent] : []), ...eventMaster.map(mapMasterEvent)];
+  const seen = new Set();
+  return events.filter((event) => {
+    if (seen.has(event.id)) return false;
+    seen.add(event.id);
+    return event.stages.length;
+  });
+}
+
+function activeStageInfo() {
+  return activeEvent.stages.find((stage) => stage.code === activeStage) || { code: activeStage, label: "" };
+}
+
+function defaultSquadTitle(tags) {
+  const titleTag = tags.find((tag) => ["周回", "放置", "低レア", "少人数", "勲章", "強襲", "初心者向け"].includes(tag));
+  return `${activeStage} ${titleTag || "攻略"}編成`;
 }
 
 function clearPercent(squad) {
@@ -609,8 +661,15 @@ function filteredSquads() {
 function renderEvent() {
   eventTitle.textContent = activeEvent.title;
   eventDescription.textContent = activeEvent.description;
-  eventDaysLeft.textContent = `残り ${daysLeft(activeEvent.endsAt)}日`;
+  const remainingDays = daysLeft(activeEvent.endsAt);
+  eventDaysLeft.textContent = remainingDays === null ? "終了日未設定" : `残り ${remainingDays}日`;
   postCount.textContent = `投稿 ${squads.filter((squad) => squad.eventId === activeEvent.id).length}`;
+  eventSelect.innerHTML = availableEvents()
+    .map(
+      (event) =>
+        `<option value="${escapeHtml(event.id)}" ${event.id === activeEvent.id ? "selected" : ""}>${escapeHtml(event.title)}</option>`
+    )
+    .join("");
 }
 
 function renderStages() {
@@ -631,7 +690,9 @@ function renderStages() {
 
 function renderSquads() {
   const visibleSquads = filteredSquads();
-  stageTitle.textContent = `${activeStage} 攻略編成`;
+  const stage = activeStageInfo();
+  stageTitle.textContent = `${stage.code} 攻略編成`;
+  stageSubtitle.textContent = stage.label || "ステージ名未設定";
   renderEvent();
 
   if (!visibleSquads.length) {
@@ -910,6 +971,23 @@ document.querySelectorAll(".tag-filter").forEach((button) => {
 [searchInput, sortSelect, ownedOnly].forEach((element) => element.addEventListener("input", renderSquads));
 [ownedRarityFilter, ownedProfessionFilter].forEach((element) => element.addEventListener("input", renderOwnedGrid));
 
+eventSelect.addEventListener("input", async () => {
+  const nextEvent = availableEvents().find((event) => event.id === eventSelect.value);
+  if (!nextEvent) return;
+  activeEvent = nextEvent;
+  activeStage = activeEvent.stages[0]?.code || "";
+  highlightedSquadId = null;
+  window.history.replaceState({}, "", window.location.pathname);
+  try {
+    squads = await activeStore.loadSquads();
+  } catch {
+    squads = [];
+    showToast("このイベントの投稿を読み込めませんでした");
+  }
+  allOperators = getAllOperators(squads);
+  renderAll();
+});
+
 operatorsField.addEventListener("input", renderComposerHelpers);
 operatorsField.addEventListener("keydown", (event) => {
   if (event.key !== "Enter") return;
@@ -1031,6 +1109,8 @@ document.querySelector("#composerForm").addEventListener("submit", async (event)
   const operators = operatorBuilds.map((build) => build.name);
   const tags = [...new Set([...selectedTags, ...splitList(tagsField.value)])];
   const link = document.querySelector("#linkField").value.trim();
+  const title = document.querySelector("#titleField").value.trim() || defaultSquadTitle(tags);
+  const author = document.querySelector("#authorField").value.trim() || "匿名ドクター";
 
   if (!operators.length) {
     showToast("採用オペレーターを1名以上入力してください");
@@ -1046,8 +1126,8 @@ document.querySelector("#composerForm").addEventListener("submit", async (event)
     id: Date.now(),
     eventId: activeEvent.id,
     stage: activeStage,
-    title: document.querySelector("#titleField").value.trim(),
-    author: document.querySelector("#authorField").value.trim(),
+    title,
+    author,
     saved: 0,
     successReports: 0,
     attempts: 1,
@@ -1064,8 +1144,11 @@ document.querySelector("#composerForm").addEventListener("submit", async (event)
   let createdSquad;
   try {
     createdSquad = await activeStore.createSquad(draft);
-  } catch {
-    showToast("投稿に失敗しました");
+  } catch (error) {
+    const message = error?.message?.includes("投稿先ステージ")
+      ? "投稿先ステージがDBにありません。イベント/ステージSQLを確認してください"
+      : "投稿に失敗しました";
+    showToast(message);
     setComposerSubmitting(false);
     return;
   }

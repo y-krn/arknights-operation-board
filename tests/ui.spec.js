@@ -19,6 +19,18 @@ test("event squad board renders and filters squads", async ({ page }) => {
   await expect(page.getByText("2ルート封鎖の置くだけ周回")).toHaveCount(0);
 });
 
+test("event selector loads stages from generated event master", async ({ page }) => {
+  await page.goto(localUrl);
+
+  await page.getByLabel("イベント切替").selectOption("act46side");
+
+  await expect(page.getByRole("heading", { name: "OS-1 攻略編成" })).toBeVisible();
+  await expect(page.locator("#stageSubtitle")).toHaveText("悲嘆の声");
+  await expect(page.getByRole("button", { name: /OS-10/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /OS-ST-1/ })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "聖山降臨1101" })).toBeVisible();
+});
+
 test("composer can add a squad to the active stage", async ({ page }) => {
   await page.goto(localUrl);
 
@@ -65,6 +77,20 @@ test("composer prevents duplicate submissions", async ({ page }) => {
   await page.getByRole("button", { name: "投稿する" }).dblclick();
 
   await expect(page.getByText("HS-8 二重投稿防止")).toHaveCount(1);
+});
+
+test("composer fills optional author and title with defaults", async ({ page }) => {
+  await page.goto(localUrl);
+
+  await page.getByRole("button", { name: "編成を投稿" }).click();
+  const composer = page.locator("#composer");
+  await composer.getByLabel("採用オペレーター").fill("サリア");
+  await composer.getByRole("button", { name: "サリア" }).click();
+  await composer.getByRole("button", { name: "周回" }).click();
+  await page.getByRole("button", { name: "投稿する" }).click();
+
+  await expect(page.getByText("HS-8 周回編成")).toBeVisible();
+  await expect(page.locator(".squad-card").filter({ hasText: "HS-8 周回編成" }).locator(".squad-meta")).toContainText("匿名ドクター");
 });
 
 test("composer close button dismisses an empty form", async ({ page }) => {

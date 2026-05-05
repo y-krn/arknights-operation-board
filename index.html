@@ -25,6 +25,10 @@
             <span id="eventDaysLeft">残り 11日</span>
             <span id="postCount">投稿 248</span>
           </div>
+          <label class="event-picker-label">
+            <span>イベント切替</span>
+            <select id="eventSelect"></select>
+          </label>
         </section>
 
         <section class="panel stage-list" id="stageList">
@@ -37,6 +41,7 @@
           <div>
             <div class="section-label">検索条件</div>
             <h2 id="stageTitle">HS-8 攻略編成</h2>
+            <p class="stage-subtitle" id="stageSubtitle">夕景に影あり</p>
           </div>
           <button class="primary-action" id="openComposer" type="button">編成を投稿</button>
         </header>
@@ -149,11 +154,11 @@
         </div>
         <label>
           <span>投稿者名</span>
-          <input id="authorField" required placeholder="例: Dr. Rhodes" />
+          <input id="authorField" placeholder="未入力なら匿名ドクター" />
         </label>
         <label>
           <span>編成タイトル</span>
-          <input id="titleField" required placeholder="例: HS-8 置くだけ高速周回" />
+          <input id="titleField" placeholder="未入力ならステージとタグから自動作成" />
         </label>
         <label>
           <span>採用オペレーター</span>
@@ -196,6 +201,7 @@
     <script src="./operators.js"></script>
     <script src="./operator-metadata.js"></script>
     <script src="./operator-icons.js"></script>
+    <script src="./event-master.js"></script>
     <script src="./skills.js"></script>
     <script src="./modules.js"></script>
     <script src="./app.js"></script>
