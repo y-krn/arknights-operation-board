@@ -58,11 +58,13 @@
   grid-template-columns: 28px minmax(0, 1fr);
   gap: 12px;
   align-items: start;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
   padding: 14px;
-  background: rgba(255, 250, 240, 0.94);
-  box-shadow: var(--shadow);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent),
+    rgba(21, 26, 25, 0.96);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
 }
 
 .admin-row input[type="checkbox"] {
@@ -74,11 +76,15 @@
 
 .admin-row h2 {
   margin: 0 0 8px;
+  color: var(--ink);
   font-size: 20px;
+  line-height: 1.35;
 }
 
 .admin-row p {
   margin-bottom: 10px;
+  color: #c6cecb;
+  line-height: 1.7;
 }
 
 .admin-row-meta,
@@ -94,11 +100,23 @@
   align-items: center;
   min-height: 26px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 3px;
   padding: 3px 9px;
-  background: rgba(255, 255, 255, 0.58);
-  color: var(--muted);
+  background: rgba(238, 243, 241, 0.075);
+  color: #d5ddda;
   font-size: 12px;
+  line-height: 1.35;
+}
+
+.admin-row-meta span:first-child {
+  border-color: rgba(240, 161, 42, 0.46);
+  background: rgba(240, 161, 42, 0.12);
+  color: #ffd28d;
+  font-weight: 800;
+}
+
+.admin-chip-row span {
+  color: #c6d3d7;
 }
 
 .admin-note {
@@ -113,7 +131,9 @@
 
 .admin-note p {
   margin-bottom: 0;
+  color: #b8c2bf;
   font-size: 13px;
+  line-height: 1.65;
 }
 
 .admin-note.danger strong {
@@ -130,10 +150,10 @@
 
 .admin-empty {
   border: 1px dashed var(--line);
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 24px;
-  background: rgba(255, 250, 240, 0.72);
-  color: var(--muted);
+  background: rgba(21, 26, 25, 0.76);
+  color: #c6cecb;
 }
 
 @media (max-width: 1120px) {

@@ -11,12 +11,12 @@ const adminMockUrl = `file://${adminPath}?mock=1`;
 test("event squad board renders and filters squads", async ({ page }) => {
   await page.goto(localUrl);
 
-  await expect(page.getByRole("heading", { name: "HS-8 攻略編成" })).toBeVisible();
-  await expect(page.getByText("2ルート封鎖の置くだけ周回")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "OS-1 攻略編成" })).toBeVisible();
+  await expect(page.getByText("初回攻略の安定配置")).toBeVisible();
 
   await page.getByRole("button", { name: "低レア" }).click();
   await expect(page.getByText("星4中心の安定クリア")).toBeVisible();
-  await expect(page.getByText("2ルート封鎖の置くだけ周回")).toHaveCount(0);
+  await expect(page.getByText("初回攻略の安定配置")).toHaveCount(0);
 });
 
 test("event selector loads stages from generated event master", async ({ page }) => {
@@ -37,7 +37,7 @@ test("composer can add a squad to the active stage", async ({ page }) => {
   await page.getByRole("button", { name: "編成を投稿" }).click();
   const composer = page.locator("#composer");
   await page.getByLabel("投稿者名").fill("テストドクター");
-  await page.getByLabel("編成タイトル").fill("HS-8 テスト投稿");
+  await page.getByLabel("編成タイトル").fill("OS-1 テスト投稿");
   await composer.getByLabel("採用オペレーター").fill("サリア");
   await composer.getByRole("button", { name: "サリア" }).click();
   await expect(composer.locator(".build-operator .operator-icon")).toHaveCount(1);
@@ -58,7 +58,7 @@ test("composer can add a squad to the active stage", async ({ page }) => {
   await page.getByRole("button", { name: "投稿する" }).click();
 
   await expect(page.locator("#composer")).not.toBeVisible();
-  await expect(page.getByText("HS-8 テスト投稿")).toBeVisible();
+  await expect(page.getByText("OS-1 テスト投稿")).toBeVisible();
   await expect(page.getByText("S3 / Mod X")).toBeVisible();
   await expect(page.getByText("投稿フォームの動作確認。")).toBeVisible();
 });
@@ -69,14 +69,14 @@ test("composer prevents duplicate submissions", async ({ page }) => {
   await page.getByRole("button", { name: "編成を投稿" }).click();
   const composer = page.locator("#composer");
   await page.getByLabel("投稿者名").fill("連打テスト");
-  await page.getByLabel("編成タイトル").fill("HS-8 二重投稿防止");
+  await page.getByLabel("編成タイトル").fill("OS-1 二重投稿防止");
   await composer.getByLabel("採用オペレーター").fill("サリア");
   await composer.getByRole("button", { name: "サリア" }).click();
   await page.getByLabel("攻略メモ").fill("投稿ボタン連打の確認。");
 
   await page.getByRole("button", { name: "投稿する" }).dblclick();
 
-  await expect(page.getByText("HS-8 二重投稿防止")).toHaveCount(1);
+  await expect(page.getByText("OS-1 二重投稿防止")).toHaveCount(1);
 });
 
 test("composer fills optional author and title with defaults", async ({ page }) => {
@@ -89,8 +89,8 @@ test("composer fills optional author and title with defaults", async ({ page }) 
   await composer.getByRole("button", { name: "周回" }).click();
   await page.getByRole("button", { name: "投稿する" }).click();
 
-  await expect(page.getByText("HS-8 周回編成")).toBeVisible();
-  await expect(page.locator(".squad-card").filter({ hasText: "HS-8 周回編成" }).locator(".squad-meta")).toContainText("匿名ドクター");
+  await expect(page.getByText("OS-1 周回編成")).toBeVisible();
+  await expect(page.locator(".squad-card").filter({ hasText: "OS-1 周回編成" }).locator(".squad-meta")).toContainText("匿名ドクター");
 });
 
 test("composer close button dismisses an empty form", async ({ page }) => {
@@ -157,13 +157,13 @@ test("composer requires operators to be selected from suggestions", async ({ pag
   await page.getByRole("button", { name: "編成を投稿" }).click();
   const composer = page.locator("#composer");
   await page.getByLabel("投稿者名").fill("候補必須テスト");
-  await page.getByLabel("編成タイトル").fill("HS-8 候補未選択");
+  await page.getByLabel("編成タイトル").fill("OS-1 候補未選択");
   await composer.getByLabel("採用オペレーター").fill("ホシ");
   await page.getByRole("button", { name: "投稿する" }).click();
 
   await expect(page.locator("#composer")).toBeVisible();
   await expect(page.locator("#toast")).toContainText("候補から選択してください");
-  await expect(page.getByText("HS-8 候補未選択")).toHaveCount(0);
+  await expect(page.getByText("OS-1 候補未選択")).toHaveCount(0);
 });
 
 test("owned memo groups operators by rarity and profession", async ({ page }) => {
@@ -190,7 +190,7 @@ test("posted squad persists after reload and share link highlights it", async ({
   await page.getByRole("button", { name: "編成を投稿" }).click();
   const composer = page.locator("#composer");
   await page.getByLabel("投稿者名").fill("保存テスト");
-  await page.getByLabel("編成タイトル").fill("HS-8 保存される投稿");
+  await page.getByLabel("編成タイトル").fill("OS-1 保存される投稿");
   await composer.getByLabel("採用オペレーター").fill("サリア");
   await composer.getByRole("button", { name: "サリア" }).click();
   await composer.getByLabel("採用オペレーター").fill("スズラン");
@@ -200,7 +200,7 @@ test("posted squad persists after reload and share link highlights it", async ({
   await page.getByRole("button", { name: "投稿する" }).click();
 
   await page.reload();
-  await expect(page.getByText("HS-8 保存される投稿")).toBeVisible();
+  await expect(page.getByText("OS-1 保存される投稿")).toBeVisible();
 
   await page.getByRole("button", { name: "共有URL" }).first().click();
   await expect(page).toHaveURL(/squad=/);
@@ -211,6 +211,7 @@ test("admin screen generates delete sql for selected squads", async ({ page }) =
   await page.goto(adminMockUrl);
 
   await expect(page.getByRole("heading", { name: "投稿管理" })).toBeVisible();
+  await expect(page.getByLabel("イベント")).toContainText("聖山降臨1101");
   await expect(page.getByText("管理画面テスト投稿")).toBeVisible();
 
   await page.getByLabel("管理画面テスト投稿 を選択").check();

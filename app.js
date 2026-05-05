@@ -9,16 +9,16 @@ const STORAGE_KEYS = {
 };
 
 const fallbackEvent = {
-  id: "cloudless-red-smoke",
-  title: "曇りなき紅煙",
-  description: "周回、勲章加工、少人数、低レア。投稿編成をステージ単位で探せます。",
-  startsAt: "2026-05-01",
-  endsAt: "2026-05-15",
+  id: "act46side",
+  title: "聖山降臨1101",
+  description: "サイドストーリー / 戦闘ステージ",
+  startsAt: "2026-04-14",
+  endsAt: "2099-12-31",
   stages: [
-    { code: "HS-8", label: "周回 / 素材" },
-    { code: "HS-9", label: "勲章加工" },
-    { code: "HS-EX-8", label: "強襲" },
-    { code: "S-5", label: "高難度" },
+    { code: "OS-1", label: "悲嘆の声" },
+    { code: "OS-10", label: "我らのイェラガンドに" },
+    { code: "OS-S-2", label: "雪だるま作り" },
+    { code: "OS-EX-8", label: "聖山の下に" },
   ],
 };
 
@@ -59,8 +59,8 @@ const seedSquads = [
   {
     id: 1,
     eventId: fallbackEvent.id,
-    stage: "HS-8",
-    title: "2ルート封鎖の置くだけ周回",
+    stage: "OS-1",
+    title: "初回攻略の安定配置",
     author: "Dr. Kisaragi",
     saved: 412,
     successReports: 96,
@@ -75,7 +75,7 @@ const seedSquads = [
   {
     id: 2,
     eventId: fallbackEvent.id,
-    stage: "HS-8",
+    stage: "OS-1",
     title: "星4中心の安定クリア",
     author: "低レア記録班",
     saved: 286,
@@ -90,8 +90,8 @@ const seedSquads = [
   {
     id: 3,
     eventId: fallbackEvent.id,
-    stage: "HS-9",
-    title: "勲章加工対応 9人編成",
+    stage: "OS-10",
+    title: "終盤ラッシュ対応 9人編成",
     author: "Tactical Notes",
     saved: 365,
     successReports: 91,
@@ -105,7 +105,7 @@ const seedSquads = [
   {
     id: 4,
     eventId: fallbackEvent.id,
-    stage: "HS-EX-8",
+    stage: "OS-EX-8",
     title: "強襲 少人数リレー",
     author: "EX Lab",
     saved: 198,
@@ -120,7 +120,7 @@ const seedSquads = [
   {
     id: 5,
     eventId: fallbackEvent.id,
-    stage: "S-5",
+    stage: "OS-S-2",
     title: "耐久寄せの初回突破",
     author: "Rhodes Archive",
     saved: 144,
@@ -138,7 +138,7 @@ function createLocalStorageAdapter() {
   return {
     mode: "local",
     async loadActiveEvent() {
-      return fallbackEvent;
+      return defaultEvent();
     },
     async loadSquads() {
       return loadJson(STORAGE_KEYS.squads, STORAGE_KEYS.legacySquads, seedSquads).map(normalizeSquad).filter(Boolean);
@@ -609,14 +609,21 @@ function mapMasterEvent(event) {
 }
 
 function availableEvents() {
-  const includeFallback = activeStore.mode !== "supabase" || activeEvent.id === fallbackEvent.id;
-  const events = [...(includeFallback ? [fallbackEvent] : []), ...eventMaster.map(mapMasterEvent)];
+  const events = [...masterEvents(), fallbackEvent];
   const seen = new Set();
   return events.filter((event) => {
     if (seen.has(event.id)) return false;
     seen.add(event.id);
     return event.stages.length;
   });
+}
+
+function masterEvents() {
+  return eventMaster.map(mapMasterEvent);
+}
+
+function defaultEvent() {
+  return masterEvents()[0] || fallbackEvent;
 }
 
 function activeStageInfo() {

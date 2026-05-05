@@ -1,10 +1,10 @@
 insert into public.events (id, title, description, starts_at, ends_at)
 values (
-  'cloudless-red-smoke',
-  '曇りなき紅煙',
-  '周回、勲章加工、少人数、低レア。投稿編成をステージ単位で探せます。',
-  '2026-05-01',
-  '2026-05-15'
+  'act46side',
+  '聖山降臨1101',
+  'サイドストーリー / 戦闘ステージ',
+  '2026-04-14',
+  '2099-12-31'
 )
 on conflict (id) do update
 set title = excluded.title,
@@ -14,10 +14,10 @@ set title = excluded.title,
 
 insert into public.stages (event_id, code, label, sort_order)
 values
-  ('cloudless-red-smoke', 'HS-8', '周回 / 素材', 10),
-  ('cloudless-red-smoke', 'HS-9', '勲章加工', 20),
-  ('cloudless-red-smoke', 'HS-EX-8', '強襲', 30),
-  ('cloudless-red-smoke', 'S-5', '高難度', 40)
+  ('act46side', 'OS-1', '悲嘆の声', 2001),
+  ('act46side', 'OS-10', '我らのイェラガンドに', 2010),
+  ('act46side', 'OS-S-2', '雪だるま作り', 4002),
+  ('act46side', 'OS-EX-8', '聖山の下に', 3008)
 on conflict (event_id, code) do update
 set label = excluded.label,
     sort_order = excluded.sort_order;

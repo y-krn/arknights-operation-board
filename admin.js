@@ -1,11 +1,14 @@
-const activeEventId = "cloudless-red-smoke";
 const selectedIds = new Set();
 
 let rows = [];
+let events = [];
+let stages = [];
+let activeEventId = "act46side";
 
 const adminList = document.querySelector("#adminList");
 const adminCount = document.querySelector("#adminCount");
 const selectedCount = document.querySelector("#selectedCount");
+const eventFilter = document.querySelector("#eventFilter");
 const stageFilter = document.querySelector("#stageFilter");
 const adminSearch = document.querySelector("#adminSearch");
 const reloadButton = document.querySelector("#reloadButton");
@@ -48,7 +51,7 @@ async function loadRows() {
         id: "00000000-0000-4000-8000-000000000001",
         title: "管理画面テスト投稿",
         author: "Admin Test",
-        stage_code: "HS-8",
+        stage_code: "OS-1",
         note: "削除SQL生成の表示確認用。",
         saved_count: 2,
         success_reports: 1,
@@ -63,10 +66,17 @@ async function loadRows() {
   const { url, anonKey } = config();
   if (!url || !anonKey) throw new Error("config.js に Supabase URL と anon key がありません。");
 
-  const endpoint = `${url.replace(/\/$/, "")}/rest/v1/squads?select=*,squad_operators(name,slot_order,skill_label,module_label),squad_tags(tag)&event_id=eq.${encodeURIComponent(
-    activeEventId
-  )}&order=created_at.desc`;
-  const response = await fetch(endpoint, {
+  return request(
+    `squads?select=*,squad_operators(name,slot_order,skill_label,module_label),squad_tags(tag)&event_id=eq.${encodeURIComponent(
+      activeEventId
+    )}&order=created_at.desc`
+  );
+}
+
+async function request(path) {
+  const { url, anonKey } = config();
+  if (!url || !anonKey) throw new Error("config.js に Supabase URL と anon key がありません。");
+  const response = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${path}`, {
     headers: {
       apikey: anonKey,
       Authorization: `Bearer ${anonKey}`,
@@ -74,6 +84,25 @@ async function loadRows() {
   });
   if (!response.ok) throw new Error(await response.text());
   return response.json();
+}
+
+async function loadEvents() {
+  if (usingMock()) {
+    return [
+      { id: "act46side", title: "聖山降臨1101", starts_at: "2026-04-14" },
+    ];
+  }
+  return request("events?select=id,title,starts_at&order=starts_at.desc");
+}
+
+async function loadStages(eventId) {
+  if (usingMock()) {
+    return [
+      { code: "OS-1", label: "悲嘆の声", sort_order: 2001 },
+      { code: "OS-S-2", label: "雪だるま作り", sort_order: 4002 },
+    ];
+  }
+  return request(`stages?select=code,label,sort_order&event_id=eq.${encodeURIComponent(eventId)}&order=sort_order.asc`);
 }
 
 function filteredRows() {
@@ -135,6 +164,25 @@ function renderRows() {
   renderSql();
 }
 
+function renderEventFilter() {
+  eventFilter.innerHTML = events
+    .map(
+      (event) =>
+        `<option value="${escapeHtml(event.id)}" ${event.id === activeEventId ? "selected" : ""}>${escapeHtml(event.title)}</option>`
+    )
+    .join("");
+}
+
+function renderStageFilter() {
+  const current = stageFilter.value;
+  stageFilter.innerHTML =
+    `<option value="all">すべて</option>` +
+    stages
+      .map((stage) => `<option value="${escapeHtml(stage.code)}">${escapeHtml(`${stage.code} ${stage.label || ""}`.trim())}</option>`)
+      .join("");
+  stageFilter.value = [...stageFilter.options].some((option) => option.value === current) ? current : "all";
+}
+
 function renderSql() {
   selectedCount.textContent = `${selectedIds.size}件`;
   const ids = [...selectedIds];
@@ -158,6 +206,13 @@ notify pgrst, 'reload schema';`;
 async function refresh() {
   adminList.innerHTML = `<div class="admin-empty">読み込み中...</div>`;
   try {
+    if (!events.length) {
+      events = await loadEvents();
+      activeEventId = events[0]?.id || activeEventId;
+      renderEventFilter();
+    }
+    stages = await loadStages(activeEventId);
+    renderStageFilter();
     rows = await loadRows();
     const existingIds = new Set(rows.map((row) => row.id));
     [...selectedIds].forEach((id) => {
@@ -181,6 +236,11 @@ adminList.addEventListener("change", (event) => {
   renderSql();
 });
 
+eventFilter.addEventListener("input", () => {
+  activeEventId = eventFilter.value;
+  selectedIds.clear();
+  refresh();
+});
 [stageFilter, adminSearch].forEach((element) => element.addEventListener("input", renderRows));
 reloadButton.addEventListener("click", refresh);
 

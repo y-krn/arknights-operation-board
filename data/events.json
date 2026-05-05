@@ -1,15 +1,15 @@
 [
   {
-    "id": "cloudless-red-smoke",
-    "title": "曇りなき紅煙",
-    "description": "周回、勲章加工、少人数、低レア。投稿編成をステージ単位で探せます。",
-    "startsAt": "2026-05-01",
-    "endsAt": "2026-05-15",
+    "id": "act46side",
+    "title": "聖山降臨1101",
+    "description": "サイドストーリー / 戦闘ステージ",
+    "startsAt": "2026-04-14",
+    "endsAt": "2099-12-31",
     "stages": [
-      { "code": "HS-8", "label": "周回 / 素材" },
-      { "code": "HS-9", "label": "勲章加工" },
-      { "code": "HS-EX-8", "label": "強襲" },
-      { "code": "S-5", "label": "高難度" }
+      { "code": "OS-1", "label": "悲嘆の声" },
+      { "code": "OS-10", "label": "我らのイェラガンドに" },
+      { "code": "OS-S-2", "label": "雪だるま作り" },
+      { "code": "OS-EX-8", "label": "聖山の下に" }
     ]
   }
 ]
