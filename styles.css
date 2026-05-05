@@ -399,11 +399,17 @@ textarea:focus {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  max-width: 100%;
   border: 1px solid rgba(238, 243, 241, 0.14);
   border-radius: 3px;
   padding: 6px 10px 6px 6px;
   background: #101514;
   font-weight: 800;
+}
+
+.operator-chip > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .operator-chip.missing {
@@ -492,7 +498,7 @@ textarea:focus {
 
 .operator-line {
   display: grid;
-  grid-template-columns: 112px 1fr 42px;
+  grid-template-columns: 136px 1fr 42px;
   gap: 10px;
   align-items: center;
   padding: 10px 0;
