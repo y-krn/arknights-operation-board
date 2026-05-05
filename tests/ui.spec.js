@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const pagePath = path.resolve(__dirname, "../index.html");
-const adminPath = path.resolve(__dirname, "../admin.html");
+const adminPath = path.resolve(__dirname, "../api/admin.view.html");
 const localUrl = `file://${pagePath}?store=local`;
 const adminMockUrl = `file://${adminPath}?mock=1`;
 

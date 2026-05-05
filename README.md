@@ -6,7 +6,7 @@ Arknights event squad sharing MVP.
 
 Open `index.html` directly in a browser.
 
-The committed `config.public.js` points to the Supabase project used by the app. If you want to use a different Supabase project locally, copy `config.example.js` to `config.js`, edit it, and temporarily change the script tag in `index.html` / `admin.html` while developing.
+The committed `config.public.js` points to the Supabase project used by the app. If you want to use a different Supabase project locally, copy `config.example.js` to `config.js`, edit it, and temporarily change the script tag in `index.html` / `api/admin.view.html` while developing.
 
 ## Supabase Setup
 
@@ -46,7 +46,7 @@ Set Vercel environment variables before deploying:
 - `ADMIN_USER`
 - `ADMIN_PASSWORD`
 
-`/admin` and `/admin.html` are served through a Basic-auth protected Vercel Function. The local `admin.html` file is still used for development and browser tests.
+`/admin` and `/admin.html` are served through a Basic-auth protected Vercel Function. The local `api/admin.view.html` file is still used for development and browser tests.
 
 Before deploying:
 
@@ -57,7 +57,7 @@ npm run predeploy
 Required public files include:
 
 - `index.html`
-- `admin.html`
+- `api/admin.view.html`
 - `config.public.js`
 - `app.js`
 - `admin.js`
@@ -65,7 +65,7 @@ Required public files include:
 - generated catalog files such as `event-master.js`, `operators.js`, `skills.js`, `modules.js`, and `operator-icons.js`
 - `assets/operator-icons/`
 
-`admin.html` is intentionally noindexed and does not include a service role key. It only generates SQL for a project owner to run manually in Supabase.
+`api/admin.view.html` is not intended to be served directly in production. `/admin` and `/admin.html` are protected by Basic auth, and the page only generates SQL for a project owner to run manually in Supabase.
 
 ## Checks
 

@@ -48,7 +48,7 @@ export default async function handler(request, response) {
     return;
   }
 
-  const html = await fs.readFile(path.join(process.cwd(), "admin.html"), "utf8");
+  const html = await fs.readFile(path.join(process.cwd(), "api", "admin.view.html"), "utf8");
   response.setHeader("Content-Type", "text/html; charset=utf-8");
   response.setHeader("Cache-Control", "no-store");
   response.setHeader("X-Robots-Tag", "noindex, nofollow");

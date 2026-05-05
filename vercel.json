@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "functions": {
     "api/admin.js": {
-      "includeFiles": "admin.html"
+      "includeFiles": "api/admin.view.html"
     }
   },
   "rewrites": [
@@ -12,6 +12,14 @@
     },
     {
       "source": "/admin.html",
+      "destination": "/api/admin"
+    },
+    {
+      "source": "/admin.view",
+      "destination": "/api/admin"
+    },
+    {
+      "source": "/admin.view.html",
       "destination": "/api/admin"
     }
   ],
@@ -27,6 +35,24 @@
     },
     {
       "source": "/admin",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/admin.view.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/admin.view",
       "headers": [
         {
           "key": "X-Robots-Tag",
