@@ -25,10 +25,22 @@
             <span id="eventDaysLeft">残り 11日</span>
             <span id="postCount">投稿 248</span>
           </div>
-          <label class="event-picker-label">
-            <span>イベント切替</span>
-            <select id="eventSelect"></select>
-          </label>
+          <div class="event-picker">
+            <label>
+              <span>カテゴリ</span>
+              <select id="eventCategory">
+                <option value="recent">最近のイベント</option>
+                <option value="side">サイドストーリー</option>
+                <option value="mini">ショートイベント</option>
+                <option value="main">メインテーマ</option>
+                <option value="all">すべて</option>
+              </select>
+            </label>
+            <label>
+              <span>イベント切替</span>
+              <select id="eventSelect"></select>
+            </label>
+          </div>
         </section>
 
         <section class="panel stage-list" id="stageList">

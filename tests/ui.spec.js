@@ -31,6 +31,16 @@ test("event selector loads stages from generated event master", async ({ page })
   await expect(page.getByRole("heading", { name: "聖山降臨1101" })).toBeVisible();
 });
 
+test("event selector can narrow events by category", async ({ page }) => {
+  await page.goto(localUrl);
+
+  await page.getByLabel("カテゴリ").selectOption("main");
+
+  await expect(page.getByRole("heading", { name: "背理分光" })).toBeVisible();
+  await expect(page.locator("#eventSelect option[value='main_16']")).toHaveText("背理分光");
+  await expect(page.locator("#eventSelect option[value='act46side']")).toHaveCount(0);
+});
+
 test("composer can add a squad to the active stage", async ({ page }) => {
   await page.goto(localUrl);
 

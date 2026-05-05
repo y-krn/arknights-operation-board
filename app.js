@@ -470,6 +470,7 @@ const toast = document.querySelector("#toast");
 const eventTitle = document.querySelector("#eventTitle");
 const eventDescription = document.querySelector("#eventDescription");
 const eventDaysLeft = document.querySelector("#eventDaysLeft");
+const eventCategory = document.querySelector("#eventCategory");
 const eventSelect = document.querySelector("#eventSelect");
 const stageList = document.querySelector("#stageList");
 const operatorsField = document.querySelector("#operatorsField");
@@ -598,6 +599,7 @@ function mapMasterEvent(event) {
   return {
     id: event.id,
     title: event.title,
+    entryType: event.entryType || "SIDE_STORY",
     description: `${event.entryType === "MAINLINE" ? "メインテーマ" : event.entryType === "MINI_ACTIVITY" ? "ショートイベント" : "サイドストーリー"} / ${playableStages.length}戦闘ステージ`,
     startsAt: event.startsAt || "1970-01-01",
     endsAt: event.endsAt || event.startsAt || "2099-12-31",
@@ -616,6 +618,38 @@ function availableEvents() {
     seen.add(event.id);
     return event.stages.length;
   });
+}
+
+function visibleEvents() {
+  const events = availableEvents();
+  if (eventCategory.value === "recent") return events.slice(0, 20);
+  if (eventCategory.value === "main") return events.filter((event) => event.entryType === "MAINLINE");
+  if (eventCategory.value === "mini") return events.filter((event) => event.entryType === "MINI_ACTIVITY");
+  if (eventCategory.value === "side") return events.filter((event) => !["MAINLINE", "MINI_ACTIVITY"].includes(event.entryType));
+  return events;
+}
+
+function groupedEventOptions(events) {
+  const groups = new Map();
+  events.forEach((event) => {
+    const year = event.startsAt?.slice(0, 4) || "日付未設定";
+    if (!groups.has(year)) groups.set(year, []);
+    groups.get(year).push(event);
+  });
+  return [...groups]
+    .map(
+      ([year, groupEvents]) => `
+        <optgroup label="${escapeHtml(year)}">
+          ${groupEvents
+            .map(
+              (event) =>
+                `<option value="${escapeHtml(event.id)}" ${event.id === activeEvent.id ? "selected" : ""}>${escapeHtml(event.title)}</option>`
+            )
+            .join("")}
+        </optgroup>
+      `
+    )
+    .join("");
 }
 
 function masterEvents() {
@@ -671,12 +705,8 @@ function renderEvent() {
   const remainingDays = daysLeft(activeEvent.endsAt);
   eventDaysLeft.textContent = remainingDays === null ? "終了日未設定" : `残り ${remainingDays}日`;
   postCount.textContent = `投稿 ${squads.filter((squad) => squad.eventId === activeEvent.id).length}`;
-  eventSelect.innerHTML = availableEvents()
-    .map(
-      (event) =>
-        `<option value="${escapeHtml(event.id)}" ${event.id === activeEvent.id ? "selected" : ""}>${escapeHtml(event.title)}</option>`
-    )
-    .join("");
+  const events = visibleEvents();
+  eventSelect.innerHTML = events.length ? groupedEventOptions(events) : `<option value="">該当イベントなし</option>`;
 }
 
 function renderStages() {
@@ -958,6 +988,23 @@ function renderAll() {
   renderSquads();
 }
 
+async function switchEvent(eventId) {
+  const nextEvent = availableEvents().find((event) => event.id === eventId);
+  if (!nextEvent) return;
+  activeEvent = nextEvent;
+  activeStage = activeEvent.stages[0]?.code || "";
+  highlightedSquadId = null;
+  window.history.replaceState({}, "", window.location.pathname);
+  try {
+    squads = await activeStore.loadSquads();
+  } catch {
+    squads = [];
+    showToast("このイベントの投稿を読み込めませんでした");
+  }
+  allOperators = getAllOperators(squads);
+  renderAll();
+}
+
 stageList.addEventListener("click", (event) => {
   const button = event.target.closest(".stage-button");
   if (!button) return;
@@ -978,22 +1025,16 @@ document.querySelectorAll(".tag-filter").forEach((button) => {
 [searchInput, sortSelect, ownedOnly].forEach((element) => element.addEventListener("input", renderSquads));
 [ownedRarityFilter, ownedProfessionFilter].forEach((element) => element.addEventListener("input", renderOwnedGrid));
 
-eventSelect.addEventListener("input", async () => {
-  const nextEvent = availableEvents().find((event) => event.id === eventSelect.value);
-  if (!nextEvent) return;
-  activeEvent = nextEvent;
-  activeStage = activeEvent.stages[0]?.code || "";
-  highlightedSquadId = null;
-  window.history.replaceState({}, "", window.location.pathname);
-  try {
-    squads = await activeStore.loadSquads();
-  } catch {
-    squads = [];
-    showToast("このイベントの投稿を読み込めませんでした");
+eventCategory.addEventListener("input", async () => {
+  const events = visibleEvents();
+  if (!events.some((event) => event.id === activeEvent.id)) {
+    await switchEvent(events[0]?.id);
+    return;
   }
-  allOperators = getAllOperators(squads);
-  renderAll();
+  renderEvent();
 });
+
+eventSelect.addEventListener("input", () => switchEvent(eventSelect.value));
 
 operatorsField.addEventListener("input", renderComposerHelpers);
 operatorsField.addEventListener("keydown", (event) => {
