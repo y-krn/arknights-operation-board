@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Operation Board Admin</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./admin.css" />
+  </head>
+  <body>
+    <main class="admin-shell">
+      <header class="admin-topbar">
+        <div>
+          <div class="section-label">Admin Console</div>
+          <h1>投稿管理</h1>
+        </div>
+        <a class="ghost-action admin-link" href="./index.html">公開画面</a>
+      </header>
+
+      <section class="admin-grid">
+        <aside class="panel admin-control">
+          <div class="section-label">絞り込み</div>
+          <label>
+            <span>ステージ</span>
+            <select id="stageFilter">
+              <option value="all">すべて</option>
+              <option value="HS-8">HS-8</option>
+              <option value="HS-9">HS-9</option>
+              <option value="HS-EX-8">HS-EX-8</option>
+              <option value="S-5">S-5</option>
+            </select>
+          </label>
+          <label>
+            <span>キーワード</span>
+            <input id="adminSearch" type="search" placeholder="タイトル、投稿者、オペレーター" />
+          </label>
+          <button class="primary-action wide" id="reloadButton" type="button">再読み込み</button>
+          <div class="admin-note">
+            <strong>削除はSQL Editorで実行</strong>
+            <p>ブラウザには管理者用のservice role keyを置かず、選択した投稿の削除SQLだけを生成します。</p>
+          </div>
+        </aside>
+
+        <section class="admin-main">
+          <div class="panel admin-summary">
+            <div>
+              <div class="section-label">投稿</div>
+              <strong id="adminCount">0件</strong>
+            </div>
+            <div>
+              <div class="section-label">選択中</div>
+              <strong id="selectedCount">0件</strong>
+            </div>
+          </div>
+
+          <div class="admin-list" id="adminList"></div>
+        </section>
+
+        <aside class="panel sql-panel">
+          <div class="section-label">削除SQL</div>
+          <textarea id="deleteSql" rows="18" readonly aria-label="削除SQL"></textarea>
+          <button class="ghost-action wide" id="copySql" type="button">SQLをコピー</button>
+          <div class="admin-note danger">
+            <strong>注意</strong>
+            <p>生成SQLは `squads` を削除します。関連するオペレーター、タグ、反応は外部キーで同時に削除されます。</p>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="./config.js"></script>
+    <script src="./admin.js"></script>
+  </body>
+</html>
