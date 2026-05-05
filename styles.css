@@ -172,9 +172,14 @@ p {
 
 .event-picker {
   display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  grid-template-columns: 1fr;
   gap: 10px;
   margin-top: 14px;
+}
+
+.event-picker select {
+  width: 100%;
+  min-width: 0;
 }
 
 .event-meta span,
