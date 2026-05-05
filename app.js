@@ -781,10 +781,23 @@ function renderOwnedGrid() {
 }
 
 function addSelectedOperator(operator) {
-  if (!operator || selectedOperators.some((item) => item.name === operator)) return;
+  if (!operator || !isKnownOperator(operator) || selectedOperators.some((item) => item.name === operator)) return;
   selectedOperators.push({ name: operator, skill: "", module: "" });
   operatorsField.value = "";
   renderComposerHelpers();
+}
+
+function isKnownOperator(operator) {
+  return knownOperators.includes(operator);
+}
+
+function operatorSuggestionsFor(value) {
+  const query = value.trim().toLowerCase();
+  return allOperators
+    .filter((operator) => isKnownOperator(operator))
+    .filter((operator) => !selectedOperators.some((item) => item.name === operator))
+    .filter((operator) => !query || operator.toLowerCase().includes(query))
+    .slice(0, 10);
 }
 
 function renderComposerHelpers() {
@@ -815,11 +828,7 @@ function renderComposerHelpers() {
     )
     .join("");
 
-  const query = operatorsField.value.trim().toLowerCase();
-  const suggestions = allOperators
-    .filter((operator) => !selectedOperators.some((item) => item.name === operator))
-    .filter((operator) => !query || operator.toLowerCase().includes(query))
-    .slice(0, 10);
+  const suggestions = operatorSuggestionsFor(operatorsField.value);
 
   operatorSuggestions.innerHTML = suggestions
     .map((operator) => `<button type="button" data-operator="${escapeHtml(operator)}">${escapeHtml(operator)}</button>`)
@@ -877,9 +886,17 @@ document.querySelectorAll(".tag-filter").forEach((button) => {
 operatorsField.addEventListener("input", renderComposerHelpers);
 operatorsField.addEventListener("keydown", (event) => {
   if (event.key !== "Enter") return;
+  if (event.isComposing) return;
   event.preventDefault();
   const [operator] = splitList(operatorsField.value);
-  addSelectedOperator(operator);
+  const suggestions = operatorSuggestionsFor(operatorsField.value);
+  const exactMatch = allOperators.find((item) => item === operator);
+  const selectedOperator = isKnownOperator(exactMatch) ? exactMatch : suggestions[0];
+  if (!selectedOperator) {
+    showToast("候補にあるオペレーターを選択してください");
+    return;
+  }
+  addSelectedOperator(selectedOperator);
 });
 
 operatorSuggestions.addEventListener("click", (event) => {
@@ -977,8 +994,11 @@ squadList.addEventListener("click", async (event) => {
 document.querySelector("#composerForm").addEventListener("submit", async (event) => {
   event.preventDefault();
   if (isSubmittingSquad) return;
-  const typedOperators = splitList(operatorsField.value).map((name) => ({ name, skill: "", module: "" }));
-  const operatorBuilds = [...selectedOperators, ...typedOperators].filter(
+  if (operatorsField.value.trim()) {
+    showToast("採用オペレーターは候補から選択してください");
+    return;
+  }
+  const operatorBuilds = selectedOperators.filter(
     (build, index, builds) => builds.findIndex((item) => item.name === build.name) === index
   );
   const operators = operatorBuilds.map((build) => build.name);

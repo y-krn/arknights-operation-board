@@ -586,7 +586,7 @@ textarea:focus {
 }
 
 .selected-pool:empty::before {
-  content: "候補を選ぶか、カンマ区切りで入力";
+  content: "候補からオペレーターを選択";
   color: var(--muted);
   font-size: 12px;
 }

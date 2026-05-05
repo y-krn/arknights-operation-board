@@ -86,6 +86,35 @@ test("composer suggests operators imported from character table", async ({ page 
   await expect(composer.getByRole("button", { name: "新約エクシア" })).toBeVisible();
 });
 
+test("composer enter key selects the suggested operator instead of raw text", async ({ page }) => {
+  await page.goto(localUrl);
+
+  await page.getByRole("button", { name: "編成を投稿" }).click();
+  const composer = page.locator("#composer");
+  await composer.getByLabel("採用オペレーター").fill("ホシ");
+  await expect(composer.getByRole("button", { name: "ホシグマ", exact: true })).toBeVisible();
+  await composer.getByLabel("採用オペレーター").press("Enter");
+
+  await expect(composer.locator(".build-row strong")).toHaveText("ホシグマ");
+  await expect(composer.locator(".build-row strong")).not.toHaveText("ホシ");
+  await expect(composer.getByLabel("採用オペレーター")).toHaveValue("");
+});
+
+test("composer requires operators to be selected from suggestions", async ({ page }) => {
+  await page.goto(localUrl);
+
+  await page.getByRole("button", { name: "編成を投稿" }).click();
+  const composer = page.locator("#composer");
+  await page.getByLabel("投稿者名").fill("候補必須テスト");
+  await page.getByLabel("編成タイトル").fill("HS-8 候補未選択");
+  await composer.getByLabel("採用オペレーター").fill("ホシ");
+  await page.getByRole("button", { name: "投稿する" }).click();
+
+  await expect(page.locator("#composer")).toBeVisible();
+  await expect(page.locator("#toast")).toContainText("候補から選択してください");
+  await expect(page.getByText("HS-8 候補未選択")).toHaveCount(0);
+});
+
 test("owned memo groups operators by rarity and profession", async ({ page }) => {
   await page.goto(localUrl);
 
