@@ -1,0 +1,2758 @@
+[
+  {
+    "id": "char_009_12fce",
+    "name": "12F",
+    "rarity": "TIER_2",
+    "profession": "CASTER",
+    "sortIndex": 31
+  },
+  {
+    "id": "char_456_ash",
+    "name": "Ash",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 34
+  },
+  {
+    "id": "char_457_blitz",
+    "name": "Blitz",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 35
+  },
+  {
+    "id": "char_286_cast3",
+    "name": "Castle-3",
+    "profession": "WARRIOR",
+    "sortIndex": 36
+  },
+  {
+    "id": "char_4188_confes",
+    "name": "CONFESS-47",
+    "profession": "PIONEER",
+    "sortIndex": 37
+  },
+  {
+    "id": "char_4125_rdoc",
+    "name": "Doc",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 41
+  },
+  {
+    "id": "char_4123_ela",
+    "name": "Ela",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 42
+  },
+  {
+    "id": "char_4093_frston",
+    "name": "Friston-3",
+    "profession": "TANK",
+    "sortIndex": 44
+  },
+  {
+    "id": "char_458_rfrost",
+    "name": "Frost",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 45
+  },
+  {
+    "id": "char_4126_fuze",
+    "name": "Fuze",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 46
+  },
+  {
+    "id": "char_4124_iana",
+    "name": "Iana",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 48
+  },
+  {
+    "id": "char_285_medic2",
+    "name": "Lancet-2",
+    "profession": "MEDIC",
+    "sortIndex": 52
+  },
+  {
+    "id": "char_4179_monstr",
+    "name": "Mon3tr",
+    "rarity": "TIER_6",
+    "profession": "MEDIC",
+    "sortIndex": 57
+  },
+  {
+    "id": "char_4136_phonor",
+    "name": "PhonoR-0",
+    "profession": "SUPPORT",
+    "sortIndex": 59
+  },
+  {
+    "id": "char_459_tachak",
+    "name": "Tachanka",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 72
+  },
+  {
+    "id": "char_376_therex",
+    "name": "THRM-EX",
+    "profession": "SPECIAL",
+    "sortIndex": 73
+  },
+  {
+    "id": "char_4091_ulika",
+    "name": "U-Official",
+    "profession": "SUPPORT",
+    "sortIndex": 76
+  },
+  {
+    "id": "char_113_cqbw",
+    "name": "W",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 77
+  },
+  {
+    "id": "char_225_haak",
+    "name": "ア",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 78
+  },
+  {
+    "id": "char_183_skgoat",
+    "name": "アーススピリット",
+    "rarity": "TIER_4",
+    "profession": "SUPPORT",
+    "sortIndex": 79
+  },
+  {
+    "id": "char_002_amiya",
+    "name": "アーミヤ",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 99
+  },
+  {
+    "id": "char_4105_almond",
+    "name": "アーモンド",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 101
+  },
+  {
+    "id": "char_4009_irene",
+    "name": "アイリーニ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 104
+  },
+  {
+    "id": "char_338_iris",
+    "name": "アイリス",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 105
+  },
+  {
+    "id": "char_346_aosta",
+    "name": "アオスタ",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 106
+  },
+  {
+    "id": "char_475_akafyu",
+    "name": "アカフユ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 107
+  },
+  {
+    "id": "char_4051_akkord",
+    "name": "アコルト",
+    "rarity": "TIER_4",
+    "profession": "CASTER",
+    "sortIndex": 108
+  },
+  {
+    "id": "char_366_acdrop",
+    "name": "アシッドドロップ",
+    "rarity": "TIER_4",
+    "profession": "SNIPER",
+    "sortIndex": 109
+  },
+  {
+    "id": "char_4132_ascln",
+    "name": "アスカロン",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 110
+  },
+  {
+    "id": "char_274_astesi",
+    "name": "アステシア",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 111
+  },
+  {
+    "id": "char_135_halo",
+    "name": "アステジーニ",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 112
+  },
+  {
+    "id": "char_378_asbest",
+    "name": "アスベストス",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 113
+  },
+  {
+    "id": "char_129_bluep",
+    "name": "アズリウス",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 114
+  },
+  {
+    "id": "char_431_ashlok",
+    "name": "アッシュロック",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 115
+  },
+  {
+    "id": "char_211_adnach",
+    "name": "アドナキエル",
+    "rarity": "TIER_3",
+    "profession": "SNIPER",
+    "sortIndex": 116
+  },
+  {
+    "id": "char_405_absin",
+    "name": "アブサント",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 119
+  },
+  {
+    "id": "char_4178_alanna",
+    "name": "アランナ",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 122
+  },
+  {
+    "id": "char_332_archet",
+    "name": "アルケット",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 123
+  },
+  {
+    "id": "char_271_spikes",
+    "name": "アレーン",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 124
+  },
+  {
+    "id": "char_446_aroma",
+    "name": "アロマ",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 125
+  },
+  {
+    "id": "char_291_aglina",
+    "name": "アンジェリーナ",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 126
+  },
+  {
+    "id": "char_212_ansel",
+    "name": "アンセル",
+    "rarity": "TIER_3",
+    "profession": "MEDIC",
+    "sortIndex": 127
+  },
+  {
+    "id": "char_4137_udflow",
+    "name": "アンダーフロー",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 128
+  },
+  {
+    "id": "char_218_cuttle",
+    "name": "アンドレアナ",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 129
+  },
+  {
+    "id": "char_302_glaze",
+    "name": "アンブリエル",
+    "rarity": "TIER_4",
+    "profession": "SNIPER",
+    "sortIndex": 130
+  },
+  {
+    "id": "char_355_ethan",
+    "name": "イーサン",
+    "rarity": "TIER_4",
+    "profession": "SPECIAL",
+    "sortIndex": 131
+  },
+  {
+    "id": "char_195_glassb",
+    "name": "イースチナ",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 132
+  },
+  {
+    "id": "char_4013_kjera",
+    "name": "イェラ",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 133
+  },
+  {
+    "id": "char_279_excu",
+    "name": "イグゼキュター",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 134
+  },
+  {
+    "id": "char_4087_ines",
+    "name": "イネス",
+    "rarity": "TIER_6",
+    "profession": "PIONEER",
+    "sortIndex": 138
+  },
+  {
+    "id": "char_134_ifrit",
+    "name": "イフリータ",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 139
+  },
+  {
+    "id": "char_498_inside",
+    "name": "インサイダー",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 141
+  },
+  {
+    "id": "char_469_indigo",
+    "name": "インディゴ",
+    "rarity": "TIER_4",
+    "profession": "CASTER",
+    "sortIndex": 142
+  },
+  {
+    "id": "char_155_tiger",
+    "name": "インドラ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 143
+  },
+  {
+    "id": "char_4107_vrdant",
+    "name": "ヴァーダント",
+    "rarity": "TIER_4",
+    "profession": "SPECIAL",
+    "sortIndex": 144
+  },
+  {
+    "id": "char_190_clour",
+    "name": "ヴァーミル",
+    "rarity": "TIER_4",
+    "profession": "SNIPER",
+    "sortIndex": 145
+  },
+  {
+    "id": "char_4102_threye",
+    "name": "ヴァラルクビン",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 146
+  },
+  {
+    "id": "char_163_hpsts",
+    "name": "ヴァルカン",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 147
+  },
+  {
+    "id": "char_494_vendla",
+    "name": "ヴァンデラ",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 148
+  },
+  {
+    "id": "char_400_weedy",
+    "name": "ウィーディ",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 149
+  },
+  {
+    "id": "char_1019_siege2",
+    "name": "ヴィーナ・ヴィクトリア",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 150
+  },
+  {
+    "id": "char_4098_vvana",
+    "name": "ヴィヴィアナ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 151
+  },
+  {
+    "id": "char_290_vigna",
+    "name": "ヴィグナ",
+    "rarity": "TIER_4",
+    "profession": "PIONEER",
+    "sortIndex": 152
+  },
+  {
+    "id": "char_427_vigil",
+    "name": "ヴィジェル",
+    "rarity": "TIER_6",
+    "profession": "PIONEER",
+    "sortIndex": 153
+  },
+  {
+    "id": "char_1035_wisdel",
+    "name": "ウィシャデル",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 154
+  },
+  {
+    "id": "char_436_whispr",
+    "name": "ウィスパーレイン",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 155
+  },
+  {
+    "id": "char_265_sophia",
+    "name": "ウィスラッシュ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 156
+  },
+  {
+    "id": "char_245_cello",
+    "name": "ヴィルトゥオーサ",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 157
+  },
+  {
+    "id": "char_445_wscoot",
+    "name": "ウィンドスクート",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 158
+  },
+  {
+    "id": "char_4083_chimes",
+    "name": "ウィンドチャイム",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 159
+  },
+  {
+    "id": "char_433_windft",
+    "name": "ウインドフリット",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 160
+  },
+  {
+    "id": "char_4207_branch",
+    "name": "ヴェトチキ",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 161
+  },
+  {
+    "id": "char_4081_warmy",
+    "name": "ウォーミー",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 163
+  },
+  {
+    "id": "char_337_utage",
+    "name": "ウタゲ",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 164
+  },
+  {
+    "id": "char_455_nothin",
+    "name": "ウユウ",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 166
+  },
+  {
+    "id": "char_4145_ulpia",
+    "name": "ウルピアヌス",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 167
+  },
+  {
+    "id": "char_4026_vulpis",
+    "name": "ウルピスフォリア",
+    "rarity": "TIER_6",
+    "profession": "PIONEER",
+    "sortIndex": 168
+  },
+  {
+    "id": "char_4171_wulfen",
+    "name": "ウルフェナイト",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 169
+  },
+  {
+    "id": "char_226_hmau",
+    "name": "ウン",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 170
+  },
+  {
+    "id": "char_294_ayer",
+    "name": "エアースカーペ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 171
+  },
+  {
+    "id": "char_365_aprl",
+    "name": "エイプリル",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 172
+  },
+  {
+    "id": "char_180_amgoat",
+    "name": "エイヤフィヤトラ",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 173
+  },
+  {
+    "id": "char_4046_ebnhlz",
+    "name": "エーベンホルツ",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 177
+  },
+  {
+    "id": "char_103_angel",
+    "name": "エクシア",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 178
+  },
+  {
+    "id": "char_127_estell",
+    "name": "エステル",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 179
+  },
+  {
+    "id": "char_241_panda",
+    "name": "エフイーター",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 185
+  },
+  {
+    "id": "char_4043_erato",
+    "name": "エラト",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 186
+  },
+  {
+    "id": "char_401_elysm",
+    "name": "エリジウム",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 190
+  },
+  {
+    "id": "char_131_flameb",
+    "name": "エンカク",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 191
+  },
+  {
+    "id": "char_4010_etlchi",
+    "name": "エンテレケイア",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 192
+  },
+  {
+    "id": "char_4036_forcer",
+    "name": "エンフォーサー",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 193
+  },
+  {
+    "id": "char_278_orchid",
+    "name": "オーキッド",
+    "rarity": "TIER_3",
+    "profession": "SUPPORT",
+    "sortIndex": 195
+  },
+  {
+    "id": "char_422_aurora",
+    "name": "オーロラ",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 199
+  },
+  {
+    "id": "char_4131_odda",
+    "name": "オッダ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 200
+  },
+  {
+    "id": "char_209_ardign",
+    "name": "カーディ",
+    "rarity": "TIER_3",
+    "profession": "TANK",
+    "sortIndex": 204
+  },
+  {
+    "id": "char_426_billro",
+    "name": "カーネリアン",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 205
+  },
+  {
+    "id": "char_187_ccheal",
+    "name": "ガヴィル",
+    "rarity": "TIER_4",
+    "profession": "MEDIC",
+    "sortIndex": 207
+  },
+  {
+    "id": "char_328_cammou",
+    "name": "カシャ",
+    "rarity": "TIER_4",
+    "profession": "CASTER",
+    "sortIndex": 211
+  },
+  {
+    "id": "char_4016_kazema",
+    "name": "カゼマル",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 213
+  },
+  {
+    "id": "char_282_catap",
+    "name": "カタパルト",
+    "rarity": "TIER_3",
+    "profession": "SNIPER",
+    "sortIndex": 214
+  },
+  {
+    "id": "char_301_cutter",
+    "name": "カッター",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 215
+  },
+  {
+    "id": "char_466_qanik",
+    "name": "カニパラート",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 217
+  },
+  {
+    "id": "char_214_kafka",
+    "name": "カフカ",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 218
+  },
+  {
+    "id": "char_497_ctable",
+    "name": "カンタービレ",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 224
+  },
+  {
+    "id": "char_349_chiave",
+    "name": "キアーベ",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 225
+  },
+  {
+    "id": "char_109_fmout",
+    "name": "ギターノ",
+    "rarity": "TIER_4",
+    "profession": "CASTER",
+    "sortIndex": 226
+  },
+  {
+    "id": "char_4203_kichi",
+    "name": "キチセイ",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 227
+  },
+  {
+    "id": "char_4162_cathy",
+    "name": "キャサリン",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 228
+  },
+  {
+    "id": "char_478_kirara",
+    "name": "キララ",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 230
+  },
+  {
+    "id": "char_1029_yato2",
+    "name": "キリンRヤトウ",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 231
+  },
+  {
+    "id": "char_198_blackd",
+    "name": "クーリエ",
+    "rarity": "TIER_4",
+    "profession": "PIONEER",
+    "sortIndex": 232
+  },
+  {
+    "id": "char_492_quercu",
+    "name": "クエルクス",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 233
+  },
+  {
+    "id": "char_4063_quartz",
+    "name": "クォーツ",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 234
+  },
+  {
+    "id": "char_150_snakek",
+    "name": "クオーラ",
+    "rarity": "TIER_4",
+    "profession": "TANK",
+    "sortIndex": 235
+  },
+  {
+    "id": "char_196_sunbr",
+    "name": "グム",
+    "rarity": "TIER_4",
+    "profession": "TANK",
+    "sortIndex": 237
+  },
+  {
+    "id": "char_326_glacus",
+    "name": "グラウコス",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 238
+  },
+  {
+    "id": "char_1502_crosly",
+    "name": "クラウンスレイヤー",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 239
+  },
+  {
+    "id": "char_220_grani",
+    "name": "グラニ",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 241
+  },
+  {
+    "id": "char_237_gravel",
+    "name": "グラベル",
+    "rarity": "TIER_4",
+    "profession": "SPECIAL",
+    "sortIndex": 242
+  },
+  {
+    "id": "char_173_slchan",
+    "name": "クリフハート",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 243
+  },
+  {
+    "id": "char_124_kroos",
+    "name": "クルース",
+    "rarity": "TIER_3",
+    "profession": "SNIPER",
+    "sortIndex": 244
+  },
+  {
+    "id": "char_253_greyy",
+    "name": "グレイ",
+    "rarity": "TIER_4",
+    "profession": "CASTER",
+    "sortIndex": 245
+  },
+  {
+    "id": "char_474_glady",
+    "name": "グレイディーア",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 246
+  },
+  {
+    "id": "char_4122_grabds",
+    "name": "グレインバッズ",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 247
+  },
+  {
+    "id": "char_4187_graceb",
+    "name": "グレースベアラー",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 248
+  },
+  {
+    "id": "char_367_swllow",
+    "name": "グレースロート",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 249
+  },
+  {
+    "id": "char_201_moeshd",
+    "name": "クロワッサン",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 252
+  },
+  {
+    "id": "char_4100_caper",
+    "name": "ケイパー",
+    "rarity": "TIER_4",
+    "profession": "SNIPER",
+    "sortIndex": 253
+  },
+  {
+    "id": "char_2013_cerber",
+    "name": "ケオベ",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 254
+  },
+  {
+    "id": "char_4023_rfalcn",
+    "name": "ケストレル",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 255
+  },
+  {
+    "id": "char_003_kalts",
+    "name": "ケルシー",
+    "rarity": "TIER_6",
+    "profession": "MEDIC",
+    "sortIndex": 259
+  },
+  {
+    "id": "char_377_gdglow",
+    "name": "ゴールデングロー",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 263
+  },
+  {
+    "id": "char_4104_coldst",
+    "name": "コールドショット",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 264
+  },
+  {
+    "id": "char_489_serum",
+    "name": "コロセラム",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 268
+  },
+  {
+    "id": "char_4165_ctrail",
+    "name": "コントレイル",
+    "rarity": "TIER_4",
+    "profession": "SPECIAL",
+    "sortIndex": 270
+  },
+  {
+    "id": "char_159_peacok",
+    "name": "コンビクション",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 271
+  },
+  {
+    "id": "char_4052_surfer",
+    "name": "サーファー",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 273
+  },
+  {
+    "id": "char_479_sleach",
+    "name": "サイラッハ",
+    "rarity": "TIER_6",
+    "profession": "PIONEER",
+    "sortIndex": 276
+  },
+  {
+    "id": "char_108_silent",
+    "name": "サイレンス",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 277
+  },
+  {
+    "id": "char_362_saga",
+    "name": "サガ",
+    "rarity": "TIER_6",
+    "profession": "PIONEER",
+    "sortIndex": 278
+  },
+  {
+    "id": "char_230_savage",
+    "name": "サベージ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 281
+  },
+  {
+    "id": "char_202_demkni",
+    "name": "サリア",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 282
+  },
+  {
+    "id": "char_4194_rmixer",
+    "name": "サンクタ・ミキサー",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 283
+  },
+  {
+    "id": "char_341_sntlla",
+    "name": "サンタラ",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 284
+  },
+  {
+    "id": "char_4140_lasher",
+    "name": "サンドレコナー",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 287
+  },
+  {
+    "id": "char_2015_dusk",
+    "name": "シー",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 288
+  },
+  {
+    "id": "char_112_siege",
+    "name": "シージ",
+    "rarity": "TIER_6",
+    "profession": "PIONEER",
+    "sortIndex": 289
+  },
+  {
+    "id": "char_336_folivo",
+    "name": "シーン",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 291
+  },
+  {
+    "id": "char_4172_xingzh",
+    "name": "シィンズゥ",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 292
+  },
+  {
+    "id": "char_4134_cetsyr",
+    "name": "シヴィライト・エテルナ",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 293
+  },
+  {
+    "id": "char_272_strong",
+    "name": "ジェイ",
+    "rarity": "TIER_4",
+    "profession": "SPECIAL",
+    "sortIndex": 294
+  },
+  {
+    "id": "char_379_sesa",
+    "name": "シェーシャ",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 295
+  },
+  {
+    "id": "char_235_jesica",
+    "name": "ジェシカ",
+    "rarity": "TIER_4",
+    "profession": "SNIPER",
+    "sortIndex": 296
+  },
+  {
+    "id": "char_4078_bdhkgt",
+    "name": "ジエユン",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 297
+  },
+  {
+    "id": "char_333_sidero",
+    "name": "シデロカ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 298
+  },
+  {
+    "id": "char_147_shining",
+    "name": "シャイニング",
+    "rarity": "TIER_6",
+    "profession": "MEDIC",
+    "sortIndex": 299
+  },
+  {
+    "id": "char_4000_jnight",
+    "name": "ジャスティスナイト",
+    "profession": "SNIPER",
+    "sortIndex": 300
+  },
+  {
+    "id": "char_347_jaksel",
+    "name": "ジャッキー",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 301
+  },
+  {
+    "id": "char_254_vodfox",
+    "name": "シャマレ",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 303
+  },
+  {
+    "id": "char_4025_aprot2",
+    "name": "シャレム",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 304
+  },
+  {
+    "id": "char_2025_shu",
+    "name": "シュウ",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 308
+  },
+  {
+    "id": "char_340_shwaz",
+    "name": "シュヴァルツ",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 309
+  },
+  {
+    "id": "char_260_durnar",
+    "name": "ジュナー",
+    "rarity": "TIER_4",
+    "profession": "TANK",
+    "sortIndex": 310
+  },
+  {
+    "id": "char_277_sqrrel",
+    "name": "ショウ",
+    "rarity": "TIER_4",
+    "profession": "SPECIAL",
+    "sortIndex": 311
+  },
+  {
+    "id": "char_118_yuki",
+    "name": "シラユキ",
+    "rarity": "TIER_4",
+    "profession": "SNIPER",
+    "sortIndex": 312
+  },
+  {
+    "id": "char_172_svrash",
+    "name": "シルバーアッシュ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 313
+  },
+  {
+    "id": "char_115_headbr",
+    "name": "ズィマー",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 314
+  },
+  {
+    "id": "char_4121_zuole",
+    "name": "ズオ・ラウ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 315
+  },
+  {
+    "id": "char_166_skfire",
+    "name": "スカイフレア",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 316
+  },
+  {
+    "id": "char_263_skadi",
+    "name": "スカジ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 317
+  },
+  {
+    "id": "char_149_scave",
+    "name": "スカベンジャー",
+    "rarity": "TIER_4",
+    "profession": "PIONEER",
+    "sortIndex": 319
+  },
+  {
+    "id": "char_298_susuro",
+    "name": "ススーロ",
+    "rarity": "TIER_4",
+    "profession": "MEDIC",
+    "sortIndex": 320
+  },
+  {
+    "id": "char_358_lisa",
+    "name": "スズラン",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 321
+  },
+  {
+    "id": "char_210_stward",
+    "name": "スチュワード",
+    "rarity": "TIER_3",
+    "profession": "CASTER",
+    "sortIndex": 324
+  },
+  {
+    "id": "char_4072_ironmn",
+    "name": "ステインレス",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 325
+  },
+  {
+    "id": "char_4208_wintim",
+    "name": "スネグーラチカ",
+    "rarity": "TIER_4",
+    "profession": "PIONEER",
+    "sortIndex": 328
+  },
+  {
+    "id": "char_383_snsant",
+    "name": "スノーズント",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 329
+  },
+  {
+    "id": "char_4211_snhunt",
+    "name": "スノーハンター",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 331
+  },
+  {
+    "id": "char_4015_spuria",
+    "name": "スプリア",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 332
+  },
+  {
+    "id": "char_143_ghost",
+    "name": "スペクター",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 333
+  },
+  {
+    "id": "char_284_spot",
+    "name": "スポット",
+    "rarity": "TIER_3",
+    "profession": "TANK",
+    "sortIndex": 334
+  },
+  {
+    "id": "char_350_surtr",
+    "name": "スルト",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 335
+  },
+  {
+    "id": "char_308_swire",
+    "name": "スワイヤー",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 336
+  },
+  {
+    "id": "char_385_finlpp",
+    "name": "セイリュウ",
+    "rarity": "TIER_4",
+    "profession": "MEDIC",
+    "sortIndex": 337
+  },
+  {
+    "id": "char_348_ceylon",
+    "name": "セイロン",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 338
+  },
+  {
+    "id": "char_464_cement",
+    "name": "セメント",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 339
+  },
+  {
+    "id": "char_4143_sensi",
+    "name": "センシ",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 341
+  },
+  {
+    "id": "char_293_thorns",
+    "name": "ソーンズ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 342
+  },
+  {
+    "id": "char_101_sora",
+    "name": "ソラ",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 343
+  },
+  {
+    "id": "char_157_dagda",
+    "name": "ダグザ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 348
+  },
+  {
+    "id": "char_4041_chnut",
+    "name": "チェストナット",
+    "rarity": "TIER_4",
+    "profession": "MEDIC",
+    "sortIndex": 349
+  },
+  {
+    "id": "char_010_chen",
+    "name": "チェン",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 352
+  },
+  {
+    "id": "char_4082_qiubai",
+    "name": "チューバイ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 354
+  },
+  {
+    "id": "char_2024_chyue",
+    "name": "チョンユエ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 357
+  },
+  {
+    "id": "char_4144_chilc",
+    "name": "チルチャック",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 358
+  },
+  {
+    "id": "char_4047_pianst",
+    "name": "ツェルニー",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 359
+  },
+  {
+    "id": "char_343_tknogi",
+    "name": "ツキノギ",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 360
+  },
+  {
+    "id": "char_499_kaitou",
+    "name": "ディアマンテ",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 361
+  },
+  {
+    "id": "char_4191_tippi",
+    "name": "ティッピ",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 362
+  },
+  {
+    "id": "char_110_deepcl",
+    "name": "ディピカ",
+    "rarity": "TIER_4",
+    "profession": "SUPPORT",
+    "sortIndex": 363
+  },
+  {
+    "id": "char_2012_typhon",
+    "name": "ティフォン",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 364
+  },
+  {
+    "id": "char_4116_blkkgt",
+    "name": "デーゲンブレヒャー",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 365
+  },
+  {
+    "id": "char_486_takila",
+    "name": "テキーラ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 366
+  },
+  {
+    "id": "char_102_texas",
+    "name": "テキサス",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 367
+  },
+  {
+    "id": "char_4164_tecno",
+    "name": "テクノ",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 368
+  },
+  {
+    "id": "char_4077_palico",
+    "name": "テラ大陸調査団",
+    "profession": "SNIPER",
+    "sortIndex": 369
+  },
+  {
+    "id": "char_4110_delphn",
+    "name": "デルフィーン",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 370
+  },
+  {
+    "id": "char_151_myrtle",
+    "name": "テンニンカ",
+    "rarity": "TIER_4",
+    "profession": "PIONEER",
+    "sortIndex": 372
+  },
+  {
+    "id": "char_402_tuye",
+    "name": "トゥイエ",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 374
+  },
+  {
+    "id": "char_501_durin",
+    "name": "ドゥリン",
+    "rarity": "TIER_2",
+    "profession": "CASTER",
+    "sortIndex": 375
+  },
+  {
+    "id": "char_130_doberm",
+    "name": "ドーベルマン",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 376
+  },
+  {
+    "id": "char_363_toddi",
+    "name": "トギフォンス",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 377
+  },
+  {
+    "id": "char_4062_totter",
+    "name": "トター",
+    "rarity": "TIER_4",
+    "profession": "SNIPER",
+    "sortIndex": 381
+  },
+  {
+    "id": "char_411_tomimi",
+    "name": "トミミ",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 382
+  },
+  {
+    "id": "char_1042_phatm2",
+    "name": "トラゴーディア",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 383
+  },
+  {
+    "id": "char_4048_doroth",
+    "name": "ドロシー",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 387
+  },
+  {
+    "id": "char_179_cgbird",
+    "name": "ナイチンゲール",
+    "rarity": "TIER_6",
+    "profession": "MEDIC",
+    "sortIndex": 388
+  },
+  {
+    "id": "char_164_nightm",
+    "name": "ナイトメア",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 389
+  },
+  {
+    "id": "char_4138_narant",
+    "name": "ナラントゥヤ",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 392
+  },
+  {
+    "id": "char_148_nearl",
+    "name": "ニアール",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 393
+  },
+  {
+    "id": "char_2014_nian",
+    "name": "ニェン",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 395
+  },
+  {
+    "id": "char_4146_nymph",
+    "name": "ニンフ",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 397
+  },
+  {
+    "id": "char_450_necras",
+    "name": "ネクラス",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 398
+  },
+  {
+    "id": "char_500_noirc",
+    "name": "ノイルホーン",
+    "rarity": "TIER_2",
+    "profession": "TANK",
+    "sortIndex": 399
+  },
+  {
+    "id": "char_4173_nowell",
+    "name": "ノウエル",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 400
+  },
+  {
+    "id": "char_206_gnosis",
+    "name": "ノーシス",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 401
+  },
+  {
+    "id": "char_297_hamoni",
+    "name": "ハーモニー",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 402
+  },
+  {
+    "id": "char_325_bison",
+    "name": "バイソン",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 403
+  },
+  {
+    "id": "char_4045_heidi",
+    "name": "ハイディ",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 405
+  },
+  {
+    "id": "char_252_bibeak",
+    "name": "バイビーク",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 406
+  },
+  {
+    "id": "char_120_hibisc",
+    "name": "ハイビスカス",
+    "rarity": "TIER_3",
+    "profession": "MEDIC",
+    "sortIndex": 407
+  },
+  {
+    "id": "char_4066_highmo",
+    "name": "ハイモア",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 408
+  },
+  {
+    "id": "char_440_pinecn",
+    "name": "パインコーン",
+    "rarity": "TIER_4",
+    "profession": "SNIPER",
+    "sortIndex": 409
+  },
+  {
+    "id": "char_222_bpipe",
+    "name": "バグパイプ",
+    "rarity": "TIER_6",
+    "profession": "PIONEER",
+    "sortIndex": 412
+  },
+  {
+    "id": "char_4017_puzzle",
+    "name": "パズル",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 413
+  },
+  {
+    "id": "char_4055_bgsnow",
+    "name": "パゼオンカ",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 414
+  },
+  {
+    "id": "char_472_pasngr",
+    "name": "パッセンジャー",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 415
+  },
+  {
+    "id": "char_394_hadiya",
+    "name": "ハディヤ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 417
+  },
+  {
+    "id": "char_449_glider",
+    "name": "ハニーベリー",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 419
+  },
+  {
+    "id": "char_240_wyvern",
+    "name": "バニラ",
+    "rarity": "TIER_3",
+    "profession": "PIONEER",
+    "sortIndex": 420
+  },
+  {
+    "id": "char_4139_papyrs",
+    "name": "パピルス",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 421
+  },
+  {
+    "id": "char_181_flower",
+    "name": "パフューマー",
+    "rarity": "TIER_4",
+    "profession": "MEDIC",
+    "sortIndex": 422
+  },
+  {
+    "id": "char_4071_peper",
+    "name": "パプリカ",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 423
+  },
+  {
+    "id": "char_381_bubble",
+    "name": "バブル",
+    "rarity": "TIER_4",
+    "profession": "TANK",
+    "sortIndex": 424
+  },
+  {
+    "id": "char_485_pallas",
+    "name": "パラス",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 426
+  },
+  {
+    "id": "char_4202_haruka",
+    "name": "ハルカ",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 432
+  },
+  {
+    "id": "char_4114_harold",
+    "name": "ハロルド",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 433
+  },
+  {
+    "id": "char_122_beagle",
+    "name": "ビーグル",
+    "rarity": "TIER_3",
+    "profession": "TANK",
+    "sortIndex": 434
+  },
+  {
+    "id": "char_344_beewax",
+    "name": "ビーズワクス",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 436
+  },
+  {
+    "id": "char_137_brownb",
+    "name": "ビーハンター",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 437
+  },
+  {
+    "id": "char_452_bstalk",
+    "name": "ビーンストーク",
+    "rarity": "TIER_4",
+    "profession": "PIONEER",
+    "sortIndex": 438
+  },
+  {
+    "id": "char_491_humus",
+    "name": "ヒューマス",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 440
+  },
+  {
+    "id": "char_430_fartth",
+    "name": "ファートゥース",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 441
+  },
+  {
+    "id": "char_158_milu",
+    "name": "ファイヤーウォッチ",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 442
+  },
+  {
+    "id": "char_493_firwhl",
+    "name": "ファイヤーホイッスル",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 443
+  },
+  {
+    "id": "char_250_phatom",
+    "name": "ファントム",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 444
+  },
+  {
+    "id": "char_300_phenxi",
+    "name": "フィアメッタ",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 445
+  },
+  {
+    "id": "char_4155_talr",
+    "name": "フィグリーノ",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 447
+  },
+  {
+    "id": "char_4148_philae",
+    "name": "フィラエ",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 448
+  },
+  {
+    "id": "char_128_plosis",
+    "name": "フィリオプシス",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 449
+  },
+  {
+    "id": "char_123_fang",
+    "name": "フェン",
+    "rarity": "TIER_3",
+    "profession": "PIONEER",
+    "sortIndex": 450
+  },
+  {
+    "id": "char_345_folnic",
+    "name": "フォリニック",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 451
+  },
+  {
+    "id": "char_4106_bryota",
+    "name": "ブライオファイタ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 452
+  },
+  {
+    "id": "char_204_platnm",
+    "name": "プラチナ",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 455
+  },
+  {
+    "id": "char_476_blkngt",
+    "name": "ブラックナイト",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 456
+  },
+  {
+    "id": "char_174_slbell",
+    "name": "プラマニクス",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 457
+  },
+  {
+    "id": "char_106_franka",
+    "name": "フランカ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 458
+  },
+  {
+    "id": "char_275_breeze",
+    "name": "ブリーズ",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 459
+  },
+  {
+    "id": "char_4151_tinman",
+    "name": "ブリキ",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 460
+  },
+  {
+    "id": "char_4177_brigid",
+    "name": "ブリギッド",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 461
+  },
+  {
+    "id": "char_192_falco",
+    "name": "プリュム",
+    "rarity": "TIER_3",
+    "profession": "PIONEER",
+    "sortIndex": 462
+  },
+  {
+    "id": "char_4004_pudd",
+    "name": "プリン",
+    "rarity": "TIER_4",
+    "profession": "CASTER",
+    "sortIndex": 463
+  },
+  {
+    "id": "char_415_flint",
+    "name": "フリント",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 464
+  },
+  {
+    "id": "char_017_huang",
+    "name": "ブレイズ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 466
+  },
+  {
+    "id": "char_420_flamtl",
+    "name": "フレイムテイル",
+    "rarity": "TIER_6",
+    "profession": "PIONEER",
+    "sortIndex": 467
+  },
+  {
+    "id": "char_423_blemsh",
+    "name": "ブレミシャイン",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 469
+  },
+  {
+    "id": "char_4032_provs",
+    "name": "プロヴァイゾ",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 470
+  },
+  {
+    "id": "char_145_prove",
+    "name": "プロヴァンス",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 471
+  },
+  {
+    "id": "char_356_broca",
+    "name": "ブローカ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 472
+  },
+  {
+    "id": "char_193_frostl",
+    "name": "フロストリーフ",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 474
+  },
+  {
+    "id": "char_141_nights",
+    "name": "ヘイズ",
+    "rarity": "TIER_4",
+    "profession": "CASTER",
+    "sortIndex": 476
+  },
+  {
+    "id": "char_4109_baslin",
+    "name": "ベースライン",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 478
+  },
+  {
+    "id": "char_4088_hodrer",
+    "name": "ヘドリー",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 479
+  },
+  {
+    "id": "char_369_bena",
+    "name": "ベナ",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 480
+  },
+  {
+    "id": "char_4065_judge",
+    "name": "ペナンス",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 481
+  },
+  {
+    "id": "char_304_zebra",
+    "name": "ヘビーレイン",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 482
+  },
+  {
+    "id": "char_4058_pepe",
+    "name": "ペペ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 483
+  },
+  {
+    "id": "char_188_helage",
+    "name": "ヘラグ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 485
+  },
+  {
+    "id": "char_136_hsguma",
+    "name": "ホシグマ",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 486
+  },
+  {
+    "id": "char_258_podego",
+    "name": "ポデンコ",
+    "rarity": "TIER_4",
+    "profession": "SUPPORT",
+    "sortIndex": 488
+  },
+  {
+    "id": "char_487_bobb",
+    "name": "ボビング",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 489
+  },
+  {
+    "id": "char_281_popka",
+    "name": "ポプカル",
+    "rarity": "TIER_3",
+    "profession": "WARRIOR",
+    "sortIndex": 490
+  },
+  {
+    "id": "char_4027_heyak",
+    "name": "ホルハイヤ",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 491
+  },
+  {
+    "id": "char_4039_horn",
+    "name": "ホルン",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 492
+  },
+  {
+    "id": "char_488_buildr",
+    "name": "ポンシラス",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 493
+  },
+  {
+    "id": "char_264_f12yin",
+    "name": "マウンテン",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 494
+  },
+  {
+    "id": "char_248_mgllan",
+    "name": "マゼラン",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 495
+  },
+  {
+    "id": "char_4199_makiri",
+    "name": "マツキリ",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 496
+  },
+  {
+    "id": "char_199_yak",
+    "name": "マッターホルン",
+    "rarity": "TIER_4",
+    "profession": "TANK",
+    "sortIndex": 497
+  },
+  {
+    "id": "char_289_gyuki",
+    "name": "マトイマル",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 498
+  },
+  {
+    "id": "char_311_mudrok",
+    "name": "マドロック",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 499
+  },
+  {
+    "id": "char_4141_marcil",
+    "name": "マルシル",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 500
+  },
+  {
+    "id": "char_473_mberry",
+    "name": "マルベリー",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 501
+  },
+  {
+    "id": "char_215_mantic",
+    "name": "マンティコア",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 503
+  },
+  {
+    "id": "char_4204_mantra",
+    "name": "マントラ",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 504
+  },
+  {
+    "id": "char_4198_christ",
+    "name": "ミス・クリスティーン",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 507
+  },
+  {
+    "id": "char_437_mizuki",
+    "name": "ミヅキ",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 509
+  },
+  {
+    "id": "char_283_midn",
+    "name": "ミッドナイト",
+    "rarity": "TIER_3",
+    "profession": "WARRIOR",
+    "sortIndex": 510
+  },
+  {
+    "id": "char_4147_mitm",
+    "name": "ミトム",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 511
+  },
+  {
+    "id": "char_4054_malist",
+    "name": "ミニマリスト",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 512
+  },
+  {
+    "id": "char_249_mlyss",
+    "name": "ミュルジス",
+    "rarity": "TIER_6",
+    "profession": "PIONEER",
+    "sortIndex": 513
+  },
+  {
+    "id": "char_117_myrrh",
+    "name": "ミルラ",
+    "rarity": "TIER_4",
+    "profession": "MEDIC",
+    "sortIndex": 514
+  },
+  {
+    "id": "char_388_mint",
+    "name": "ミント",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 515
+  },
+  {
+    "id": "char_185_frncat",
+    "name": "ムース",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 516
+  },
+  {
+    "id": "char_4064_mlynar",
+    "name": "ムリナール",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 517
+  },
+  {
+    "id": "char_133_mm",
+    "name": "メイ",
+    "rarity": "TIER_4",
+    "profession": "SNIPER",
+    "sortIndex": 518
+  },
+  {
+    "id": "char_242_otter",
+    "name": "メイヤー",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 520
+  },
+  {
+    "id": "char_126_shotst",
+    "name": "メテオ",
+    "rarity": "TIER_4",
+    "profession": "SNIPER",
+    "sortIndex": 522
+  },
+  {
+    "id": "char_219_meteo",
+    "name": "メテオリーテ",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 523
+  },
+  {
+    "id": "char_4006_melnte",
+    "name": "メラナイト",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 524
+  },
+  {
+    "id": "char_208_melan",
+    "name": "メランサ",
+    "rarity": "TIER_3",
+    "profession": "WARRIOR",
+    "sortIndex": 525
+  },
+  {
+    "id": "char_154_morgan",
+    "name": "モーガン",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 526
+  },
+  {
+    "id": "char_213_mostma",
+    "name": "モスティマ",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 528
+  },
+  {
+    "id": "char_502_nblade",
+    "name": "ヤトウ",
+    "rarity": "TIER_2",
+    "profession": "PIONEER",
+    "sortIndex": 530
+  },
+  {
+    "id": "char_2026_yu",
+    "name": "ユー",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 531
+  },
+  {
+    "id": "char_416_zumama",
+    "name": "ユーネクテス",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 533
+  },
+  {
+    "id": "char_421_crow",
+    "name": "ラ・プルマ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 534
+  },
+  {
+    "id": "char_4142_laios",
+    "name": "ライオス",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 535
+  },
+  {
+    "id": "char_121_lava",
+    "name": "ラヴァ",
+    "rarity": "TIER_3",
+    "profession": "CASTER",
+    "sortIndex": 536
+  },
+  {
+    "id": "char_140_whitew",
+    "name": "ラップランド",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 538
+  },
+  {
+    "id": "char_322_lmlee",
+    "name": "リー",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 540
+  },
+  {
+    "id": "char_261_sddrag",
+    "name": "リード",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 541
+  },
+  {
+    "id": "char_2023_ling",
+    "name": "リィン",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 542
+  },
+  {
+    "id": "char_194_leto",
+    "name": "リェータ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 543
+  },
+  {
+    "id": "char_107_liskam",
+    "name": "リスカム",
+    "rarity": "TIER_5",
+    "profession": "TANK",
+    "sortIndex": 544
+  },
+  {
+    "id": "char_4080_lin",
+    "name": "リン",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 546
+  },
+  {
+    "id": "char_4042_lumen",
+    "name": "ルーメン",
+    "rarity": "TIER_6",
+    "profession": "MEDIC",
+    "sortIndex": 547
+  },
+  {
+    "id": "char_4079_haini",
+    "name": "ルシーラ",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 548
+  },
+  {
+    "id": "char_4130_luton",
+    "name": "ルトナダ",
+    "rarity": "TIER_4",
+    "profession": "TANK",
+    "sortIndex": 549
+  },
+  {
+    "id": "char_4014_lunacu",
+    "name": "ルナカブ",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 550
+  },
+  {
+    "id": "char_4117_ray",
+    "name": "レイ",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 552
+  },
+  {
+    "id": "char_306_leizi",
+    "name": "レイズ",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 553
+  },
+  {
+    "id": "char_4195_radian",
+    "name": "レイディアン",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 554
+  },
+  {
+    "id": "char_1030_noirc2",
+    "name": "レウスSノイルホーン",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 556
+  },
+  {
+    "id": "char_373_lionhd",
+    "name": "レオンハルト",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 559
+  },
+  {
+    "id": "char_4196_reckpr",
+    "name": "レコードキーパー",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 560
+  },
+  {
+    "id": "char_4011_lessng",
+    "name": "レッシング",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 561
+  },
+  {
+    "id": "char_144_red",
+    "name": "レッド",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 562
+  },
+  {
+    "id": "char_4193_lemuen",
+    "name": "レミュアン",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 563
+  },
+  {
+    "id": "char_503_rang",
+    "name": "レンジャー",
+    "rarity": "TIER_2",
+    "profession": "SNIPER",
+    "sortIndex": 564
+  },
+  {
+    "id": "char_4163_rosesa",
+    "name": "ローズソルト",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 565
+  },
+  {
+    "id": "char_236_rope",
+    "name": "ロープ",
+    "rarity": "TIER_4",
+    "profession": "SPECIAL",
+    "sortIndex": 566
+  },
+  {
+    "id": "char_4133_logos",
+    "name": "ロゴス",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 567
+  },
+  {
+    "id": "char_197_poca",
+    "name": "ロサ",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 568
+  },
+  {
+    "id": "char_391_rosmon",
+    "name": "ロスモンティス",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 569
+  },
+  {
+    "id": "char_4040_rockr",
+    "name": "ロックロック",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 572
+  },
+  {
+    "id": "char_451_robin",
+    "name": "ロビン",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 574
+  },
+  {
+    "id": "char_484_robrta",
+    "name": "ロベルタ",
+    "rarity": "TIER_4",
+    "profession": "SUPPORT",
+    "sortIndex": 575
+  },
+  {
+    "id": "char_243_waaifu",
+    "name": "ワイフー",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 577
+  },
+  {
+    "id": "char_496_wildmn",
+    "name": "ワイルドメイン",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 578
+  },
+  {
+    "id": "char_171_bldsk",
+    "name": "ワルファリン",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 579
+  },
+  {
+    "id": "char_4119_wanqin",
+    "name": "ワンチィン",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 580
+  },
+  {
+    "id": "char_4186_tmoris",
+    "name": "八幡海鈴",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 587
+  },
+  {
+    "id": "char_1026_gvial2",
+    "name": "百錬ガヴィル",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 589
+  },
+  {
+    "id": "char_1027_greyy2",
+    "name": "承曦グレイ",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 619
+  },
+  {
+    "id": "char_1040_blaze2",
+    "name": "熾炎ブレイズ",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 620
+  },
+  {
+    "id": "char_1016_agoat2",
+    "name": "純燼エイヤフィヤトラ",
+    "rarity": "TIER_6",
+    "profession": "MEDIC",
+    "sortIndex": 629
+  },
+  {
+    "id": "char_1031_slent2",
+    "name": "淬羽サイレンス",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 635
+  },
+  {
+    "id": "char_1034_jesca2",
+    "name": "滌火ジェシカ",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 650
+  },
+  {
+    "id": "char_1023_ghost2",
+    "name": "帰溟スペクター",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 703
+  },
+  {
+    "id": "char_1021_kroos2",
+    "name": "寒芒クルース",
+    "rarity": "TIER_5",
+    "profession": "SNIPER",
+    "sortIndex": 705
+  },
+  {
+    "id": "char_1038_whitw2",
+    "name": "荒蕪ラップランド",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 715
+  },
+  {
+    "id": "char_4019_ncdeer",
+    "name": "九色鹿",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 770
+  },
+  {
+    "id": "char_4182_oblvns",
+    "name": "豊川祥子",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 789
+  },
+  {
+    "id": "char_1036_fang2",
+    "name": "歴陣鋭槍フェン",
+    "rarity": "TIER_5",
+    "profession": "PIONEER",
+    "sortIndex": 790
+  },
+  {
+    "id": "char_1033_swire2",
+    "name": "琳琅スワイヤー",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 795
+  },
+  {
+    "id": "char_1045_svash2",
+    "name": "凛御シルバーアッシュ",
+    "rarity": "TIER_6",
+    "profession": "PIONEER",
+    "sortIndex": 798
+  },
+  {
+    "id": "char_4067_lolxh",
+    "name": "羅小黒",
+    "rarity": "TIER_4",
+    "profession": "WARRIOR",
+    "sortIndex": 799
+  },
+  {
+    "id": "char_4183_mortis",
+    "name": "若葉睦",
+    "rarity": "TIER_5",
+    "profession": "SPECIAL",
+    "sortIndex": 831
+  },
+  {
+    "id": "char_4184_dolris",
+    "name": "三角初華",
+    "rarity": "TIER_5",
+    "profession": "SUPPORT",
+    "sortIndex": 833
+  },
+  {
+    "id": "char_1046_sbell2",
+    "name": "聖聆プラマニクス",
+    "rarity": "TIER_6",
+    "profession": "CASTER",
+    "sortIndex": 850
+  },
+  {
+    "id": "char_1032_excu2",
+    "name": "聖約イグゼキュター",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 857
+  },
+  {
+    "id": "char_1043_leizi2",
+    "name": "司霆レイズ",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 875
+  },
+  {
+    "id": "char_1047_halo2",
+    "name": "溯光アステジーニ",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 876
+  },
+  {
+    "id": "char_1041_angel2",
+    "name": "新約エクシア",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 914
+  },
+  {
+    "id": "char_1028_texas2",
+    "name": "血掟テキサス",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 925
+  },
+  {
+    "id": "char_1011_lava2",
+    "name": "炎獄ラヴァ",
+    "rarity": "TIER_5",
+    "profession": "CASTER",
+    "sortIndex": 929
+  },
+  {
+    "id": "char_1020_reed2",
+    "name": "焔影リード",
+    "rarity": "TIER_6",
+    "profession": "MEDIC",
+    "sortIndex": 931
+  },
+  {
+    "id": "char_1014_nearl2",
+    "name": "耀騎士ニアール",
+    "rarity": "TIER_6",
+    "profession": "WARRIOR",
+    "sortIndex": 932
+  },
+  {
+    "id": "char_1039_thorn2",
+    "name": "引星ソーンズ",
+    "rarity": "TIER_6",
+    "profession": "SPECIAL",
+    "sortIndex": 942
+  },
+  {
+    "id": "char_1013_chen2",
+    "name": "遊龍チェン",
+    "rarity": "TIER_6",
+    "profession": "SNIPER",
+    "sortIndex": 950
+  },
+  {
+    "id": "char_4185_amoris",
+    "name": "祐天寺にゃむ",
+    "rarity": "TIER_5",
+    "profession": "WARRIOR",
+    "sortIndex": 952
+  },
+  {
+    "id": "char_1044_hsgma2",
+    "name": "斬業ホシグマ",
+    "rarity": "TIER_6",
+    "profession": "TANK",
+    "sortIndex": 993
+  },
+  {
+    "id": "char_1012_skadi2",
+    "name": "濁心スカジ",
+    "rarity": "TIER_6",
+    "profession": "SUPPORT",
+    "sortIndex": 1030
+  },
+  {
+    "id": "char_1024_hbisc2",
+    "name": "濯塵ハイビスカス",
+    "rarity": "TIER_5",
+    "profession": "MEDIC",
+    "sortIndex": 1031
+  }
+]
