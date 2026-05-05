@@ -8,7 +8,7 @@ const STORAGE_KEYS = {
   legacySaved: "operation-board:saved:v1",
 };
 
-const activeEvent = {
+const fallbackEvent = {
   id: "cloudless-red-smoke",
   title: "曇りなき紅煙",
   description: "周回、勲章加工、少人数、低レア。投稿編成をステージ単位で探せます。",
@@ -22,10 +22,37 @@ const activeEvent = {
   ],
 };
 
+const fallbackOperators = [
+  "イフリータ",
+  "エイヤフィヤトラ",
+  "キリンRヤトウ",
+  "クオーラ",
+  "クルース",
+  "グム",
+  "サリア",
+  "シャイニング",
+  "スズラン",
+  "ススーロ",
+  "ティフォン",
+  "テキサス",
+  "ナイチンゲール",
+  "パフューマー",
+  "フィリオプシス",
+  "ホシグマ",
+  "マウンテン",
+  "ムリナール",
+  "メテオ",
+  "ヴィグナ",
+  "濁心スカジ",
+  "血掟テキサス",
+];
+const knownOperators = window.OPERATION_BOARD_OPERATORS || fallbackOperators;
+const skillCatalog = window.OPERATION_BOARD_SKILLS || {};
+
 const seedSquads = [
   {
     id: 1,
-    eventId: activeEvent.id,
+    eventId: fallbackEvent.id,
     stage: "HS-8",
     title: "2ルート封鎖の置くだけ周回",
     author: "Dr. Kisaragi",
@@ -41,7 +68,7 @@ const seedSquads = [
   },
   {
     id: 2,
-    eventId: activeEvent.id,
+    eventId: fallbackEvent.id,
     stage: "HS-8",
     title: "星4中心の安定クリア",
     author: "低レア記録班",
@@ -56,7 +83,7 @@ const seedSquads = [
   },
   {
     id: 3,
-    eventId: activeEvent.id,
+    eventId: fallbackEvent.id,
     stage: "HS-9",
     title: "勲章加工対応 9人編成",
     author: "Tactical Notes",
@@ -71,7 +98,7 @@ const seedSquads = [
   },
   {
     id: 4,
-    eventId: activeEvent.id,
+    eventId: fallbackEvent.id,
     stage: "HS-EX-8",
     title: "強襲 少人数リレー",
     author: "EX Lab",
@@ -86,7 +113,7 @@ const seedSquads = [
   },
   {
     id: 5,
-    eventId: activeEvent.id,
+    eventId: fallbackEvent.id,
     stage: "S-5",
     title: "耐久寄せの初回突破",
     author: "Rhodes Archive",
@@ -104,6 +131,9 @@ const seedSquads = [
 function createLocalStorageAdapter() {
   return {
     mode: "local",
+    async loadActiveEvent() {
+      return fallbackEvent;
+    },
     async loadSquads() {
       return loadJson(STORAGE_KEYS.squads, STORAGE_KEYS.legacySquads, seedSquads).map(normalizeSquad).filter(Boolean);
     },
@@ -165,7 +195,8 @@ function createSupabaseAdapter({ url, anonKey }) {
       throw new Error(message || `Supabase request failed: ${response.status}`);
     }
     if (response.status === 204) return null;
-    return response.json();
+    const text = await response.text();
+    return text ? JSON.parse(text) : null;
   }
 
   async function rpc(name, body) {
@@ -179,9 +210,24 @@ function createSupabaseAdapter({ url, anonKey }) {
 
   return {
     mode: "supabase",
+    async loadActiveEvent() {
+      const today = new Date().toISOString().slice(0, 10);
+      let events = await request(
+        `events?select=id,title,description,starts_at,ends_at&starts_at=lte.${today}&ends_at=gte.${today}&order=starts_at.desc&limit=1`
+      );
+      if (!events.length) {
+        events = await request("events?select=id,title,description,starts_at,ends_at&order=starts_at.desc&limit=1");
+      }
+      if (!events.length) return null;
+      const event = events[0];
+      const stages = await request(
+        `stages?select=code,label,sort_order&event_id=eq.${encodeURIComponent(event.id)}&order=sort_order.asc`
+      );
+      return mapSupabaseEvent(event, stages);
+    },
     async loadSquads() {
       const rows = await request(
-        `squads?select=*,squad_operators(name,slot_order),squad_tags(tag)&event_id=eq.${encodeURIComponent(
+        `squads?select=*,squad_operators(name,slot_order,skill_label,module_label),squad_tags(tag)&event_id=eq.${encodeURIComponent(
           activeEvent.id
         )}&order=created_at.desc`
       );
@@ -220,9 +266,11 @@ function createSupabaseAdapter({ url, anonKey }) {
       await request("squad_operators", {
         method: "POST",
         body: JSON.stringify(
-          squad.operators.map((name, index) => ({
+          squad.operatorBuilds.map((build, index) => ({
             squad_id: created.id,
-            name,
+            name: build.name,
+            skill_label: build.skill,
+            module_label: build.module,
             slot_order: index,
           }))
         ),
@@ -245,7 +293,7 @@ function createSupabaseAdapter({ url, anonKey }) {
         savedSquads.delete(String(squad.id));
       }
       await this.saveSavedSquads(savedSquads);
-      squad.saved = Number(result?.saved_count ?? squad.saved);
+      squad.saved = Number(result?.new_saved_count ?? result?.saved_count ?? squad.saved);
       return squad;
     },
     async reportSuccess(squad) {
@@ -253,8 +301,8 @@ function createSupabaseAdapter({ url, anonKey }) {
         p_squad_id: squad.id,
         p_client_token: clientToken,
       });
-      squad.successReports = Number(result?.success_reports ?? squad.successReports);
-      squad.attempts = Number(result?.attempts ?? squad.attempts);
+      squad.successReports = Number(result?.new_success_reports ?? result?.success_reports ?? squad.successReports);
+      squad.attempts = Number(result?.new_attempts ?? result?.attempts ?? squad.attempts);
       return squad;
     },
   };
@@ -278,7 +326,7 @@ function normalizeSquad(squad) {
   const attempts = Number(squad.attempts ?? 100);
   return {
     id: squad.id,
-    eventId: String(squad.eventId || activeEvent.id),
+    eventId: String(squad.eventId || fallbackEvent.id),
     stage: String(squad.stage),
     title: String(squad.title),
     author: String(squad.author || "Anonymous"),
@@ -288,9 +336,42 @@ function normalizeSquad(squad) {
     created: String(squad.created || new Date().toISOString()),
     tags: Array.isArray(squad.tags) ? squad.tags.map(String).filter(Boolean) : ["投稿"],
     operators: squad.operators.map(String).filter(Boolean),
+    operatorBuilds: normalizeOperatorBuilds(squad),
     note: String(squad.note || "攻略メモは未入力です。"),
     link: typeof squad.link === "string" ? squad.link : "",
     featured: Boolean(squad.featured),
+  };
+}
+
+function normalizeOperatorBuilds(squad) {
+  const builds = Array.isArray(squad.operatorBuilds)
+    ? squad.operatorBuilds
+    : Array.isArray(squad.operators)
+      ? squad.operators
+      : [];
+  return builds
+    .map((item) => {
+      if (typeof item === "string") return { name: item, skill: "", module: "" };
+      return {
+        name: String(item.name || ""),
+        skill: String(item.skill || ""),
+        module: String(item.module || ""),
+      };
+    })
+    .filter((item) => item.name);
+}
+
+function mapSupabaseEvent(event, stages) {
+  return {
+    id: event.id,
+    title: event.title,
+    description: event.description || "",
+    startsAt: event.starts_at,
+    endsAt: event.ends_at,
+    stages: stages.map((stage) => ({
+      code: stage.code,
+      label: stage.label || "",
+    })),
   };
 }
 
@@ -309,6 +390,13 @@ function mapSupabaseSquad(row) {
     operators: (row.squad_operators || [])
       .sort((a, b) => Number(a.slot_order || 0) - Number(b.slot_order || 0))
       .map((item) => item.name),
+    operatorBuilds: (row.squad_operators || [])
+      .sort((a, b) => Number(a.slot_order || 0) - Number(b.slot_order || 0))
+      .map((item) => ({
+        name: item.name,
+        skill: item.skill_label || "",
+        module: item.module_label || "",
+      })),
     note: row.note,
     link: row.link,
     featured: row.featured,
@@ -324,18 +412,26 @@ function getClientToken() {
 }
 
 function getStore() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("store") === "local") return createLocalStorageAdapter();
   const supabase = window.OPERATION_BOARD_CONFIG?.supabase;
   if (supabase?.url && supabase?.anonKey) return createSupabaseAdapter(supabase);
   return createLocalStorageAdapter();
 }
 
 const store = getStore();
+const fallbackStore = createLocalStorageAdapter();
+let activeStore = fallbackStore;
+let activeEvent = fallbackEvent;
 let squads = [];
 let allOperators = [];
-let activeStage = activeEvent.stages[0].code;
+let activeStage = fallbackEvent.stages[0].code;
 let activeTag = "all";
 let owned = new Set();
 let savedSquads = new Set();
+let selectedOperators = [];
+let selectedTags = [];
+let isSubmittingSquad = false;
 let highlightedSquadId = new URLSearchParams(window.location.search).get("squad") || null;
 
 const squadList = document.querySelector("#squadList");
@@ -355,9 +451,52 @@ const eventTitle = document.querySelector("#eventTitle");
 const eventDescription = document.querySelector("#eventDescription");
 const eventDaysLeft = document.querySelector("#eventDaysLeft");
 const stageList = document.querySelector("#stageList");
+const operatorsField = document.querySelector("#operatorsField");
+const selectedOperatorsEl = document.querySelector("#selectedOperators");
+const operatorSuggestions = document.querySelector("#operatorSuggestions");
+const tagsField = document.querySelector("#tagsField");
+const tagPicker = document.querySelector("#tagPicker");
+const submitComposer = document.querySelector("#submitComposer");
 
 function getAllOperators(source) {
-  return [...new Set(source.flatMap((squad) => squad.operators))].sort((a, b) => a.localeCompare(b, "ja"));
+  return [...new Set([...knownOperators, ...source.flatMap((squad) => squad.operators)])].sort((a, b) =>
+    a.localeCompare(b, "ja")
+  );
+}
+
+function splitList(value) {
+  return value
+    .split(/[,\u3001]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function skillOptions(operatorName, selectedSkill) {
+  const skills = skillCatalog[operatorName] || [];
+  if (!skills.length) {
+    return `
+      <option value="" ${selectedSkill === "" ? "selected" : ""}>スキル</option>
+      <option value="S1" ${selectedSkill === "S1" ? "selected" : ""}>S1</option>
+      <option value="S2" ${selectedSkill === "S2" ? "selected" : ""}>S2</option>
+      <option value="S3" ${selectedSkill === "S3" ? "selected" : ""}>S3</option>
+    `;
+  }
+  return [
+    `<option value="" ${selectedSkill === "" ? "selected" : ""}>スキル</option>`,
+    ...skills.map((skill) => {
+      const label = `${skill.slot}: ${skill.name}`;
+      return `<option value="${escapeHtml(skill.slot)}" ${selectedSkill === skill.slot ? "selected" : ""}>${escapeHtml(label)}</option>`;
+    }),
+  ].join("");
+}
+
+function skillDetail(operatorName, selectedSkill) {
+  if (!selectedSkill) return "";
+  const skill = (skillCatalog[operatorName] || []).find((item) => item.slot === selectedSkill);
+  if (!skill) return selectedSkill;
+  const sp = skill.spCost === null ? "" : `SP ${skill.initSp}/${skill.spCost}`;
+  const duration = skill.duration ? ` / ${skill.duration}s` : "";
+  return [skill.name, sp ? `${sp}${duration}` : "", skill.description].filter(Boolean).join(" - ");
 }
 
 function escapeHtml(value) {
@@ -471,10 +610,17 @@ function renderSquads() {
             <button class="ghost-action" data-action="share" data-id="${squad.id}" type="button">共有URL</button>
           </div>
           <div class="operator-row">
-            ${squad.operators
+            ${squad.operatorBuilds
               .map(
-                (operator) =>
-                  `<span class="operator-chip ${owned.has(operator) ? "" : "missing"}">${escapeHtml(operator)}</span>`
+                (build) =>
+                  `<span class="operator-chip ${owned.has(build.name) ? "" : "missing"}">
+                    ${escapeHtml(build.name)}
+                    ${
+                      build.skill || build.module
+                        ? `<small>${escapeHtml([build.skill, build.module ? `Mod ${build.module}` : ""].filter(Boolean).join(" / "))}</small>`
+                        : ""
+                    }
+                  </span>`
               )
               .join("")}
           </div>
@@ -539,6 +685,73 @@ function renderOwnedGrid() {
     .join("");
 }
 
+function addSelectedOperator(operator) {
+  if (!operator || selectedOperators.some((item) => item.name === operator)) return;
+  selectedOperators.push({ name: operator, skill: "", module: "" });
+  operatorsField.value = "";
+  renderComposerHelpers();
+}
+
+function renderComposerHelpers() {
+  selectedOperatorsEl.innerHTML = selectedOperators
+    .map(
+      (build) => `
+        <div class="build-row">
+          <strong>${escapeHtml(build.name)}</strong>
+          <select data-build-field="skill" data-operator="${escapeHtml(build.name)}" aria-label="${escapeHtml(build.name)}のスキル">
+            ${skillOptions(build.name, build.skill)}
+          </select>
+          <select data-build-field="module" data-operator="${escapeHtml(build.name)}" aria-label="${escapeHtml(build.name)}のモジュール">
+            <option value="" ${build.module === "" ? "selected" : ""}>モジュール</option>
+            <option value="なし" ${build.module === "なし" ? "selected" : ""}>なし</option>
+            <option value="X" ${build.module === "X" ? "selected" : ""}>X</option>
+            <option value="Y" ${build.module === "Y" ? "selected" : ""}>Y</option>
+            <option value="Δ" ${build.module === "Δ" ? "selected" : ""}>Δ</option>
+          </select>
+          <button class="remove-build" type="button" data-remove-operator="${escapeHtml(build.name)}" aria-label="${escapeHtml(build.name)}を外す">×</button>
+          ${
+            build.skill
+              ? `<p class="skill-help">${escapeHtml(skillDetail(build.name, build.skill))}</p>`
+              : ""
+          }
+        </div>
+      `
+    )
+    .join("");
+
+  const query = operatorsField.value.trim().toLowerCase();
+  const suggestions = allOperators
+    .filter((operator) => !selectedOperators.some((item) => item.name === operator))
+    .filter((operator) => !query || operator.toLowerCase().includes(query))
+    .slice(0, 10);
+
+  operatorSuggestions.innerHTML = suggestions
+    .map((operator) => `<button type="button" data-operator="${escapeHtml(operator)}">${escapeHtml(operator)}</button>`)
+    .join("");
+
+  tagPicker.querySelectorAll("button[data-tag]").forEach((button) => {
+    button.classList.toggle("active", selectedTags.includes(button.dataset.tag));
+  });
+}
+
+function resetComposerHelpers() {
+  selectedOperators = [];
+  selectedTags = [];
+  renderComposerHelpers();
+}
+
+function setComposerSubmitting(isSubmitting) {
+  isSubmittingSquad = isSubmitting;
+  submitComposer.disabled = isSubmitting;
+  submitComposer.textContent = isSubmitting ? "投稿中..." : "投稿する";
+}
+
+function closeComposerDialog() {
+  document.querySelector("#composerForm").reset();
+  resetComposerHelpers();
+  composer.close();
+}
+
 function renderAll() {
   renderStages();
   renderOwnedGrid();
@@ -564,6 +777,48 @@ document.querySelectorAll(".tag-filter").forEach((button) => {
 
 [searchInput, sortSelect, ownedOnly].forEach((element) => element.addEventListener("input", renderSquads));
 
+operatorsField.addEventListener("input", renderComposerHelpers);
+operatorsField.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter") return;
+  event.preventDefault();
+  const [operator] = splitList(operatorsField.value);
+  addSelectedOperator(operator);
+});
+
+operatorSuggestions.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-operator]");
+  if (!button) return;
+  addSelectedOperator(button.dataset.operator);
+});
+
+selectedOperatorsEl.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-remove-operator]");
+  if (!button) return;
+  selectedOperators = selectedOperators.filter((operator) => operator.name !== button.dataset.removeOperator);
+  renderComposerHelpers();
+});
+
+selectedOperatorsEl.addEventListener("change", (event) => {
+  const control = event.target.closest("select[data-build-field][data-operator]");
+  if (!control) return;
+  const build = selectedOperators.find((item) => item.name === control.dataset.operator);
+  if (!build) return;
+  build[control.dataset.buildField] = control.value;
+  renderComposerHelpers();
+});
+
+tagPicker.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-tag]");
+  if (!button) return;
+  const tag = button.dataset.tag;
+  if (selectedTags.includes(tag)) {
+    selectedTags = selectedTags.filter((item) => item !== tag);
+  } else {
+    selectedTags.push(tag);
+  }
+  renderComposerHelpers();
+});
+
 ownedGrid.addEventListener("click", async (event) => {
   const button = event.target.closest(".owned-toggle");
   if (!button) return;
@@ -573,12 +828,16 @@ ownedGrid.addEventListener("click", async (event) => {
   } else {
     owned.add(operator);
   }
-  await store.saveOwned(owned);
+  await activeStore.saveOwned(owned);
   renderOwnedGrid();
   renderSquads();
 });
 
 document.querySelector("#openComposer").addEventListener("click", () => composer.showModal());
+document.querySelector("#closeComposer").addEventListener("click", () => {
+  if (isSubmittingSquad) return;
+  closeComposerDialog();
+});
 
 squadList.addEventListener("click", async (event) => {
   const button = event.target.closest("button[data-action]");
@@ -589,7 +848,7 @@ squadList.addEventListener("click", async (event) => {
   if (button.dataset.action === "save") {
     const shouldSave = !savedSquads.has(String(squad.id));
     try {
-      await store.setSaved(squad, shouldSave, savedSquads);
+      await activeStore.setSaved(squad, shouldSave, savedSquads);
       showToast(shouldSave ? "編成を保存しました" : "保存を解除しました");
     } catch {
       showToast("保存の反映に失敗しました");
@@ -599,7 +858,7 @@ squadList.addEventListener("click", async (event) => {
 
   if (button.dataset.action === "clear") {
     try {
-      await store.reportSuccess(squad);
+      await activeStore.reportSuccess(squad);
       showToast("成功報告を反映しました");
     } catch {
       showToast("成功報告に失敗しました");
@@ -619,19 +878,20 @@ squadList.addEventListener("click", async (event) => {
 });
 
 document.querySelector("#composerForm").addEventListener("submit", async (event) => {
-  if (event.submitter?.value === "cancel") return;
   event.preventDefault();
-  const operators = document
-    .querySelector("#operatorsField")
-    .value.split(",")
-    .map((item) => item.trim())
-    .filter(Boolean);
-  const tags = document
-    .querySelector("#tagsField")
-    .value.split(",")
-    .map((item) => item.trim())
-    .filter(Boolean);
+  if (isSubmittingSquad) return;
+  const typedOperators = splitList(operatorsField.value).map((name) => ({ name, skill: "", module: "" }));
+  const operatorBuilds = [...selectedOperators, ...typedOperators].filter(
+    (build, index, builds) => builds.findIndex((item) => item.name === build.name) === index
+  );
+  const operators = operatorBuilds.map((build) => build.name);
+  const tags = [...new Set([...selectedTags, ...splitList(tagsField.value)])];
   const link = document.querySelector("#linkField").value.trim();
+
+  if (!operators.length) {
+    showToast("採用オペレーターを1名以上入力してください");
+    return;
+  }
 
   if (!isSafeUrl(link)) {
     showToast("攻略リンクは http または https のURLを入力してください");
@@ -650,16 +910,19 @@ document.querySelector("#composerForm").addEventListener("submit", async (event)
     created: new Date().toISOString(),
     tags: tags.length ? tags : ["投稿"],
     operators,
+    operatorBuilds,
     note: document.querySelector("#noteField").value.trim() || "攻略メモは未入力です。",
     link,
     featured: false,
   };
 
+  setComposerSubmitting(true);
   let createdSquad;
   try {
-    createdSquad = await store.createSquad(draft);
+    createdSquad = await activeStore.createSquad(draft);
   } catch {
     showToast("投稿に失敗しました");
+    setComposerSubmitting(false);
     return;
   }
 
@@ -669,22 +932,37 @@ document.querySelector("#composerForm").addEventListener("submit", async (event)
     owned.add(operator);
   });
   allOperators.sort((a, b) => a.localeCompare(b, "ja"));
-  await store.saveSquads(squads);
-  await store.saveOwned(owned);
+  await activeStore.saveSquads(squads);
+  await activeStore.saveOwned(owned);
   renderAll();
-  event.target.reset();
-  composer.close();
+  setComposerSubmitting(false);
+  closeComposerDialog();
   showToast("編成を投稿しました");
 });
 
 async function init() {
-  squads = await store.loadSquads();
+  try {
+    const loadedEvent = await store.loadActiveEvent();
+    if (loadedEvent) {
+      activeEvent = loadedEvent;
+      activeStage = activeEvent.stages[0]?.code || "";
+    }
+    activeStore = store;
+    squads = await store.loadSquads();
+  } catch {
+    activeStore = fallbackStore;
+    activeEvent = await fallbackStore.loadActiveEvent();
+    activeStage = activeEvent.stages[0]?.code || "";
+    squads = await fallbackStore.loadSquads();
+    showToast("Supabaseに接続できないためローカル表示に切り替えました");
+  }
   allOperators = getAllOperators(squads);
-  owned = await store.loadOwned(allOperators);
-  savedSquads = await store.loadSavedSquads();
+  owned = await activeStore.loadOwned(allOperators);
+  savedSquads = await activeStore.loadSavedSquads();
   const linkedSquad = squads.find((squad) => String(squad.id) === highlightedSquadId);
   if (linkedSquad) activeStage = linkedSquad.stage;
   renderAll();
+  renderComposerHelpers();
 }
 
 init();

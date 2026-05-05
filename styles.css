@@ -513,6 +513,132 @@ textarea:focus {
   padding: 22px;
 }
 
+.composer-assist {
+  display: grid;
+  gap: 10px;
+  margin-top: -8px;
+}
+
+.suggestion-pool,
+.tag-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.selected-pool {
+  display: grid;
+  gap: 8px;
+}
+
+.selected-pool:empty::before {
+  content: "候補を選ぶか、カンマ区切りで入力";
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.selected-pill,
+.suggestion-pool button,
+.tag-picker button {
+  min-height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: #fffdf7;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.selected-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-color: rgba(49, 93, 116, 0.42);
+  background: rgba(49, 93, 116, 0.1);
+  color: var(--blue);
+}
+
+.build-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 1fr) minmax(160px, 1.2fr) 124px 28px;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid rgba(49, 93, 116, 0.28);
+  border-radius: 8px;
+  padding: 8px;
+  background: rgba(49, 93, 116, 0.08);
+}
+
+.skill-help {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.build-row strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.build-row select {
+  min-height: 34px;
+  padding: 5px 8px;
+  font-size: 12px;
+}
+
+.selected-pill button {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background: rgba(49, 93, 116, 0.18);
+  color: var(--blue);
+  font-weight: 900;
+}
+
+.build-row .remove-build {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background: rgba(49, 93, 116, 0.18);
+  color: var(--blue);
+  font-weight: 900;
+}
+
+.operator-chip small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.suggestion-pool button:hover,
+.tag-picker button:hover {
+  border-color: var(--ink);
+}
+
+.tag-picker button.active {
+  border-color: var(--ink);
+  background: var(--olive);
+  color: #fffaf0;
+}
+
+.custom-tag-label {
+  margin-top: 10px;
+}
+
 .icon-button {
   width: 36px;
   height: 36px;
@@ -589,5 +715,9 @@ textarea:focus {
   .squad-foot {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .build-row {
+    grid-template-columns: 1fr;
   }
 }

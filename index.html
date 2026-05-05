@@ -114,7 +114,7 @@
             <div class="section-label">投稿</div>
             <h2>イベント編成を登録</h2>
           </div>
-          <button class="icon-button" value="cancel" aria-label="閉じる" type="submit">×</button>
+          <button class="icon-button" id="closeComposer" aria-label="閉じる" type="button">×</button>
         </div>
         <label>
           <span>投稿者名</span>
@@ -126,12 +126,28 @@
         </label>
         <label>
           <span>採用オペレーター</span>
-          <input id="operatorsField" required placeholder="例: ティフォン, スズラン, サリア" />
+          <input id="operatorsField" placeholder="例: ティフォン、スズラン、サリア" autocomplete="off" />
         </label>
-        <label>
+        <div class="composer-assist">
+          <div class="selected-pool" id="selectedOperators" aria-live="polite"></div>
+          <div class="suggestion-pool" id="operatorSuggestions"></div>
+        </div>
+        <div>
           <span>タグ</span>
-          <input id="tagsField" placeholder="例: 周回, 放置, 6人" />
-        </label>
+          <div class="tag-picker" id="tagPicker">
+            <button type="button" data-tag="周回">周回</button>
+            <button type="button" data-tag="放置">放置</button>
+            <button type="button" data-tag="低レア">低レア</button>
+            <button type="button" data-tag="少人数">少人数</button>
+            <button type="button" data-tag="勲章">勲章</button>
+            <button type="button" data-tag="強襲">強襲</button>
+            <button type="button" data-tag="初心者向け">初心者向け</button>
+          </div>
+          <label class="custom-tag-label">
+            <span>追加タグ</span>
+            <input id="tagsField" placeholder="例: 6人、高速、安定" />
+          </label>
+        </div>
         <label>
           <span>攻略メモ</span>
           <textarea id="noteField" rows="4" placeholder="配置順、スキルタイミング、代替候補など"></textarea>
@@ -140,12 +156,14 @@
           <span>攻略リンク</span>
           <input id="linkField" type="url" placeholder="https://youtu.be/..." />
         </label>
-        <button class="primary-action wide" value="default" type="submit">投稿する</button>
+        <button class="primary-action wide" id="submitComposer" value="default" type="submit">投稿する</button>
       </form>
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="./config.js"></script>
+    <script src="./operators.js"></script>
+    <script src="./skills.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

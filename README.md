@@ -17,6 +17,10 @@ Open `index.html` directly in a browser. With the default empty `config.js`, the
 
 `config.js` is ignored by git so public keys and environment-specific values do not get committed.
 
+## New Event
+
+Use `db/event_template.sql` to add the next event and stages. The public app reads the active event from Supabase, so no code change is needed when the event changes.
+
 ## Checks
 
 ```sh
