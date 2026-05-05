@@ -81,10 +81,14 @@ create policy "squads are readable" on public.squads for select using (true);
 create policy "squad operators are readable" on public.squad_operators for select using (true);
 create policy "squad tags are readable" on public.squad_tags for select using (true);
 
-create policy "anonymous squad insert" on public.squads for insert with check (true);
+create policy "anonymous squad insert" on public.squads for insert with check (
+  saved_count = 0
+  and success_reports = 0
+  and attempts = 1
+  and featured = false
+);
 create policy "anonymous operator insert" on public.squad_operators for insert with check (true);
 create policy "anonymous tag insert" on public.squad_tags for insert with check (true);
-create policy "anonymous reaction insert" on public.reactions for insert with check (true);
 
 create index if not exists squads_event_stage_created_idx on public.squads (event_id, stage_code, created_at desc);
 create index if not exists squad_operators_name_idx on public.squad_operators (name);
@@ -95,6 +99,27 @@ alter table public.squad_operators add column if not exists module_label text no
 
 drop function if exists public.set_squad_saved(uuid, text, boolean);
 drop function if exists public.report_squad_success(uuid, text);
+
+create or replace function public.normalize_squad_insert()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as '
+begin
+  new.saved_count := 0;
+  new.success_reports := 0;
+  new.attempts := 1;
+  new.featured := false;
+  return new;
+end;
+';
+
+drop trigger if exists normalize_squad_insert_before_insert on public.squads;
+create trigger normalize_squad_insert_before_insert
+before insert on public.squads
+for each row
+execute function public.normalize_squad_insert();
 
 create or replace function public.set_squad_saved(
   p_squad_id uuid,

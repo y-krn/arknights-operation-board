@@ -14,11 +14,13 @@ The committed `config.public.js` points to the Supabase project used by the app.
 2. Run `db/supabase.sql` in the SQL editor.
 3. Run `db/operator_builds.sql`.
 4. Run `db/admin_delete.sql`.
-5. Run `db/event_master_seed.sql`.
-6. Confirm `config.public.js` has the project URL and anon public key.
-7. Open `index.html`.
+5. Run `db/rls_hardening.sql`.
+6. Run `db/event_master_seed.sql`.
+7. Optionally run `db/rls_audit.sql` and confirm RLS policies.
+8. Confirm `config.public.js` has the project URL and anon public key.
+9. Open `index.html`.
 
-Supabase anon keys are public browser keys. Keep Row Level Security enabled and never put a service role key in the browser.
+Supabase anon keys are public browser keys. Keep Row Level Security enabled and never put a service role key in the browser. Anonymous users can read public data and create new posts, but direct reaction inserts are disabled and squad insert counters are normalized by trigger.
 
 ## Event Master
 
