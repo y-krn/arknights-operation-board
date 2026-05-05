@@ -47,8 +47,11 @@ const fallbackOperators = [
   "血掟テキサス",
 ];
 const knownOperators = window.OPERATION_BOARD_OPERATORS || fallbackOperators;
+const operatorMetadata = window.OPERATION_BOARD_OPERATOR_METADATA || {};
 const skillCatalog = window.OPERATION_BOARD_SKILLS || {};
 const moduleCatalog = window.OPERATION_BOARD_MODULES || {};
+
+const professionOrder = ["先鋒", "前衛", "重装", "狙撃", "術師", "医療", "補助", "特殊", "その他"];
 
 const seedSquads = [
   {
@@ -442,6 +445,9 @@ const sortSelect = document.querySelector("#sortSelect");
 const ownedOnly = document.querySelector("#ownedOnly");
 const operatorRanking = document.querySelector("#operatorRanking");
 const ownedGrid = document.querySelector("#ownedGrid");
+const ownedRarityFilter = document.querySelector("#ownedRarityFilter");
+const ownedProfessionFilter = document.querySelector("#ownedProfessionFilter");
+const ownedSummary = document.querySelector("#ownedSummary");
 const clearRate = document.querySelector("#clearRate");
 const avgOps = document.querySelector("#avgOps");
 const operatorCount = document.querySelector("#operatorCount");
@@ -716,12 +722,59 @@ function renderInsights(visibleSquads) {
 }
 
 function renderOwnedGrid() {
-  ownedGrid.innerHTML = allOperators
+  const selectedRarity = ownedRarityFilter.value;
+  const selectedProfession = ownedProfessionFilter.value;
+  const visibleOperators = allOperators
+    .map((operator) => ({
+      name: operator,
+      metadata: operatorMetadata[operator] || { rarity: "その他", profession: "その他", sortIndex: 99999 },
+    }))
+    .filter((operator) => selectedRarity === "all" || operator.metadata.rarity === selectedRarity)
+    .filter((operator) => selectedProfession === "all" || operator.metadata.profession === selectedProfession)
+    .sort(
+      (a, b) =>
+        professionOrder.indexOf(a.metadata.profession) - professionOrder.indexOf(b.metadata.profession) ||
+        a.metadata.sortIndex - b.metadata.sortIndex ||
+        a.name.localeCompare(b.name, "ja")
+    );
+  const ownedVisibleCount = visibleOperators.filter((operator) => owned.has(operator.name)).length;
+  ownedSummary.textContent = `${selectedRarity === "all" ? "全レアリティ" : selectedRarity} / ${
+    selectedProfession === "all" ? "全職業" : selectedProfession
+  } ${ownedVisibleCount}/${visibleOperators.length} 所持扱い`;
+
+  if (!visibleOperators.length) {
+    ownedGrid.innerHTML = `<div class="empty-state compact">このカテゴリのオペレーターはいません。</div>`;
+    return;
+  }
+
+  const groups = new Map();
+  visibleOperators.forEach((operator) => {
+    const key = operator.metadata.profession;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(operator);
+  });
+
+  ownedGrid.innerHTML = [...groups.entries()]
+    .sort(([a], [b]) => professionOrder.indexOf(a) - professionOrder.indexOf(b))
     .map(
-      (operator) => `
-        <button class="owned-toggle ${owned.has(operator) ? "" : "off"}" data-operator="${escapeHtml(operator)}" type="button">
-          ${escapeHtml(operator)}
-        </button>
+      ([profession, operators]) => `
+        <div class="owned-group">
+          <div class="owned-group-head">
+            <strong>${escapeHtml(profession)}</strong>
+            <span>${operators.filter((operator) => owned.has(operator.name)).length}/${operators.length}</span>
+          </div>
+          <div class="owned-toggle-grid">
+            ${operators
+              .map(
+                (operator) => `
+                  <button class="owned-toggle ${owned.has(operator.name) ? "" : "off"}" data-operator="${escapeHtml(operator.name)}" type="button">
+                    ${escapeHtml(operator.name)}
+                  </button>
+                `
+              )
+              .join("")}
+          </div>
+        </div>
       `
     )
     .join("");
@@ -819,6 +872,7 @@ document.querySelectorAll(".tag-filter").forEach((button) => {
 });
 
 [searchInput, sortSelect, ownedOnly].forEach((element) => element.addEventListener("input", renderSquads));
+[ownedRarityFilter, ownedProfessionFilter].forEach((element) => element.addEventListener("input", renderOwnedGrid));
 
 operatorsField.addEventListener("input", renderComposerHelpers);
 operatorsField.addEventListener("keydown", (event) => {

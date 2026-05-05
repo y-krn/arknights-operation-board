@@ -86,6 +86,24 @@ test("composer suggests operators imported from character table", async ({ page 
   await expect(composer.getByRole("button", { name: "新約エクシア" })).toBeVisible();
 });
 
+test("owned memo groups operators by rarity and profession", async ({ page }) => {
+  await page.goto(localUrl);
+
+  await expect(page.getByLabel("レアリティ")).toHaveValue("★6");
+  await expect(page.locator("#ownedSummary")).toContainText("★6 / 全職業");
+  await expect(page.getByRole("button", { name: "サリア" })).toBeVisible();
+
+  await page.getByLabel("職業").selectOption("重装");
+  await expect(page.locator("#ownedSummary")).toContainText("★6 / 重装");
+  await expect(page.locator("#ownedGrid").getByText("重装", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "サリア" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "エクシア" })).toHaveCount(0);
+
+  await page.getByLabel("レアリティ").selectOption("★5");
+  await expect(page.locator("#ownedSummary")).toContainText("★5 / 重装");
+  await expect(page.getByRole("button", { name: "Blitz" })).toBeVisible();
+});
+
 test("posted squad persists after reload and share link highlights it", async ({ page }) => {
   await page.goto(localUrl);
 

@@ -100,6 +100,37 @@
             <section class="panel owned-panel">
               <div class="section-label">手持ちメモ</div>
               <p>未所持として扱うオペレーターを外すと、組める編成だけに絞り込めます。</p>
+              <div class="owned-controls" aria-label="手持ちメモの分類">
+                <label>
+                  <span>レアリティ</span>
+                  <select id="ownedRarityFilter">
+                    <option value="★6">★6</option>
+                    <option value="★5">★5</option>
+                    <option value="★4">★4</option>
+                    <option value="★3">★3</option>
+                    <option value="★2">★2</option>
+                    <option value="★1">★1</option>
+                    <option value="その他">その他</option>
+                    <option value="all">すべて</option>
+                  </select>
+                </label>
+                <label>
+                  <span>職業</span>
+                  <select id="ownedProfessionFilter">
+                    <option value="all">すべて</option>
+                    <option value="先鋒">先鋒</option>
+                    <option value="前衛">前衛</option>
+                    <option value="重装">重装</option>
+                    <option value="狙撃">狙撃</option>
+                    <option value="術師">術師</option>
+                    <option value="医療">医療</option>
+                    <option value="補助">補助</option>
+                    <option value="特殊">特殊</option>
+                    <option value="その他">その他</option>
+                  </select>
+                </label>
+              </div>
+              <div class="owned-summary" id="ownedSummary"></div>
               <div class="owned-grid" id="ownedGrid"></div>
             </section>
           </aside>
@@ -163,6 +194,7 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="./config.js"></script>
     <script src="./operators.js"></script>
+    <script src="./operator-metadata.js"></script>
     <script src="./skills.js"></script>
     <script src="./modules.js"></script>
     <script src="./app.js"></script>

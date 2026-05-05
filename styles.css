@@ -473,7 +473,56 @@ textarea:focus {
   padding: 16px;
 }
 
+.owned-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0 10px;
+}
+
+.owned-controls label {
+  display: grid;
+  gap: 5px;
+}
+
+.owned-controls span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.owned-summary {
+  margin-bottom: 10px;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 900;
+}
+
 .owned-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.owned-group {
+  border-top: 1px solid rgba(49, 93, 116, 0.22);
+  padding-top: 9px;
+}
+
+.owned-group-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 7px;
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.owned-group-head span {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.owned-toggle-grid {
   display: flex;
   gap: 7px;
   flex-wrap: wrap;
@@ -492,6 +541,11 @@ textarea:focus {
   color: var(--muted);
   text-decoration: line-through;
   opacity: 0.55;
+}
+
+.empty-state.compact {
+  padding: 14px;
+  font-size: 12px;
 }
 
 .composer {
