@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check app.js",
+    "check": "node --check app.js && node --check admin.js && node --check scripts/generate-event-master.js && node --check scripts/generate-event-seed-sql.js",
+    "predeploy": "npm run check && npm run test:browser",
     "test:browser": "playwright test"
   },
   "devDependencies": {

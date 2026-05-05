@@ -1,0 +1,9 @@
+node_modules/
+test-results/
+playwright-report/
+tests/
+db/
+scripts/
+data/
+.env
+config.js
