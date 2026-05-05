@@ -791,12 +791,24 @@ function isKnownOperator(operator) {
   return knownOperators.includes(operator);
 }
 
+function operatorSortIndex(operator) {
+  return operatorMetadata[operator]?.sortIndex ?? 0;
+}
+
 function operatorSuggestionsFor(value) {
   const query = value.trim().toLowerCase();
   return allOperators
     .filter((operator) => isKnownOperator(operator))
     .filter((operator) => !selectedOperators.some((item) => item.name === operator))
     .filter((operator) => !query || operator.toLowerCase().includes(query))
+    .sort((a, b) => {
+      if (!query) return operatorSortIndex(b) - operatorSortIndex(a) || a.localeCompare(b, "ja");
+      const aLower = a.toLowerCase();
+      const bLower = b.toLowerCase();
+      const aRank = aLower === query ? 0 : aLower.startsWith(query) ? 1 : 2;
+      const bRank = bLower === query ? 0 : bLower.startsWith(query) ? 1 : 2;
+      return aRank - bRank || operatorSortIndex(b) - operatorSortIndex(a) || a.localeCompare(b, "ja");
+    })
     .slice(0, 10);
 }
 

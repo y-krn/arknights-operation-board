@@ -86,6 +86,17 @@ test("composer suggests operators imported from character table", async ({ page 
   await expect(composer.getByRole("button", { name: "新約エクシア" })).toBeVisible();
 });
 
+test("composer initial operator suggestions prioritize recently added operators", async ({ page }) => {
+  await page.goto(localUrl);
+
+  await page.getByRole("button", { name: "編成を投稿" }).click();
+  const suggestions = page.locator("#operatorSuggestions");
+
+  await expect(suggestions.getByRole("button").first()).toHaveText("濯塵ハイビスカス");
+  await expect(suggestions.getByRole("button", { name: "斬業ホシグマ", exact: true })).toBeVisible();
+  await expect(suggestions.getByRole("button", { name: "12F", exact: true })).toHaveCount(0);
+});
+
 test("composer enter key selects the suggested operator instead of raw text", async ({ page }) => {
   await page.goto(localUrl);
 
