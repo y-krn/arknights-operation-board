@@ -1,5 +1,20 @@
 {
   "cleanUrls": true,
+  "functions": {
+    "api/admin.js": {
+      "includeFiles": "admin.html"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/api/admin"
+    },
+    {
+      "source": "/admin.html",
+      "destination": "/api/admin"
+    }
+  ],
   "headers": [
     {
       "source": "/admin.html",

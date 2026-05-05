@@ -41,6 +41,13 @@ To remove the old placeholder event, run `db/remove_legacy_cloudless_red_smoke.s
 
 This is a static app. Deploy the repository root to any static hosting provider.
 
+Set Vercel environment variables before deploying:
+
+- `ADMIN_USER`
+- `ADMIN_PASSWORD`
+
+`/admin` and `/admin.html` are served through a Basic-auth protected Vercel Function. The local `admin.html` file is still used for development and browser tests.
+
 Before deploying:
 
 ```sh
