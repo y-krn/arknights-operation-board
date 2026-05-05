@@ -11,6 +11,8 @@
 -- - create a squad with forged counters or featured=true
 
 drop policy if exists "anonymous reaction insert" on public.reactions;
+drop policy if exists "anonymous operator insert" on public.squad_operators;
+drop policy if exists "anonymous tag insert" on public.squad_tags;
 
 drop policy if exists "anonymous squad insert" on public.squads;
 create policy "anonymous squad insert" on public.squads

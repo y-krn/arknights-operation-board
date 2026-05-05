@@ -263,37 +263,20 @@ function createSupabaseAdapter({ url, anonKey }) {
       if (!stage) {
         throw new Error(`投稿先ステージがSupabaseに存在しません: ${squad.eventId} / ${squad.stage}`);
       }
-      const [created] = await request("squads", {
-        method: "POST",
-        headers: { Prefer: "return=representation" },
-        body: JSON.stringify({
-          event_id: squad.eventId,
-          stage_code: squad.stage,
-          title: squad.title,
-          author: squad.author,
-          note: squad.note,
-          link: squad.link,
-          saved_count: squad.saved,
-          success_reports: squad.successReports,
-          attempts: squad.attempts,
-          featured: squad.featured,
-        }),
-      });
-      await request("squad_operators", {
-        method: "POST",
-        body: JSON.stringify(
-          squad.operatorBuilds.map((build, index) => ({
-            squad_id: created.id,
-            name: build.name,
-            skill_label: build.skill,
-            module_label: build.module,
-            slot_order: index,
-          }))
-        ),
-      });
-      await request("squad_tags", {
-        method: "POST",
-        body: JSON.stringify(squad.tags.map((tag) => ({ squad_id: created.id, tag }))),
+      const created = await rpc("create_squad", {
+        p_event_id: squad.eventId,
+        p_stage_code: squad.stage,
+        p_title: squad.title,
+        p_author: squad.author,
+        p_note: squad.note,
+        p_link: squad.link,
+        p_operators: squad.operatorBuilds.map((build, index) => ({
+          name: build.name,
+          skill_label: build.skill,
+          module_label: build.module,
+          slot_order: index,
+        })),
+        p_tags: squad.tags,
       });
       return normalizeSquad({ ...squad, id: created.id, created: created.created_at });
     },

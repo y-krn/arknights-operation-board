@@ -29,5 +29,5 @@ select
   security_type
 from information_schema.routines
 where specific_schema = 'public'
-  and routine_name in ('set_squad_saved', 'report_squad_success', 'normalize_squad_insert')
+  and routine_name in ('create_squad', 'set_squad_saved', 'report_squad_success', 'normalize_squad_insert')
 order by routine_name;
