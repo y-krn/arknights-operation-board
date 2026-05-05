@@ -654,6 +654,13 @@ textarea:focus {
   align-items: center;
   gap: 7px;
   padding-left: 5px;
+  max-width: 100%;
+  text-align: left;
+}
+
+.suggestion-pool button span {
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .operator-icon {
@@ -692,7 +699,7 @@ textarea:focus {
 
 .build-row {
   display: grid;
-  grid-template-columns: minmax(110px, 1fr) minmax(160px, 1.2fr) 124px 28px;
+  grid-template-columns: minmax(150px, 1fr) minmax(160px, 1.2fr) 124px 28px;
   gap: 8px;
   align-items: center;
   border: 1px solid rgba(123, 182, 200, 0.28);
@@ -713,10 +720,23 @@ textarea:focus {
   color: var(--blue);
 }
 
-.build-row strong {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.build-operator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.build-operator .operator-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.build-operator span {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
 }
 
 .build-row select {

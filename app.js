@@ -481,14 +481,7 @@ function splitList(value) {
 
 function skillOptions(operatorName, selectedSkill) {
   const skills = skillCatalog[operatorName] || [];
-  if (!skills.length) {
-    return `
-      <option value="" ${selectedSkill === "" ? "selected" : ""}>スキル</option>
-      <option value="S1" ${selectedSkill === "S1" ? "selected" : ""}>S1</option>
-      <option value="S2" ${selectedSkill === "S2" ? "selected" : ""}>S2</option>
-      <option value="S3" ${selectedSkill === "S3" ? "selected" : ""}>S3</option>
-    `;
-  }
+  if (!skills.length) return "";
   return [
     `<option value="" ${selectedSkill === "" ? "selected" : ""}>スキル</option>`,
     ...skills.map((skill) => {
@@ -510,18 +503,11 @@ function skillDetail(operatorName, selectedSkill) {
 function moduleOptions(operatorName, selectedModule) {
   const modules = moduleCatalog[operatorName] || [];
   const selected = normalizeModuleSlot(selectedModule);
+  if (!modules.length) return "";
   const baseOptions = [
     `<option value="" ${selected === "" ? "selected" : ""}>モジュール</option>`,
     `<option value="なし" ${selected === "なし" ? "selected" : ""}>なし</option>`,
   ];
-  if (!modules.length) {
-    return [
-      ...baseOptions,
-      `<option value="X" ${selected === "X" ? "selected" : ""}>X</option>`,
-      `<option value="Y" ${selected === "Y" ? "selected" : ""}>Y</option>`,
-      `<option value="Δ" ${selected === "Δ" ? "selected" : ""}>Δ</option>`,
-    ].join("");
-  }
   return [
     ...baseOptions,
     ...modules.map((module) => {
@@ -546,6 +532,14 @@ function moduleDetail(operatorName, selectedModule) {
     .join(" / ");
   const effects = (module.effects || []).slice(0, 3).join(" - ");
   return [`${module.name} Lv${module.level}`, attrs, effects].filter(Boolean).join(" - ");
+}
+
+function hasOperatorSkills(operatorName) {
+  return Boolean((skillCatalog[operatorName] || []).length);
+}
+
+function hasOperatorModules(operatorName) {
+  return Boolean((moduleCatalog[operatorName] || []).length);
 }
 
 function escapeHtml(value) {
@@ -827,13 +821,21 @@ function renderComposerHelpers() {
     .map(
       (build) => `
         <div class="build-row">
-          <strong>${escapeHtml(build.name)}</strong>
-          <select data-build-field="skill" data-operator="${escapeHtml(build.name)}" aria-label="${escapeHtml(build.name)}のスキル">
-            ${skillOptions(build.name, build.skill)}
-          </select>
-          <select data-build-field="module" data-operator="${escapeHtml(build.name)}" aria-label="${escapeHtml(build.name)}のモジュール">
-            ${moduleOptions(build.name, build.module)}
-          </select>
+          <strong class="build-operator">${operatorIcon(build.name)}<span>${escapeHtml(build.name)}</span></strong>
+          ${
+            hasOperatorSkills(build.name)
+              ? `<select data-build-field="skill" data-operator="${escapeHtml(build.name)}" aria-label="${escapeHtml(build.name)}のスキル">
+                  ${skillOptions(build.name, build.skill)}
+                </select>`
+              : ""
+          }
+          ${
+            hasOperatorModules(build.name)
+              ? `<select data-build-field="module" data-operator="${escapeHtml(build.name)}" aria-label="${escapeHtml(build.name)}のモジュール">
+                  ${moduleOptions(build.name, build.module)}
+                </select>`
+              : ""
+          }
           <button class="remove-build" type="button" data-remove-operator="${escapeHtml(build.name)}" aria-label="${escapeHtml(build.name)}を外す">×</button>
           ${
             build.skill

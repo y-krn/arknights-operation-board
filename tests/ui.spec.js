@@ -28,6 +28,7 @@ test("composer can add a squad to the active stage", async ({ page }) => {
   await page.getByLabel("編成タイトル").fill("HS-8 テスト投稿");
   await composer.getByLabel("採用オペレーター").fill("サリア");
   await composer.getByRole("button", { name: "サリア" }).click();
+  await expect(composer.locator(".build-operator .operator-icon")).toHaveCount(1);
   await composer.getByLabel("サリアのスキル").selectOption("S3");
   await composer.getByLabel("サリアのモジュール").selectOption("X");
   await expect(composer.locator(".skill-help")).toContainText("硬質化");
@@ -109,6 +110,19 @@ test("composer enter key selects the suggested operator instead of raw text", as
   await expect(composer.locator(".build-row strong")).toHaveText("ホシグマ");
   await expect(composer.locator(".build-row strong")).not.toHaveText("ホシ");
   await expect(composer.getByLabel("採用オペレーター")).toHaveValue("");
+});
+
+test("composer hides skill and module controls for operators without them", async ({ page }) => {
+  await page.goto(localUrl);
+
+  await page.getByRole("button", { name: "編成を投稿" }).click();
+  const composer = page.locator("#composer");
+  await composer.getByLabel("採用オペレーター").fill("Castle");
+  await composer.locator("#operatorSuggestions").getByRole("button", { name: "Castle-3", exact: true }).click();
+
+  await expect(composer.locator(".build-operator")).toContainText("Castle-3");
+  await expect(composer.getByLabel("Castle-3のスキル")).toHaveCount(0);
+  await expect(composer.getByLabel("Castle-3のモジュール")).toHaveCount(0);
 });
 
 test("composer requires operators to be selected from suggestions", async ({ page }) => {
