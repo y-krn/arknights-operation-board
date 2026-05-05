@@ -37,6 +37,8 @@ create table if not exists public.squads (
 create table if not exists public.squad_operators (
   squad_id uuid not null references public.squads(id) on delete cascade,
   name text not null,
+  skill_label text not null default '',
+  module_label text not null default '',
   slot_order integer not null default 0,
   primary key (squad_id, name)
 );
@@ -88,22 +90,28 @@ create index if not exists squads_event_stage_created_idx on public.squads (even
 create index if not exists squad_operators_name_idx on public.squad_operators (name);
 create index if not exists squad_tags_tag_idx on public.squad_tags (tag);
 
+alter table public.squad_operators add column if not exists skill_label text not null default '';
+alter table public.squad_operators add column if not exists module_label text not null default '';
+
+drop function if exists public.set_squad_saved(uuid, text, boolean);
+drop function if exists public.report_squad_success(uuid, text);
+
 create or replace function public.set_squad_saved(
   p_squad_id uuid,
   p_client_token text,
   p_saved boolean
 )
-returns table (saved_count integer)
+returns table (new_saved_count integer)
 language plpgsql
 security definer
 set search_path = public
-as $$
+as '
 declare
   changed_rows integer;
 begin
   if p_saved then
     insert into public.reactions (squad_id, reaction_type, client_token)
-    values (p_squad_id, 'save', p_client_token)
+    values (p_squad_id, ''save'', p_client_token)
     on conflict (squad_id, reaction_type, client_token) do nothing;
 
     get diagnostics changed_rows = row_count;
@@ -116,7 +124,7 @@ begin
   else
     delete from public.reactions
     where squad_id = p_squad_id
-      and reaction_type = 'save'
+      and reaction_type = ''save''
       and client_token = p_client_token;
 
     get diagnostics changed_rows = row_count;
@@ -129,26 +137,26 @@ begin
   end if;
 
   return query
-  select squads.saved_count
-  from public.squads
-  where squads.id = p_squad_id;
+  select s.saved_count
+  from public.squads as s
+  where s.id = p_squad_id;
 end;
-$$;
+';
 
 create or replace function public.report_squad_success(
   p_squad_id uuid,
   p_client_token text
 )
-returns table (success_reports integer, attempts integer)
+returns table (new_success_reports integer, new_attempts integer)
 language plpgsql
 security definer
 set search_path = public
-as $$
+as '
 declare
   changed_rows integer;
 begin
   insert into public.reactions (squad_id, reaction_type, client_token)
-  values (p_squad_id, 'success', p_client_token)
+  values (p_squad_id, ''success'', p_client_token)
   on conflict (squad_id, reaction_type, client_token) do nothing;
 
   get diagnostics changed_rows = row_count;
@@ -161,8 +169,10 @@ begin
   end if;
 
   return query
-  select squads.success_reports, squads.attempts
-  from public.squads
-  where squads.id = p_squad_id;
+  select s.success_reports, s.attempts
+  from public.squads as s
+  where s.id = p_squad_id;
 end;
-$$;
+';
+
+notify pgrst, 'reload schema';
