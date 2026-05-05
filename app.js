@@ -48,6 +48,7 @@ const fallbackOperators = [
 ];
 const knownOperators = window.OPERATION_BOARD_OPERATORS || fallbackOperators;
 const skillCatalog = window.OPERATION_BOARD_SKILLS || {};
+const moduleCatalog = window.OPERATION_BOARD_MODULES || {};
 
 const seedSquads = [
   {
@@ -499,6 +500,47 @@ function skillDetail(operatorName, selectedSkill) {
   return [skill.name, sp ? `${sp}${duration}` : "", skill.description].filter(Boolean).join(" - ");
 }
 
+function moduleOptions(operatorName, selectedModule) {
+  const modules = moduleCatalog[operatorName] || [];
+  const selected = normalizeModuleSlot(selectedModule);
+  const baseOptions = [
+    `<option value="" ${selected === "" ? "selected" : ""}>モジュール</option>`,
+    `<option value="なし" ${selected === "なし" ? "selected" : ""}>なし</option>`,
+  ];
+  if (!modules.length) {
+    return [
+      ...baseOptions,
+      `<option value="X" ${selected === "X" ? "selected" : ""}>X</option>`,
+      `<option value="Y" ${selected === "Y" ? "selected" : ""}>Y</option>`,
+      `<option value="Δ" ${selected === "Δ" ? "selected" : ""}>Δ</option>`,
+    ].join("");
+  }
+  return [
+    ...baseOptions,
+    ...modules.map((module) => {
+      const label = `${module.slot}: ${module.name}`;
+      return `<option value="${escapeHtml(module.slot)}" ${selected === module.slot ? "selected" : ""}>${escapeHtml(label)}</option>`;
+    }),
+  ].join("");
+}
+
+function normalizeModuleSlot(value) {
+  if (value === "D") return "Δ";
+  return value || "";
+}
+
+function moduleDetail(operatorName, selectedModule) {
+  const selected = normalizeModuleSlot(selectedModule);
+  if (!selected || selected === "なし") return "";
+  const module = (moduleCatalog[operatorName] || []).find((item) => item.slot === selected || item.rawSlot === selected);
+  if (!module) return `Mod ${selected}`;
+  const attrs = (module.attributes || [])
+    .map((attribute) => `${attribute.label}+${attribute.value}`)
+    .join(" / ");
+  const effects = (module.effects || []).slice(0, 3).join(" - ");
+  return [`${module.name} Lv${module.level}`, attrs, effects].filter(Boolean).join(" - ");
+}
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -702,16 +744,17 @@ function renderComposerHelpers() {
             ${skillOptions(build.name, build.skill)}
           </select>
           <select data-build-field="module" data-operator="${escapeHtml(build.name)}" aria-label="${escapeHtml(build.name)}のモジュール">
-            <option value="" ${build.module === "" ? "selected" : ""}>モジュール</option>
-            <option value="なし" ${build.module === "なし" ? "selected" : ""}>なし</option>
-            <option value="X" ${build.module === "X" ? "selected" : ""}>X</option>
-            <option value="Y" ${build.module === "Y" ? "selected" : ""}>Y</option>
-            <option value="Δ" ${build.module === "Δ" ? "selected" : ""}>Δ</option>
+            ${moduleOptions(build.name, build.module)}
           </select>
           <button class="remove-build" type="button" data-remove-operator="${escapeHtml(build.name)}" aria-label="${escapeHtml(build.name)}を外す">×</button>
           ${
             build.skill
-              ? `<p class="skill-help">${escapeHtml(skillDetail(build.name, build.skill))}</p>`
+              ? `<p class="build-help skill-help">${escapeHtml(skillDetail(build.name, build.skill))}</p>`
+              : ""
+          }
+          ${
+            build.module
+              ? `<p class="build-help module-help">${escapeHtml(moduleDetail(build.name, build.module))}</p>`
               : ""
           }
         </div>

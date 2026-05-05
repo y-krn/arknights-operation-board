@@ -570,12 +570,16 @@ textarea:focus {
   background: rgba(49, 93, 116, 0.08);
 }
 
-.skill-help {
+.build-help {
   grid-column: 1 / -1;
   margin: 0;
   color: var(--muted);
   font-size: 12px;
   line-height: 1.55;
+}
+
+.module-help {
+  color: #315d74;
 }
 
 .build-row strong {

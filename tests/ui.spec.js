@@ -34,6 +34,9 @@ test("composer can add a squad to the active stage", async ({ page }) => {
   await expect(composer.locator(".skill-help")).toContainText("SP 70/80");
   await expect(composer.locator(".skill-help")).toContainText("術ダメージ+55%");
   await expect(composer.locator(".skill-help")).toContainText("移動速度-60%");
+  await expect(composer.locator(".module-help")).toContainText("仕舞い込まれたグローブ Lv3");
+  await expect(composer.locator(".module-help")).toContainText("HP+350 / 攻撃力+70");
+  await expect(composer.locator(".module-help")).toContainText("SPを3回復");
   await composer.getByLabel("採用オペレーター").fill("スズラン");
   await composer.getByRole("button", { name: "スズラン" }).click();
   await composer.getByRole("button", { name: "周回" }).click();
