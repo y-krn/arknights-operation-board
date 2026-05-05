@@ -382,9 +382,12 @@ textarea:focus {
 }
 
 .operator-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   border: 1px solid rgba(238, 243, 241, 0.14);
   border-radius: 3px;
-  padding: 9px 10px;
+  padding: 6px 10px 6px 6px;
   background: #101514;
   font-weight: 800;
 }
@@ -475,12 +478,25 @@ textarea:focus {
 
 .operator-line {
   display: grid;
-  grid-template-columns: 88px 1fr 42px;
+  grid-template-columns: 112px 1fr 42px;
   gap: 10px;
   align-items: center;
   padding: 10px 0;
   border-top: 1px solid var(--line);
   font-size: 13px;
+}
+
+.operator-line strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.operator-line strong span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .meter {
@@ -582,6 +598,7 @@ textarea:focus {
   border-radius: 4px;
   padding: 0;
   background: var(--panel);
+  color: var(--ink);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.52);
 }
 
@@ -630,6 +647,38 @@ textarea:focus {
   color: var(--ink);
   font-size: 12px;
   font-weight: 800;
+}
+
+.suggestion-pool button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding-left: 5px;
+}
+
+.operator-icon {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(238, 243, 241, 0.14);
+  border-radius: 3px;
+  background: #090d0c;
+  object-fit: cover;
+  object-position: center 14%;
+}
+
+.suggestion-pool .operator-icon,
+.operator-line .operator-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.operator-icon.fallback {
+  display: grid;
+  place-items: center;
+  color: var(--orange);
+  font-size: 12px;
+  font-weight: 900;
 }
 
 .selected-pill {

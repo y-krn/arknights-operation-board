@@ -48,6 +48,7 @@ const fallbackOperators = [
 ];
 const knownOperators = window.OPERATION_BOARD_OPERATORS || fallbackOperators;
 const operatorMetadata = window.OPERATION_BOARD_OPERATOR_METADATA || {};
+const operatorIcons = window.OPERATION_BOARD_OPERATOR_ICONS || {};
 const skillCatalog = window.OPERATION_BOARD_SKILLS || {};
 const moduleCatalog = window.OPERATION_BOARD_MODULES || {};
 
@@ -556,6 +557,12 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function operatorIcon(operatorName, className = "operator-icon") {
+  const src = operatorIcons[operatorName];
+  if (!src) return `<span class="${className} fallback" aria-hidden="true">${escapeHtml(operatorName.slice(0, 1))}</span>`;
+  return `<img class="${className}" src="${escapeHtml(src)}" alt="" loading="lazy" decoding="async" />`;
+}
+
 function isSafeUrl(value) {
   if (!value) return true;
   try {
@@ -662,12 +669,15 @@ function renderSquads() {
               .map(
                 (build) =>
                   `<span class="operator-chip ${owned.has(build.name) ? "" : "missing"}">
-                    ${escapeHtml(build.name)}
-                    ${
-                      build.skill || build.module
-                        ? `<small>${escapeHtml([build.skill, build.module ? `Mod ${build.module}` : ""].filter(Boolean).join(" / "))}</small>`
-                        : ""
-                    }
+                    ${operatorIcon(build.name)}
+                    <span>
+                      ${escapeHtml(build.name)}
+                      ${
+                        build.skill || build.module
+                          ? `<small>${escapeHtml([build.skill, build.module ? `Mod ${build.module}` : ""].filter(Boolean).join(" / "))}</small>`
+                          : ""
+                      }
+                    </span>
                   </span>`
               )
               .join("")}
@@ -706,7 +716,7 @@ function renderInsights(visibleSquads) {
     .map(
       ([operator, count]) => `
         <div class="operator-line">
-          <strong>${escapeHtml(operator)}</strong>
+          <strong>${operatorIcon(operator)}<span>${escapeHtml(operator)}</span></strong>
           <div class="meter"><span style="width:${(count / max) * 100}%"></span></div>
           <span>${Math.round((count / Math.max(base.length, 1)) * 100)}%</span>
         </div>
@@ -843,7 +853,10 @@ function renderComposerHelpers() {
   const suggestions = operatorSuggestionsFor(operatorsField.value);
 
   operatorSuggestions.innerHTML = suggestions
-    .map((operator) => `<button type="button" data-operator="${escapeHtml(operator)}">${escapeHtml(operator)}</button>`)
+    .map(
+      (operator) =>
+        `<button type="button" data-operator="${escapeHtml(operator)}">${operatorIcon(operator)}<span>${escapeHtml(operator)}</span></button>`
+    )
     .join("");
 
   tagPicker.querySelectorAll("button[data-tag]").forEach((button) => {
