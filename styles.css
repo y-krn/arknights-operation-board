@@ -296,6 +296,7 @@ input,
 select,
 textarea {
   min-height: 42px;
+  font-size: 16px;
   border: 1px solid var(--line);
   border-radius: 3px;
   padding: 10px 12px;
@@ -765,9 +766,9 @@ textarea:focus {
 }
 
 .build-row select {
-  min-height: 34px;
-  padding: 5px 8px;
-  font-size: 12px;
+  min-height: 38px;
+  padding: 6px 8px;
+  font-size: 16px;
 }
 
 .selected-pill button {
