@@ -654,6 +654,11 @@ textarea:focus {
 .selected-pool {
   display: grid;
   gap: 8px;
+  order: 2;
+}
+
+.suggestion-pool {
+  order: 1;
 }
 
 .selected-pool:empty::before {
@@ -974,6 +979,24 @@ textarea:focus {
   .squad-foot {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .suggestion-pool {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-bottom: 2px;
+    scrollbar-width: thin;
+  }
+
+  .suggestion-pool button {
+    flex: 0 0 auto;
+    max-width: min(64vw, 220px);
+  }
+
+  .selected-pool:not(:empty) {
+    padding-top: 4px;
+    border-top: 1px solid var(--line);
   }
 
   .build-row {
