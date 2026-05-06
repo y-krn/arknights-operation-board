@@ -148,6 +148,22 @@ test("composer enter key selects the suggested operator instead of raw text", as
   await expect(composer.getByLabel("採用オペレーター")).toHaveValue("");
 });
 
+test("composer highlights the latest selected operator near suggestions", async ({ page }) => {
+  await page.goto(localUrl);
+
+  await page.getByRole("button", { name: "編成を投稿" }).click();
+  const composer = page.locator("#composer");
+  for (const name of ["サリア", "スズラン", "ホシグマ"]) {
+    await composer.getByLabel("採用オペレーター").fill(name);
+    await composer.locator("#operatorSuggestions").getByRole("button", { name, exact: true }).click();
+  }
+
+  const firstBuild = composer.locator(".build-row").first();
+  await expect(firstBuild.locator(".build-operator")).toContainText("ホシグマ");
+  await expect(firstBuild.getByLabel("ホシグマのスキル")).toBeVisible();
+  await expect(firstBuild.getByLabel("ホシグマのモジュール")).toBeVisible();
+});
+
 test("composer hides skill and module controls for operators without them", async ({ page }) => {
   await page.goto(localUrl);
 

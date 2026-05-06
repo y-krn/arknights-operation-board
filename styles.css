@@ -739,6 +739,14 @@ textarea:focus {
   background: rgba(123, 182, 200, 0.08);
 }
 
+.build-row.recent {
+  border-color: rgba(240, 161, 42, 0.68);
+  background:
+    linear-gradient(90deg, rgba(240, 161, 42, 0.14), transparent 62%),
+    rgba(123, 182, 200, 0.08);
+}
+
+
 .build-help {
   grid-column: 1 / -1;
   margin: 0;

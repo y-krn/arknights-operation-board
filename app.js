@@ -429,6 +429,7 @@ let activeTag = "all";
 let owned = new Set();
 let savedSquads = new Set();
 let selectedOperators = [];
+let latestSelectedOperator = "";
 let selectedTags = [];
 let isSubmittingSquad = false;
 let highlightedSquadId = new URLSearchParams(window.location.search).get("squad") || null;
@@ -868,6 +869,7 @@ function renderOwnedGrid() {
 function addSelectedOperator(operator) {
   if (!operator || !isKnownOperator(operator) || selectedOperators.some((item) => item.name === operator)) return;
   selectedOperators.push({ name: operator, skill: "", module: "" });
+  latestSelectedOperator = operator;
   operatorsField.value = "";
   renderComposerHelpers();
 }
@@ -898,10 +900,14 @@ function operatorSuggestionsFor(value) {
 }
 
 function renderComposerHelpers() {
-  selectedOperatorsEl.innerHTML = selectedOperators
+  const visibleBuilds = latestSelectedOperator
+    ? [...selectedOperators].sort((a, b) => (b.name === latestSelectedOperator ? 1 : 0) - (a.name === latestSelectedOperator ? 1 : 0))
+    : selectedOperators;
+
+  selectedOperatorsEl.innerHTML = visibleBuilds
     .map(
       (build) => `
-        <div class="build-row">
+        <div class="build-row ${build.name === latestSelectedOperator ? "recent" : ""}">
           <strong class="build-operator">${operatorIcon(build.name)}<span>${escapeHtml(build.name)}</span></strong>
           ${
             hasOperatorSkills(build.name)
@@ -949,6 +955,7 @@ function renderComposerHelpers() {
 
 function resetComposerHelpers() {
   selectedOperators = [];
+  latestSelectedOperator = "";
   selectedTags = [];
   renderComposerHelpers();
 }
@@ -1045,6 +1052,7 @@ selectedOperatorsEl.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-remove-operator]");
   if (!button) return;
   selectedOperators = selectedOperators.filter((operator) => operator.name !== button.dataset.removeOperator);
+  if (latestSelectedOperator === button.dataset.removeOperator) latestSelectedOperator = selectedOperators.at(-1)?.name || "";
   renderComposerHelpers();
 });
 
