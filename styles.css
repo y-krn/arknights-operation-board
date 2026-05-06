@@ -876,6 +876,52 @@ textarea:focus {
     align-items: stretch;
     flex-direction: column;
   }
+
+  .stage-list {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 10px;
+    scrollbar-width: thin;
+  }
+
+  .stage-list .section-label {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    flex: 0 0 72px;
+    margin: 0;
+    padding: 0 10px;
+    border-right: 1px solid var(--line);
+    background: rgba(23, 28, 27, 0.96);
+    box-shadow: 12px 0 18px rgba(13, 17, 16, 0.72);
+    writing-mode: horizontal-tb;
+  }
+
+  .stage-button {
+    flex: 0 0 132px;
+    width: 132px;
+    min-height: 72px;
+  }
+
+  .stage-button + .stage-button {
+    margin-top: 0;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 7;
+    margin: 0 -16px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(13, 17, 16, 0.94);
+    backdrop-filter: blur(14px);
+  }
 }
 
 @media (max-width: 560px) {
@@ -894,6 +940,33 @@ textarea:focus {
 
   h2 {
     font-size: 25px;
+  }
+
+  .topbar {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .topbar h2 {
+    font-size: 20px;
+  }
+
+  .topbar .primary-action {
+    flex: 0 0 auto;
+    padding: 10px 12px;
+    white-space: nowrap;
+  }
+
+  .stage-subtitle {
+    max-width: 58vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .stage-button {
+    flex-basis: 118px;
+    width: 118px;
   }
 
   .squad-head,
