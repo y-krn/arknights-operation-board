@@ -1,15 +1,6 @@
-import { createDefaultRoster } from "../base-sim-engine.js";
 import { queryElements } from "./dom.js";
 import { formatNumber } from "./formatters.js";
-import {
-  createDefaultSettings,
-  normalizeShiftMode,
-  clampNumber,
-  syncSettingsToInputs,
-  applyLayoutPreset,
-  createPageState,
-  selectActiveShift,
-} from "./state.js";
+import { syncSettingsToInputs, createPageState, selectActiveShift } from "./state.js";
 import { loadRoster, saveRoster, loadSettings, saveSettings } from "./storage.js";
 import { buildSimulationResult, applyOptimizedSupportAssignments } from "./engine-adapter.js";
 import { renderAlternative } from "./render/alternatives.js";
@@ -19,6 +10,9 @@ import { renderIntermediateParameters } from "./render/summary.js";
 import { renderOptimalPlan } from "./render/facilities.js";
 import { renderSupportAssignments } from "./render/support-assignments.js";
 import { renderRosterPanel } from "./render/roster-controller.js";
+import { bindControlEvents } from "./events/controls.js";
+import { bindRosterEvents } from "./events/roster-events.js";
+import { bindShiftTabEvents, bindTimelineEvents } from "./events/timeline-events.js";
 
 export function initBaseSimPage() {
   window.addEventListener("error", (event) => {
@@ -38,78 +32,13 @@ export function initBaseSimPage() {
   renderRoster();
   renderSupportUi();
 
-  elements.layoutPreset.addEventListener("change", () => {
-    applyLayoutPreset(elements, renderSupportUi);
-    runSimulation();
-  });
-
-  for (const element of [
-    elements.objective,
-    elements.shiftMode,
-    elements.manufactureCount,
-    elements.tradingCount,
-    elements.powerCount,
-    elements.meetingRoomLevel,
-    elements.dormOperators,
-    elements.collectionInterval,
-  ]) {
-    element.addEventListener("change", () => {
-      handleControlChange(element);
-      runSimulation();
-    });
-  }
-
-  elements.runSimulation.addEventListener("click", runSimulation);
-  elements.operatorSearch.addEventListener("input", renderRoster);
-  elements.facilityResults.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-shift-id]");
-    if (!button) return;
-    pageState.activeShiftId = button.dataset.shiftId;
-    runSimulation();
-  });
-  elements.timelineResults.addEventListener("change", (event) => {
-    const input = event.target.closest("[data-timeline-series]");
-    if (!input) return;
-    pageState.settings = saveSettings({
-      ...pageState.settings,
-      timelineSeries: {
-        ...pageState.settings.timelineSeries,
-        [input.dataset.timelineSeries]: input.checked,
-      },
-    });
-    runSimulation();
-  });
-  elements.resetRoster.addEventListener("click", () => {
-    pageState.roster = createDefaultRoster(catalog, { defaultOwned: true });
-    pageState.settings = saveSettings(createDefaultSettings());
-    pageState.activeShiftId = null;
-    saveRoster(pageState.roster);
-    syncSettingsToInputs(elements, pageState.settings);
-    renderRoster();
-    renderSupportUi();
-    runSimulation();
-  });
+  bindControlEvents({ elements, catalog, pageState, renderRoster, renderSupportUi, runSimulation });
+  bindRosterEvents({ elements, renderRoster });
+  bindShiftTabEvents({ elements, pageState, runSimulation });
+  bindTimelineEvents({ elements, pageState, runSimulation });
 
   runSimulation();
 
-  function handleControlChange(element) {
-    if (["manufactureCount", "tradingCount", "powerCount"].includes(element.id)) {
-      elements.layoutPreset.value = "custom";
-    }
-    if (element.id === "powerCount") renderSupportUi();
-    if (element.id === "shiftMode") {
-      pageState.settings = saveSettings({ ...pageState.settings, shiftMode: normalizeShiftMode(element.value) });
-      syncSettingsToInputs(elements, pageState.settings);
-    }
-    if (element.id === "meetingRoomLevel") {
-      pageState.settings = saveSettings({ ...pageState.settings, meetingRoomLevel: clampNumber(element.value, 0, 3, 3) });
-      syncSettingsToInputs(elements, pageState.settings);
-    }
-    if (element.id === "collectionInterval") {
-      pageState.settings = saveSettings({ ...pageState.settings, collectionIntervalHours: clampNumber(element.value, 1, 72, 24) });
-      syncSettingsToInputs(elements, pageState.settings);
-    }
-  }
 
   function runSimulation() {
     const result = buildSimulationResult({ catalog, roster: pageState.roster, settings: pageState.settings, elements });
