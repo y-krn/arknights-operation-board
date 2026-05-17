@@ -65,3 +65,13 @@ export function currentLayout(elements) {
     power: Number(elements.powerCount.value),
   };
 }
+
+export function createPageState({ catalog, roster, settings }) {
+  return { catalog, roster, settings, activeShiftId: null, lastResult: null };
+}
+
+export function selectActiveShift(shiftPlan, activeShiftId) {
+  if (!shiftPlan?.shifts?.length) return { activeShift: null, activeShiftId };
+  const activeShift = shiftPlan.shifts.find((shift) => shift.id === activeShiftId) || shiftPlan.shifts[0];
+  return { activeShift, activeShiftId: activeShift.id };
+}

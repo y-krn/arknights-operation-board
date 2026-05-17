@@ -134,3 +134,17 @@ export function renderCapacityBonusParts(capacity) {
   `;
 }
 
+
+export function renderOptimalPlan(result, activeShift) {
+  const shiftPlan = result.shiftPlan;
+  if (!shiftPlan?.shifts?.length) return result.facilities.map(renderFacility).join("");
+  return `
+    ${renderShiftTabs(shiftPlan.shifts, activeShift.id)}
+    <div class="active-shift-meta">
+      <strong>${activeShift.label}</strong>
+      <span>${activeShift.startHour}:00-${activeShift.startHour + activeShift.durationHours}:00 / ${activeShift.durationHours}時間</span>
+      ${renderShiftMoraleStatus(activeShift)}
+    </div>
+    ${activeShift.facilities.map(renderOptimalShiftFacility).join("")}
+  `;
+}
