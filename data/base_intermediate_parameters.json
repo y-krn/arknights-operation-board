@@ -1,0 +1,1310 @@
+{
+  "generatedAt": "2026-05-14T03:25:17.844Z",
+  "source": {
+    "buildingData": "/Users/ottan/Downloads/outputs/building_data.json",
+    "characterTable": "/Users/ottan/Downloads/outputs/character_table.json"
+  },
+  "notes": [
+    "This table is extracted from building_data.json descriptions and buff ownership data.",
+    "The producer/converter/consumer classification is heuristic; complex base skills still need explicit evaluator rules before optimization."
+  ],
+  "parameters": [
+    {
+      "tag": "$cc.bd_A",
+      "key": "bd_A",
+      "name": "思念連鎖",
+      "producers": [],
+      "converters": [
+        {
+          "buffId": "manu_prod_spd_bd_n1[000]",
+          "buffName": "超感覚",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、宿舎中のオペレーター1人につき、知覚情報+1。1の知覚情報が1の思念連鎖に転化される",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_391_rosmon",
+              "name": "ロスモンティス",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "consumers": [
+        {
+          "buffId": "manu_prod_spd_bd[000]",
+          "buffName": "念力",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、思念連鎖2につき、製造効率+1%",
+          "targets": [
+            "F_GOLD",
+            "F_EXP",
+            "F_DIAMOND"
+          ],
+          "operators": [
+            {
+              "id": "char_391_rosmon",
+              "name": "ロスモンティス",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "manu_prod_spd_bd[010]",
+          "buffName": "意識実体",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、思念連鎖1につき、製造効率+1%",
+          "targets": [
+            "F_GOLD",
+            "F_EXP",
+            "F_DIAMOND"
+          ],
+          "operators": [
+            {
+              "id": "char_391_rosmon",
+              "name": "ロスモンティス",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_a1",
+      "key": "bd_a1",
+      "name": "知覚情報",
+      "producers": [
+        {
+          "buffId": "control_mp_cost&bd2[000]",
+          "buffName": "「己を以て悲しまず」",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、自身の1時間ごとの体力消費量+0.5。自身の体力が12を上回る時、知覚情報+10",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_2015_dusk",
+              "name": "シー",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "control_costToBD[000]",
+          "buffName": "「山河遠闊たり」",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、自身の体力が12を上回る時、俗世之憂+15。自身の体力が12を下回る時、知覚情報+10",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_2023_ling",
+              "name": "リィン",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "converters": [
+        {
+          "buffId": "manu_prod_spd_bd_n1[000]",
+          "buffName": "超感覚",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、宿舎中のオペレーター1人につき、知覚情報+1。1の知覚情報が1の思念連鎖に転化される",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_391_rosmon",
+              "name": "ロスモンティス",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "trade_ord_spd_bd_n1[000]",
+          "buffName": "音感",
+          "roomType": "TRADING",
+          "description": "製造所配置時、宿舎中のオペレーター1人につき、知覚情報+1。1の知覚情報が1の静かなる共鳴に転化される",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4046_ebnhlz",
+              "name": "エーベンホルツ",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "dorm_rec_bd_n1[100]",
+          "buffName": "インプロヴィゼーション",
+          "roomType": "DORMITORY",
+          "description": "宿舎配置時、1の小節が1の知覚情報に転化される",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4047_pianst",
+              "name": "ツェルニー",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "dorm_rec_bd_n1[000]",
+          "buffName": "夢物語",
+          "roomType": "DORMITORY",
+          "description": "宿舎配置時、1の夢が1の知覚情報に転化される",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_338_iris",
+              "name": "アイリス",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "hire_spd_bd_n1[000]",
+          "buffName": "追憶",
+          "roomType": "HIRE",
+          "description": "事務室配置時、1の記憶の欠片が1の知覚情報に転化される。体力が０になる時、記憶の欠片と自身が獲得した知覚情報も０になる",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_436_whispr",
+              "name": "ウィスパーレイン",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "consumers": [],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_a1_a1",
+      "key": "bd_a1_a1",
+      "name": "記憶の欠片",
+      "producers": [
+        {
+          "buffId": "hire_spd_bd_n1_n1[100]",
+          "buffName": "放浪の旅路",
+          "roomType": "HIRE",
+          "description": "事務室配置時、事務連絡速度+20%、公開求人の最大同時求人可能数が2より1多いごとに、記憶の欠片+10",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_436_whispr",
+              "name": "ウィスパーレイン",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "converters": [
+        {
+          "buffId": "hire_spd_bd_n1[000]",
+          "buffName": "追憶",
+          "roomType": "HIRE",
+          "description": "事務室配置時、1の記憶の欠片が1の知覚情報に転化される。体力が０になる時、記憶の欠片と自身が獲得した知覚情報も０になる",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_436_whispr",
+              "name": "ウィスパーレイン",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "consumers": [],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_a1_a2",
+      "key": "bd_a1_a2",
+      "name": "夢",
+      "producers": [
+        {
+          "buffId": "dorm_rec_bd_n1_n2[000]",
+          "buffName": "寝物語",
+          "roomType": "DORMITORY",
+          "description": "配置宿舎内、全員の1時間ごとの体力回復量+0.1（同種の効果は高いほうのみ適用）、配置宿舎のレベル1につき、夢+1",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_338_iris",
+              "name": "アイリス",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "converters": [
+        {
+          "buffId": "dorm_rec_bd_n1[000]",
+          "buffName": "夢物語",
+          "roomType": "DORMITORY",
+          "description": "宿舎配置時、1の夢が1の知覚情報に転化される",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_338_iris",
+              "name": "アイリス",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "consumers": [],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_a1_a3",
+      "key": "bd_a1_a3",
+      "name": "小節",
+      "producers": [
+        {
+          "buffId": "dorm_rec_bd_n1_n3[000]",
+          "buffName": "アンダンテ",
+          "roomType": "DORMITORY",
+          "description": "配置宿舎内、自身以外のオペレーター1人の1時間ごとの体力回復量+0.65（同種の効果は高いほうのみ適用）、配置宿舎のレベル1につき、小節+1",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4047_pianst",
+              "name": "ツェルニー",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "converters": [
+        {
+          "buffId": "dorm_rec_bd_n1[100]",
+          "buffName": "インプロヴィゼーション",
+          "roomType": "DORMITORY",
+          "description": "宿舎配置時、1の小節が1の知覚情報に転化される",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4047_pianst",
+              "name": "ツェルニー",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "consumers": [],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_ash",
+      "key": "bd_ash",
+      "name": "情報備蓄",
+      "producers": [
+        {
+          "buffId": "control_mp_bd[000]",
+          "buffName": "情報備蓄",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、制御中枢内のレインボー小隊所属オペレーター1人につき、情報備蓄+1",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_456_ash",
+              "name": "Ash",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "hire_spd_blitz[000]",
+          "buffName": "言語学",
+          "roomType": "HIRE",
+          "description": "事務室配置時、事務連絡速度+20%、情報備蓄1につき追加で事務連絡速度+5%、ウルサスドリンク1本につき追加で事務連絡速度+5%",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_457_blitz",
+              "name": "Blitz",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "meet_spd_bd[000]",
+          "buffName": "情報エキスパート",
+          "roomType": "MEETING",
+          "description": "応接室配置時、手がかり捜索速度+5%。また、情報備蓄1につき、さらに+5%",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4124_iana",
+              "name": "Iana",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "converters": [],
+      "consumers": [
+        {
+          "buffId": "workshop_formula_frost[000]",
+          "buffName": "機械工学",
+          "roomType": "WORKSHOP",
+          "description": "加工所で任意の素材を加工時、副産物の入手確率50%、情報備蓄1につき追加で入手確率5%、さらにウルサスドリンクが4本以上の場合、追加で入手確率15%",
+          "targets": [
+            "F_BUILDING",
+            "F_EVOLVE",
+            "F_SKILL",
+            "F_ASC"
+          ],
+          "operators": [
+            {
+              "id": "char_458_rfrost",
+              "name": "Frost",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_B",
+      "key": "bd_B",
+      "name": "静かなる共鳴",
+      "producers": [
+        {
+          "buffId": "dorm_bd_num[000]",
+          "buffName": "声なき協奏",
+          "roomType": "DORMITORY",
+          "description": "配置宿舎内、オペレーター1名につき、静かなる共鳴+1",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_245_cello",
+              "name": "ヴィルトゥオーサ",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "hire_spd_bd_n1_n1[300]",
+          "buffName": "心声を描く",
+          "roomType": "HIRE",
+          "description": "事務室配置時、公開求人の最大同時求人可能数が2より1多いごとに、静かなる共鳴+15",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4109_baslin",
+              "name": "ベースライン",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "converters": [
+        {
+          "buffId": "trade_ord_spd_bd_n1[000]",
+          "buffName": "音感",
+          "roomType": "TRADING",
+          "description": "製造所配置時、宿舎中のオペレーター1人につき、知覚情報+1。1の知覚情報が1の静かなる共鳴に転化される",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4046_ebnhlz",
+              "name": "エーベンホルツ",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "consumers": [
+        {
+          "buffId": "trade_ord_spd_bd[000]",
+          "buffName": "彷徨う旋律",
+          "roomType": "TRADING",
+          "description": "貿易所配置時、静かなる共鳴4につき、受注効率+1%",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4046_ebnhlz",
+              "name": "エーベンホルツ",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "trade_ord_spd_bd[010]",
+          "buffName": "茫然たる和声",
+          "roomType": "TRADING",
+          "description": "貿易所配置時、静かなる共鳴2につき、受注効率+1%",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4046_ebnhlz",
+              "name": "エーベンホルツ",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "dorm_rec_all&bd[000]",
+          "buffName": "言葉なき賛歌",
+          "roomType": "DORMITORY",
+          "description": "配置宿舎内、全員の1時間ごとの体力回復量+0.2。静かなる共鳴5ごとに、配置宿舎内の全員の1時間ごとの体力回復量が追加で+0.01（同種の効果は高いほうのみ適用）",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_245_cello",
+              "name": "ヴィルトゥオーサ",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_b1",
+      "key": "bd_b1",
+      "name": "俗世之憂",
+      "producers": [
+        {
+          "buffId": "control_mp_cost&bd1[000]",
+          "buffName": "「物を以て喜ばず」",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、制御中枢内全員の体力が1時間ごとに+0.05回復。自身の体力が12を以下の時、俗世之憂+15",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_2015_dusk",
+              "name": "シー",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "control_mp_cost&bd_up[000]",
+          "buffName": "我を我と知る",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、自身の1時間ごとの体力消費量が+0.5。宿舎と活動室以外の施設内の歳所属オペレーター1人につき、俗世之憂+5（最大5人まで）",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_2024_chyue",
+              "name": "チョンユエ",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "control_mp_bd_cost_expand[000]",
+          "buffName": "孤光共に照らす",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、他の施設内で仕事中のオペレーターの体力が1時間ごとに+0.05回復し、俗世之憂20につき、体力が追加で+0.05回復（制御中枢内の他のスキル間とは特殊比較方式が適用される）",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_2024_chyue",
+              "name": "チョンユエ",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "control_costToBD[000]",
+          "buffName": "「山河遠闊たり」",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、自身の体力が12を上回る時、俗世之憂+15。自身の体力が12を下回る時、知覚情報+10",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_2023_ling",
+              "name": "リィン",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "trade_ord_spd_bd_n2[000]",
+          "buffName": "「和気生財」",
+          "roomType": "TRADING",
+          "description": "貿易所配置時、宿舎にいるオペレーター1人につき、俗世之憂+1、俗世之憂1につき、受注効率+1%",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_455_nothin",
+              "name": "ウユウ",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "hire_spd_bd_n1_n1[200]",
+          "buffName": "救援隊業務・災後検診",
+          "roomType": "HIRE",
+          "description": "事務室配置時、公開求人の最大同時求人可能数が2より1多いごとに、俗世の憂+10",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_473_mberry",
+              "name": "マルベリー",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "converters": [
+        {
+          "buffId": "manu_bd_to_bd[000]",
+          "buffName": "古の巫術",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、5の俗世之憂が1の巫術の結晶に転化される",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4078_bdhkgt",
+              "name": "ジエユン",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "consumers": [
+        {
+          "buffId": "manu_prod_spd_bd[300]",
+          "buffName": "稲禾厚く、秋に順ひて収む",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、俗世之憂3につき、製造効率+1%",
+          "targets": [
+            "F_GOLD",
+            "F_EXP",
+            "F_DIAMOND"
+          ],
+          "operators": [
+            {
+              "id": "char_2025_shu",
+              "name": "シュウ",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "trade_cost&bd2[000]",
+          "buffName": "湖を越え山を越え",
+          "roomType": "TRADING",
+          "description": "貿易所配置時、配属オペレーターの1時間ごとの体力消費量-0.1、俗世の憂10につき、体力消費量が追加で-0.01",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4083_chimes",
+              "name": "ウィンドチャイム",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "trade_cost&bd2[001]",
+          "buffName": "遠き便りを手に",
+          "roomType": "TRADING",
+          "description": "貿易所配置時、配属オペレーターの1時間ごとの体力消費量-0.1、俗世の憂10につき、体力消費量が追加で-0.02",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4083_chimes",
+              "name": "ウィンドチャイム",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "train_spd_bd[000]",
+          "buffName": "共に楽しむ",
+          "roomType": "TRAINING",
+          "description": "訓練室で協力者として配置時、1時間ごとの体力消費量+1。俗世之憂1につき、訓練速度+1%",
+          "targets": [
+            "PIONEER",
+            "WARRIOR",
+            "TANK",
+            "SNIPER",
+            "CASTER",
+            "MEDIC",
+            "SUPPORT",
+            "SPECIAL"
+          ],
+          "operators": [
+            {
+              "id": "char_2026_yu",
+              "name": "ユー",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_C",
+      "key": "bd_C",
+      "name": "巫術の結晶",
+      "producers": [],
+      "converters": [
+        {
+          "buffId": "manu_bd_to_bd[000]",
+          "buffName": "古の巫術",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、5の俗世之憂が1の巫術の結晶に転化される",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4078_bdhkgt",
+              "name": "ジエユン",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "consumers": [
+        {
+          "buffId": "manu_prod_spd_bd[200]",
+          "buffName": "浮き草",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、巫術の結晶1につき、製造効率+1%",
+          "targets": [
+            "F_GOLD",
+            "F_EXP",
+            "F_DIAMOND"
+          ],
+          "operators": [
+            {
+              "id": "char_4078_bdhkgt",
+              "name": "ジエユン",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "manu_prod_spd_bd[201]",
+          "buffName": "枯栄花",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、巫術の結晶1につき、製造効率+2%",
+          "targets": [
+            "F_GOLD",
+            "F_EXP",
+            "F_DIAMOND"
+          ],
+          "operators": [
+            {
+              "id": "char_4078_bdhkgt",
+              "name": "ジエユン",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_dungeon",
+      "key": "bd_dungeon",
+      "name": "魔物料理",
+      "producers": [
+        {
+          "buffId": "dorm_rec_bd_dungeon[000]",
+          "buffName": "センシの大食堂",
+          "roomType": "DORMITORY",
+          "description": "宿舎配置時、配置宿舎のレベル1につき、魔物料理+1",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4143_sensi",
+              "name": "センシ",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "converters": [],
+      "consumers": [
+        {
+          "buffId": "manu_prod_spd_bd[400]",
+          "buffName": "意外に美味しい",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、魔物料理1つにつき製造効率+1%",
+          "targets": [
+            "F_GOLD",
+            "F_EXP",
+            "F_DIAMOND"
+          ],
+          "operators": [
+            {
+              "id": "char_4141_marcil",
+              "name": "マルシル",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "trade_ord_spd_bd[100]",
+          "buffName": "馴染み深い香り",
+          "roomType": "TRADING",
+          "description": "貿易所配置時、魔物料理1つにつき受注効率+1%",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4144_chilc",
+              "name": "チルチャック",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "meet_spd_bd[001]",
+          "buffName": "満腹時の意気込み",
+          "roomType": "MEETING",
+          "description": "応接室配置時、魔物料理1つにつき手がかり捜索速度+2%",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4142_laios",
+              "name": "ライオス",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_felyne",
+      "key": "bd_felyne",
+      "name": "マタタビ",
+      "producers": [
+        {
+          "buffId": "control_mp_cost&bd2[010]",
+          "buffName": "スタミナ回復",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、自身の1時間ごとの体力消費量+0.5、マタタビ+8",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_1029_yato2",
+              "name": "キリンRヤトウ",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "control_mp_bd2[000]",
+          "buffName": "チームワーク",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、制御中枢内のアイルーと愉快な仲間たち所属オペレーター1人につき、マタタビ+2",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_1030_noirc2",
+              "name": "レウスSノイルホーン",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "manu_prod_spd&limit&bd[000]",
+          "buffName": "頼もしきオトモたち",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、保管上限+8、製造効率+5%、マタタビ1個につき、製造効率+1%",
+          "targets": [
+            "F_GOLD",
+            "F_EXP",
+            "F_DIAMOND"
+          ],
+          "operators": [
+            {
+              "id": "char_4077_palico",
+              "name": "テラ大陸調査団",
+              "condition": {
+                "level": 30
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "trade_ord_spd&limit&bd[000]",
+          "buffName": "愛らしきアイルー",
+          "roomType": "TRADING",
+          "description": "貿易所配置時、受注効率+5%、注文上限+2、マタタビ1個につき、受注効率+3%",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4077_palico",
+              "name": "テラ大陸調査団",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "converters": [],
+      "consumers": [],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_mujica",
+      "key": "bd_mujica",
+      "name": "パッション",
+      "producers": [
+        {
+          "buffId": "control_prod_bd_spd[000]",
+          "buffName": "豊富な職務経験",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、金属を製造する製造所の製造効率+0.5%、パッション20につき、製造効率が追加で+0.5%",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4182_oblvns",
+              "name": "豊川祥子",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "control_prod_bd_spd[010]",
+          "buffName": "豊富な職務経験",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、金属を製造する製造所の製造効率+1%、パッション20につき、製造効率が追加で+1%",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4182_oblvns",
+              "name": "豊川祥子",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "control_mp_bd&trade[000]",
+          "buffName": "演技力のバケモノ",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、パッション+20。パッション8につき、1時間ごとの体力消費量+0.01、全貿易所の受注効率+1%（同種の効果は高いほうのみ適用）",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4183_mortis",
+              "name": "若葉睦",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "control_meeting_spd&bd[000]",
+          "buffName": "努力家",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、パッション+10。応接室の手がかり捜索速度+5%（同種の効果は高いほうのみ適用）",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4185_amoris",
+              "name": "祐天寺にゃむ",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "control_dorm_bd[000]",
+          "buffName": "アイドルのオーラ",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、宿舎にいるオペレーター1人につきパッション+1",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4184_dolris",
+              "name": "三角初華",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "control_hire_spd&bd[000]",
+          "buffName": "頼れる仲間",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、パッション+10。事務連絡速度+10%（同種の効果は高いほうのみ適用）",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_4186_tmoris",
+              "name": "八幡海鈴",
+              "condition": {
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "converters": [],
+      "consumers": [],
+      "related": []
+    },
+    {
+      "tag": "$cc.bd_tachanka",
+      "key": "bd_tachanka",
+      "name": "ウルサスドリンク",
+      "producers": [
+        {
+          "buffId": "control_mp_bd[010]",
+          "buffName": "ウルサスドリンク",
+          "roomType": "CONTROL",
+          "description": "制御中枢配置時、制御中枢内のウルサス学生自治団所属オペレーター1人につき、ウルサスドリンク+1本",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_459_tachak",
+              "name": "Tachanka",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "hire_spd_blitz[000]",
+          "buffName": "言語学",
+          "roomType": "HIRE",
+          "description": "事務室配置時、事務連絡速度+20%、情報備蓄1につき追加で事務連絡速度+5%、ウルサスドリンク1本につき追加で事務連絡速度+5%",
+          "targets": [],
+          "operators": [
+            {
+              "id": "char_457_blitz",
+              "name": "Blitz",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "converters": [],
+      "consumers": [
+        {
+          "buffId": "manu_prod_bd[000]",
+          "buffName": "寡黙な仕事人",
+          "roomType": "MANUFACTURE",
+          "description": "製造所配置時、製造効率+20%。ウルサスドリンク1本につき、保管上限+2",
+          "targets": [
+            "F_GOLD",
+            "F_EXP",
+            "F_DIAMOND"
+          ],
+          "operators": [
+            {
+              "id": "char_4126_fuze",
+              "name": "Fuze",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        },
+        {
+          "buffId": "workshop_formula_frost[000]",
+          "buffName": "機械工学",
+          "roomType": "WORKSHOP",
+          "description": "加工所で任意の素材を加工時、副産物の入手確率50%、情報備蓄1につき追加で入手確率5%、さらにウルサスドリンクが4本以上の場合、追加で入手確率15%",
+          "targets": [
+            "F_BUILDING",
+            "F_EVOLVE",
+            "F_SKILL",
+            "F_ASC"
+          ],
+          "operators": [
+            {
+              "id": "char_458_rfrost",
+              "name": "Frost",
+              "condition": {
+                "phase": "PHASE_2",
+                "level": 1
+              }
+            }
+          ]
+        }
+      ],
+      "related": []
+    }
+  ],
+  "conversions": [
+    {
+      "buffId": "dorm_rec_bd_n1[000]",
+      "buffName": "夢物語",
+      "roomType": "DORMITORY",
+      "from": {
+        "tag": "$cc.bd_a1_a2",
+        "name": "夢"
+      },
+      "to": {
+        "tag": "$cc.bd_a1",
+        "name": "知覚情報"
+      },
+      "description": "宿舎配置時、1の夢が1の知覚情報に転化される",
+      "operators": [
+        {
+          "id": "char_338_iris",
+          "name": "アイリス",
+          "condition": {
+            "phase": "PHASE_2",
+            "level": 1
+          }
+        }
+      ]
+    },
+    {
+      "buffId": "dorm_rec_bd_n1[100]",
+      "buffName": "インプロヴィゼーション",
+      "roomType": "DORMITORY",
+      "from": {
+        "tag": "$cc.bd_a1_a3",
+        "name": "小節"
+      },
+      "to": {
+        "tag": "$cc.bd_a1",
+        "name": "知覚情報"
+      },
+      "description": "宿舎配置時、1の小節が1の知覚情報に転化される",
+      "operators": [
+        {
+          "id": "char_4047_pianst",
+          "name": "ツェルニー",
+          "condition": {
+            "phase": "PHASE_2",
+            "level": 1
+          }
+        }
+      ]
+    },
+    {
+      "buffId": "hire_spd_bd_n1[000]",
+      "buffName": "追憶",
+      "roomType": "HIRE",
+      "from": {
+        "tag": "$cc.bd_a1_a1",
+        "name": "記憶の欠片"
+      },
+      "to": {
+        "tag": "$cc.bd_a1",
+        "name": "知覚情報"
+      },
+      "description": "事務室配置時、1の記憶の欠片が1の知覚情報に転化される。体力が０になる時、記憶の欠片と自身が獲得した知覚情報も０になる",
+      "operators": [
+        {
+          "id": "char_436_whispr",
+          "name": "ウィスパーレイン",
+          "condition": {
+            "phase": "PHASE_2",
+            "level": 1
+          }
+        }
+      ]
+    },
+    {
+      "buffId": "manu_bd_to_bd[000]",
+      "buffName": "古の巫術",
+      "roomType": "MANUFACTURE",
+      "from": {
+        "tag": "$cc.bd_b1",
+        "name": "俗世之憂"
+      },
+      "to": {
+        "tag": "$cc.bd_C",
+        "name": "巫術の結晶"
+      },
+      "description": "製造所配置時、5の俗世之憂が1の巫術の結晶に転化される",
+      "operators": [
+        {
+          "id": "char_4078_bdhkgt",
+          "name": "ジエユン",
+          "condition": {
+            "level": 1
+          }
+        }
+      ]
+    },
+    {
+      "buffId": "manu_prod_spd_bd_n1[000]",
+      "buffName": "超感覚",
+      "roomType": "MANUFACTURE",
+      "from": {
+        "tag": "$cc.bd_a1",
+        "name": "知覚情報"
+      },
+      "to": {
+        "tag": "$cc.bd_A",
+        "name": "思念連鎖"
+      },
+      "description": "製造所配置時、宿舎中のオペレーター1人につき、知覚情報+1。1の知覚情報が1の思念連鎖に転化される",
+      "operators": [
+        {
+          "id": "char_391_rosmon",
+          "name": "ロスモンティス",
+          "condition": {
+            "level": 1
+          }
+        }
+      ]
+    },
+    {
+      "buffId": "trade_ord_spd_bd_n1[000]",
+      "buffName": "音感",
+      "roomType": "TRADING",
+      "from": {
+        "tag": "$cc.bd_a1",
+        "name": "知覚情報"
+      },
+      "to": {
+        "tag": "$cc.bd_B",
+        "name": "静かなる共鳴"
+      },
+      "description": "製造所配置時、宿舎中のオペレーター1人につき、知覚情報+1。1の知覚情報が1の静かなる共鳴に転化される",
+      "operators": [
+        {
+          "id": "char_4046_ebnhlz",
+          "name": "エーベンホルツ",
+          "condition": {
+            "level": 1
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Base Simulator - Operation Board</title>
+    <link rel="stylesheet" href="./base-sim.css" />
+  </head>
+  <body>
+    <main class="base-shell">
+      <header class="base-header">
+        <div>
+          <p class="eyebrow">Rhodes Island Infrastructure Lab</p>
+          <h1>基地効率シミュレーター</h1>
+        </div>
+        <a class="back-link" href="./index.html">Operation Board</a>
+      </header>
+
+      <section class="control-band" aria-label="基地設定">
+        <label>
+          <span>基地構成</span>
+          <select id="layoutPreset">
+            <option value="243">243</option>
+            <option value="252">252</option>
+            <option value="153">153</option>
+            <option value="custom">カスタム</option>
+          </select>
+        </label>
+        <label>
+          <span>目的</span>
+          <select id="objective">
+            <option value="lmd">龍門幣最大</option>
+            <option value="exp">作戦記録最大</option>
+            <option value="balance">バランス</option>
+          </select>
+        </label>
+        <label>
+          <span>シフト</span>
+          <select id="shiftMode">
+            <option value="single">1班制</option>
+            <option value="two-shift">2班制</option>
+          </select>
+        </label>
+        <label>
+          <span>製造所</span>
+          <input id="manufactureCount" type="number" min="0" max="5" value="4" />
+        </label>
+        <label>
+          <span>貿易所</span>
+          <input id="tradingCount" type="number" min="0" max="5" value="2" />
+        </label>
+        <label>
+          <span>発電所</span>
+          <input id="powerCount" type="number" min="0" max="3" value="3" />
+        </label>
+        <label>
+          <span>応接室Lv</span>
+          <input id="meetingRoomLevel" type="number" min="0" max="3" value="3" />
+        </label>
+        <label>
+          <span>宿舎人数</span>
+          <input id="dormOperators" type="number" min="0" max="20" value="20" />
+        </label>
+        <label>
+          <span>回収間隔h</span>
+          <input id="collectionInterval" type="number" min="1" max="72" value="24" />
+        </label>
+      </section>
+
+      <section class="support-band" aria-label="支援施設配置">
+        <div class="section-head compact support-head">
+          <div>
+            <p class="eyebrow">Support Facilities</p>
+            <h2>支援施設配置</h2>
+          </div>
+        </div>
+        <div id="supportAssignments" class="support-assignments"></div>
+      </section>
+
+      <section class="result-grid">
+        <section class="result-main" aria-label="シミュレーション結果">
+          <div class="summary-row">
+            <article>
+              <span>貿易所 龍門幣/日</span>
+              <strong id="tradingLmd">0</strong>
+            </article>
+            <article>
+              <span>純金換算 龍門幣/日</span>
+              <strong id="goldEquivalentLmd">0</strong>
+            </article>
+            <article>
+              <span>作戦記録価値/日</span>
+              <strong id="expValue">0</strong>
+            </article>
+            <article>
+              <span>総合価値/日</span>
+              <strong id="totalValue">0</strong>
+            </article>
+          </div>
+
+          <div class="intermediate-strip" id="intermediateResults" aria-label="中間パラメータ"></div>
+
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Optimal Assignment</p>
+              <h2>最適案</h2>
+            </div>
+            <button id="runSimulation" type="button">再計算</button>
+          </div>
+          <div id="facilityResults" class="facility-results"></div>
+
+          <div class="section-head compact">
+            <div>
+              <p class="eyebrow">Timeline</p>
+              <h2>時系列</h2>
+            </div>
+          </div>
+          <div id="timelineResults" class="timeline-results"></div>
+
+          <div class="section-head compact">
+            <div>
+              <p class="eyebrow">Alternatives</p>
+              <h2>次点案</h2>
+            </div>
+          </div>
+          <div id="alternativeResults" class="alternative-results"></div>
+
+          <div class="section-head compact">
+            <div>
+              <p class="eyebrow">Approximation Log</p>
+              <h2>未対応/近似扱いスキル</h2>
+            </div>
+          </div>
+          <div id="warningResults" class="warning-results"></div>
+        </section>
+
+        <aside class="roster-panel" aria-label="手持ち管理">
+          <div class="section-head compact">
+            <div>
+              <p class="eyebrow">Roster</p>
+              <h2>手持ち</h2>
+            </div>
+            <button id="resetRoster" type="button">初期化</button>
+          </div>
+          <input id="operatorSearch" class="operator-search" type="search" placeholder="オペレーター名で検索" />
+          <div class="roster-summary" id="rosterSummary"></div>
+          <div id="operatorRoster" class="operator-roster"></div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="./base-sim-catalog.js"></script>
+    <script type="module" src="./base-sim.js"></script>
+  </body>
+</html>

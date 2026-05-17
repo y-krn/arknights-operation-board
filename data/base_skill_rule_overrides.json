@@ -1,0 +1,110 @@
+{
+  "manu_prod_spd&power[000]": {
+    "type": "powerPlantManufacture",
+    "percentPerPowerPlant": 5,
+    "products": [
+      "GOLD",
+      "EXP"
+    ],
+    "approximate": false,
+    "note": "自動化系。配置先の製造所では自身以外の製造効率を0として扱う。",
+    "suppressesOtherOperators": true
+  },
+  "manu_prod_spd&power[010]": {
+    "type": "powerPlantManufacture",
+    "percentPerPowerPlant": 10,
+    "products": [
+      "GOLD",
+      "EXP"
+    ],
+    "approximate": false,
+    "note": "自動化系。配置先の製造所では自身以外の製造効率を0として扱う。",
+    "suppressesOtherOperators": true
+  },
+  "manu_prod_spd&power[020]": {
+    "type": "powerPlantManufacture",
+    "percentPerPowerPlant": 15,
+    "products": [
+      "GOLD",
+      "EXP"
+    ],
+    "approximate": false,
+    "note": "自動化系。配置先の製造所では自身以外の製造効率を0として扱う。",
+    "suppressesOtherOperators": true
+  },
+  "manu_prod_spd_bd[000]": {
+    "type": "rosmontisManufacture",
+    "percentPerThoughtChain": 0.5,
+    "requiresSkill": "manu_prod_spd_bd_n1[000]",
+    "products": [
+      "GOLD",
+      "EXP"
+    ],
+    "approximate": true,
+    "note": "宿舎人数から思念連鎖を近似計算する。"
+  },
+  "manu_prod_spd_bd[010]": {
+    "type": "rosmontisManufacture",
+    "percentPerThoughtChain": 1,
+    "requiresSkill": "manu_prod_spd_bd_n1[000]",
+    "products": [
+      "GOLD",
+      "EXP"
+    ],
+    "approximate": true,
+    "note": "宿舎人数から思念連鎖を近似計算する。"
+  },
+  "trade_ord_spd_bd[000]": {
+    "type": "ebenholzTrading",
+    "percentPerSilentResonance": 0.25,
+    "requiresSkill": "trade_ord_spd_bd_n1[000]",
+    "approximate": true,
+    "note": "宿舎人数から静かなる共鳴を近似計算する。"
+  },
+  "trade_ord_spd_bd[010]": {
+    "type": "ebenholzTrading",
+    "percentPerSilentResonance": 0.5,
+    "requiresSkill": "trade_ord_spd_bd_n1[000]",
+    "approximate": true,
+    "note": "宿舎人数から静かなる共鳴を近似計算する。"
+  },
+  "trade_ord_par&per[000]": {
+    "type": "tradingSpeedPerNamedOperatorInWorkFacility",
+    "valuePerOperator": 5,
+    "operatorNames": [
+      "イネス"
+    ],
+    "roomScope": "workFacility",
+    "approximate": false,
+    "note": "イネスが作業施設に配置されている場合の追加受注効率。MVPでは所持済みなら作業施設支援として配置可能とみなす。"
+  },
+  "trade_ord_par&per[001]": {
+    "type": "tradingSpeedPerNamedOperatorInWorkFacility",
+    "valuePerOperator": 5,
+    "operatorNames": [
+      "イネス",
+      "W"
+    ],
+    "roomScope": "workFacility",
+    "approximate": false,
+    "note": "イネス/Wが作業施設に配置されている場合の追加受注効率。MVPでは所持済みなら作業施設支援として配置可能とみなす。"
+  },
+  "trade_ord_spd&meet[000]": {
+    "type": "tradingSpeedPerRoomLevel",
+    "roomType": "MEETING",
+    "baseValue": 25,
+    "valuePerLevel": 5,
+    "maxValue": 40,
+    "approximate": false,
+    "note": "応接室レベルごとの受注効率上昇。"
+  },
+  "trade_ord_spd&meet[010]": {
+    "type": "tradingSpeedPerRoomLevel",
+    "roomType": "MEETING",
+    "baseValue": 15,
+    "valuePerLevel": 5,
+    "maxValue": 30,
+    "approximate": false,
+    "note": "応接室レベルごとの受注効率上昇。"
+  }
+}

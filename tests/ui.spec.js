@@ -8,6 +8,8 @@ const adminPath = path.resolve(__dirname, "../api/admin.view.html");
 const localUrl = `file://${pagePath}?store=local`;
 const adminMockUrl = `file://${adminPath}?mock=1`;
 
+const baseSimUrl = "http://127.0.0.1:4173/base-sim.html";
+
 test("event squad board renders and filters squads", async ({ page }) => {
   await page.goto(localUrl);
 
@@ -243,4 +245,135 @@ test("admin screen generates delete sql for selected squads", async ({ page }) =
   await page.getByLabel("管理画面テスト投稿 を選択").check();
   await expect(page.getByLabel("削除SQL")).toHaveValue(/delete from public\.squads/);
   await expect(page.getByLabel("削除SQL")).toHaveValue(/00000000-0000-4000-8000-000000000001/);
+});
+
+
+test("base simulator renders and switches layouts/objectives", async ({ page }) => {
+  await page.goto(baseSimUrl);
+
+  await expect(page.getByRole("heading", { name: "基地効率シミュレーター" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "最適案" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "シフト" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "時系列" })).toBeVisible();
+  await expect(page.locator("#shiftResults")).toHaveCount(0);
+  await expect(page.locator("#facilityResults")).toContainText("第1班");
+  await expect(page.locator("#timelineResults .timeline-hour")).toHaveCount(24);
+  await expect(page.locator("#timelineResults .timeline-chart")).toBeVisible();
+  await expect(page.locator("#timelineResults .chart-line.total")).toHaveCount(1);
+  await expect(page.locator("#timelineResults .chart-line.cumulative.totalValue")).toHaveCount(1);
+  await expect(page.locator("#timelineResults .chart-line.morale")).toHaveCount(1);
+  await page.getByLabel("累積生産").uncheck();
+  await expect(page.locator("#timelineResults .chart-line.cumulative")).toHaveCount(0);
+  await page.getByLabel("累積生産").check();
+  await page.getByLabel("体力", { exact: true }).uncheck();
+  await expect(page.locator("#timelineResults .chart-line.morale")).toHaveCount(0);
+  await expect(page.locator("#timelineResults .chart-line.operator")).toHaveCount(0);
+  await page.getByLabel("体力", { exact: true }).check();
+  await page.locator("#timelineResults .timeline-series-toggle", { hasText: "中間パラメータ" }).locator("input").uncheck();
+  await expect(page.locator("#timelineResults .chart-line.parameter")).toHaveCount(0);
+  await page.locator("#timelineResults .timeline-series-toggle", { hasText: "中間パラメータ" }).locator("input").check();
+  await expect(page.locator("#timelineResults .timeline-cumulative-summary")).toContainText("総合価値");
+  await expect(page.locator("#timelineResults .timeline-legend")).toContainText("累積龍門幣");
+  await expect(page.locator("#timelineResults")).toContainText("中間パラメータ");
+  await expect(page.locator("#timelineResults")).toContainText("体力");
+  await expect(page.locator("#facilityResults")).toContainText("0:00-24:00 / 24時間");
+  await expect(page.locator("#facilityResults")).toContainText("制御中枢");
+  await expect(page.locator("#facilityResults")).toContainText(/体力 -?\d/);
+  await expect(page.locator("#facilityResults")).toContainText(/勤務可能|体力不足|回復不足/);
+  await expect(page.getByText("貿易所 龍門幣/日")).toBeVisible();
+  await expect(page.getByText("純金換算 龍門幣/日")).toBeVisible();
+  await expect(page.getByText("総合価値/日")).toBeVisible();
+  await expect(page.locator("#intermediateResults")).toContainText("中間パラメータ");
+  await expect(page.locator("#intermediateResults")).toContainText("俗世之憂");
+  await expect(page.locator("#intermediateResults")).toContainText("知覚情報");
+  await expect(page.locator("#intermediateResults")).toContainText("思念連鎖");
+  await expect(page.locator("#intermediateResults")).toContainText("静かなる共鳴");
+  await expect(page.locator("#intermediateResults")).toContainText("パッション");
+  await expect(page.getByLabel("シフト")).toHaveValue("single");
+  await expect(page.getByLabel("応接室Lv")).toHaveValue("3");
+  await expect(page.getByLabel("回収間隔h")).toHaveValue("24");
+  await expect(page.locator("#facilityResults .facility-card")).toHaveCount(7);
+  await expect(page.locator("#facilityResults")).toContainText(/保管上限|注文上限/);
+
+  await page.getByLabel("基地構成").selectOption("252");
+  await expect(page.getByLabel("製造所")).toHaveValue("5");
+  await expect(page.getByLabel("貿易所")).toHaveValue("2");
+  await expect(page.locator("#facilityResults .facility-card")).toHaveCount(8);
+
+  await expect(page.locator("#facilityResults .facility-card").last().getByRole("heading", { name: "制御中枢" })).toBeVisible();
+  const firstProduct = page.locator("#facilityResults .facility-card").first();
+  await page.getByLabel("シフト").selectOption("two-shift");
+  await expect(page.locator("#facilityResults").getByRole("tab", { name: "第1班" })).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator("#facilityResults").getByRole("tab", { name: "第2班" })).toBeVisible();
+  await page.locator("#facilityResults").getByRole("tab", { name: "第2班" }).click();
+  await expect(page.locator("#facilityResults").getByRole("tab", { name: "第2班" })).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator("#facilityResults")).toContainText("12:00-24:00 / 12時間");
+  await expect(page.locator("#facilityResults .facility-card")).toHaveCount(8);
+  await expect(page.locator("#facilityResults .facility-card").locator(".shift-operator").first()).toContainText(/昇進|未昇進/);
+  await page.locator("#facilityResults .facility-card").locator(".shift-operator summary").first().click();
+  await expect(page.locator("#facilityResults .facility-card").locator(".skill-description").first()).toContainText(/製造所|貿易所|制御中枢/);
+
+  await page.getByLabel("目的").selectOption("exp");
+  await expect(firstProduct).toContainText("作戦記録");
+  await expect(page.locator("#warningResults")).toContainText(/未対応|スキル/);
+});
+
+test("base simulator saves roster ownership and promotion", async ({ page }) => {
+  await page.goto(baseSimUrl);
+
+  await page.getByPlaceholder("オペレーター名で検索").fill("エクシア");
+  const row = page.locator(".roster-row", { hasText: "エクシア" }).first();
+  await row.locator(".owned-toggle").uncheck();
+  await row.locator(".phase-select").selectOption("PHASE_1");
+
+  await page.reload();
+  await page.getByPlaceholder("オペレーター名で検索").fill("エクシア");
+  const reloaded = page.locator(".roster-row", { hasText: "エクシア" }).first();
+  await expect(reloaded.locator(".owned-toggle")).not.toBeChecked();
+  await expect(reloaded.locator(".phase-select")).toHaveValue("PHASE_1");
+});
+
+
+test("base simulator omits non-efficiency support facility assignments", async ({ page }) => {
+  await page.goto(baseSimUrl);
+
+  await expect(page.getByLabel("事務室 1")).toHaveCount(0);
+  await expect(page.getByLabel("応接室 1")).toHaveCount(0);
+  await expect(page.getByLabel("訓練室 1")).toHaveCount(0);
+  await expect(page.getByLabel("発電所 1")).toBeVisible();
+});
+
+
+test("base simulator shows unlock conditions for assigned base skills", async ({ page }) => {
+  await page.goto(baseSimUrl);
+
+  const firstAssigned = page.locator("#facilityResults .operator-pill").first();
+  await expect(firstAssigned.locator(".operator-title em")).toContainText(/昇進|未昇進/);
+  await expect(firstAssigned.locator(".morale-line")).toContainText(/体力 -?\d/);
+  await firstAssigned.locator("summary").click();
+  await expect(firstAssigned.locator(".skill-description").first()).not.toContainText("必要条件:");
+});
+
+
+test("base simulator summary metrics change by objective", async ({ page }) => {
+  await page.goto(baseSimUrl);
+
+  const goldEquivalent = page.locator("#goldEquivalentLmd");
+  const expValue = page.locator("#expValue");
+  await expect(goldEquivalent).not.toHaveText("0");
+
+  await page.getByLabel("目的").selectOption("exp");
+  await expect(goldEquivalent).toHaveText("0");
+  await expect(expValue).not.toHaveText("0");
+});
+
+
+test("base simulator renders control center as an optimized facility", async ({ page }) => {
+  await page.goto(baseSimUrl);
+
+  const control = page.locator("#facilityResults .facility-card").last();
+  await expect(control).toContainText("制御中枢");
+  await expect(control.locator(".operator-pill").first()).toContainText("支援");
+  await expect(control.locator(".operator-pill").first()).toContainText("今回の寄与");
+  await expect(page.getByLabel("制御中枢 1")).toHaveCount(0);
 });
