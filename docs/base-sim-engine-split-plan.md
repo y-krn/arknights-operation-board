@@ -428,6 +428,7 @@ missing coverage.
 ### Goals
 
 - Keep `base-sim.html` as the page entrypoint and keep the current UI behavior unchanged during the split.
+- Keep `base-sim.html` loading `<script type="module" src="./base-sim.js">`; root `base-sim.js` remains the stable shim for the page.
 - Separate state, rendering, event binding, and formatting so feature work does not keep expanding one file.
 - Keep all engine interaction behind a small adapter so UI modules do not know the full `simulateBase()` response shape.
 - Make each render function testable with small DOM fixtures where practical.
@@ -466,29 +467,76 @@ import { initBaseSimPage } from "./base-sim-ui/index.js";
 initBaseSimPage();
 ```
 
+### Step 0 Safety Net
+
+Do this before moving UI code:
+
+- Commit or otherwise checkpoint the current state so each migration step is diffable and easy to revert.
+- Treat `tests/ui.spec.js` as the UI golden net. It currently covers the event board plus the base simulator flows, including layout/objective switching, roster persistence, support facility omission, unlock condition display, summary metric changes, and control center rendering.
+- Extend `scripts/check-js.js` so syntax checks recurse through `base-sim-ui/**/*.js` once that directory exists. This must happen before adding the first UI module.
+- Run `npm run check` and `npm run test:browser` before the first move and after every step below.
+
 ### Module Ownership
 
 #### `base-sim-ui/index.js`
 
 Page bootstrap and orchestration:
 
-- load catalog
-- initialize state
+- install the page-level error handler
+- read `window.BASE_SIM_CATALOG`
+- call `queryElements()`
+- initialize state from `storage.js`
 - bind events
-- run first simulation
-- coordinate `renderAll()`
+- run the first simulation
+- own the shared rerender functions
 
 This module may call every UI module, but other modules should not import from it.
 
+Rerender ownership should match the current behavior:
+
+- `runSimulation()` remains the full rerender path: build engine input, call `simulateBase()`, write optimized support assignments back, then render summary/intermediate/facilities/timeline/alternatives/warnings.
+- Partial rerenders remain explicit: roster search updates only roster output; support room count changes may update support assignment UI before the next full simulation.
+
 #### `state.js`
 
-In-memory page state:
+In-memory page state and mutation helpers. The state contract must be explicit because current `base-sim.js` relies on module-level closures.
+
+Initial state shape:
+
+```js
+{
+  catalog,
+  roster,
+  settings: {
+    layoutPreset,
+    objective,
+    shiftMode,
+    manufactureCount,
+    tradingCount,
+    powerCount,
+    meetingRoomLevel,
+    dormOperators,
+    dormitoryLevel,
+    collectionIntervalHours,
+    supportAssignments,
+    timelineSeries,
+  },
+  activeShiftId,
+  rosterSearch,
+  lastResult,
+}
+```
+
+Responsibilities:
 
 - selected layout/objective
 - custom facility levels/products
-- roster filters
+- roster ownership and promotion state
+- roster filter/search state
+- active shift tab state
 - chart display toggles
 - collection interval and support room settings
+- helpers such as `currentLayout()`, `applyLayoutPreset()`, `sanitizeUiSettings()`, `clampNumber()`, and `normalizeShiftMode()`
 
 State mutation should go through named update helpers instead of ad hoc object edits.
 
@@ -496,8 +544,9 @@ State mutation should go through named update helpers instead of ad hoc object e
 
 `localStorage` boundary:
 
-- roster ownership/promotion persistence
-- UI preference persistence
+- roster persistence under `operation-board:base-sim-roster:v1`
+- settings persistence under `operation-board:base-sim-settings:v1`
+- UI preference persistence inside settings, including timeline series visibility
 - migration/defaulting for older saved shapes
 
 No render functions should call `localStorage` directly.
@@ -509,20 +558,22 @@ Engine input/output boundary:
 - build `simulateBase()` inputs from UI state
 - normalize the result into view models
 - expose stable view-model fields for render modules
+- apply result-to-state writeback, especially optimized support assignments from the engine result into `settings.supportAssignments`, followed by persistence through `storage.js`
 
 This is the compatibility layer when `simulateBase()` evolves.
 
 #### `dom.js`
 
-Small DOM helpers:
+DOM boundary and small DOM helpers:
 
+- `queryElements(document)` owns the concrete selector map currently built at module load time in `base-sim.js`
 - selectors
 - element creation
 - class toggles
 - safe text assignment
 - reusable segmented-control helpers
 
-Keep this generic; no base-skill business logic here.
+Keep generic helpers free of base-skill business logic. The concrete `elements` map is page-specific but belongs here so render/event modules receive it through explicit injection.
 
 #### `formatters.js`
 
@@ -546,7 +597,13 @@ No DOM writes and no engine calls.
 - `render/warnings.js`: unsupported/approximation warnings.
 - `render/alternatives.js`: next-best candidates.
 
-Render modules should receive view models and return/update DOM. They should not read raw global state.
+Render modules should receive view models and target elements. They should not read raw global state, `localStorage`, or `document.querySelector()` directly.
+
+Concrete boundary fixes during migration:
+
+- `render/roster.js` receives a pre-filtered roster view model and the current search text; it must not read `elements.operatorSearch.value` mid-render.
+- Timeline rendering receives the already-normalized series visibility from state.
+- Facility rendering receives active shift state as a parameter instead of reading/writing a module-level `activeShiftId`.
 
 ### Event Modules
 
@@ -555,18 +612,19 @@ Render modules should receive view models and return/update DOM. They should not
 - `events/layout-events.js`: custom facility/product edits.
 - `events/timeline-events.js`: chart series visibility and timeline focus.
 
-Event handlers should update state, persist through `storage.js` when needed, then call a shared rerender function.
+Event handlers should update state, persist through `storage.js` when needed, then call either the full rerender function or the relevant partial rerender function owned by `index.js`.
 
 ### Migration Order
 
+0. Add the safety net: update `scripts/check-js.js` for `base-sim-ui/**/*.js`, run current checks, and checkpoint the current state.
 1. Add `base-sim-ui/formatters.js` and move pure formatting helpers first.
-2. Add `base-sim-ui/dom.js` and move repeated DOM helpers.
+2. Add `base-sim-ui/dom.js`, including `queryElements()`, and move repeated DOM helpers.
 3. Add `state.js` and `storage.js`; keep behavior identical and preserve existing localStorage keys.
-4. Add `engine-adapter.js`; keep `base-sim.js` calling through it.
+4. Add `engine-adapter.js`; keep `base-sim.js` calling through it and include optimized support assignment writeback.
 5. Move independent render blocks in this order: summary, warnings, alternatives, timeline.
 6. Move facility/operator rendering after the smaller render modules are stable.
 7. Move roster and layout editor last because they have the most event/state coupling.
-8. Replace root `base-sim.js` with the thin bootstrap once all modules are moved.
+8. Replace root `base-sim.js` with the thin bootstrap once all modules are moved. Keep `base-sim.html` unchanged.
 
 ### Test Strategy
 
@@ -575,16 +633,20 @@ After each migration step:
 - `npm run check`
 - `npm run test:browser`
 
-Add focused browser assertions only when behavior is easy to regress:
+Golden UI coverage:
 
-- roster persistence still works
-- layout/objective switching still changes output
-- facility cards still show shift 1/2, skill description, unlock condition, and capacity notes
-- timeline toggles still show/hide the expected lines
+- `tests/ui.spec.js` must stay green after every step.
+- Add focused browser assertions only when behavior is easy to regress:
+  - roster persistence still works
+  - layout/objective switching still changes output
+  - facility cards still show shift 1/2, skill description, unlock condition, and capacity notes
+  - timeline toggles still show/hide the expected lines
+  - optimized support assignments persist after simulation
 
 ### Non-Goals For The UI Split
 
 - Do not redesign the UI during the mechanical split.
 - Do not change optimizer behavior or engine output shape.
 - Do not rename existing localStorage keys unless a migration is included.
+- Do not change `base-sim.html` script loading; `base-sim.js` remains the stable page entrypoint.
 - Do not introduce a framework yet; this split should keep the current module-native browser setup.

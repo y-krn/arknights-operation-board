@@ -2632,6 +2632,78 @@ test("applies worldly worry trading and Ursus drink storage skills", () => {
   assert.equal(manufacture.unsupported.some((warning) => ["ウルサスドリンク", "寡黙な仕事人"].includes(warning.buffName)), false);
 });
 
+test("applies dungeon meal manufacture and trading intermediate skills", () => {
+  const dungeonCatalog = {
+    ...catalog,
+    operators: [
+      {
+        id: "marcille",
+        name: "マルシル",
+        rarityValue: 6,
+        baseSkills: [
+          {
+            buffId: "dungeon-meal-manufacture",
+            buffName: "意外に美味しい",
+            roomType: "MANUFACTURE",
+            condition: { phase: "PHASE_2", level: 1 },
+            supported: false,
+            description: "製造所配置時、魔物料理1つにつき製造効率+1%",
+            effects: [],
+          },
+        ],
+      },
+      {
+        id: "chilchuck",
+        name: "チルチャック",
+        rarityValue: 5,
+        baseSkills: [
+          {
+            buffId: "dungeon-meal-trading",
+            buffName: "馴染み深い香り",
+            roomType: "TRADING",
+            condition: { phase: "PHASE_2", level: 1 },
+            supported: false,
+            description: "貿易所配置時、魔物料理1つにつき受注効率+1%",
+            effects: [],
+          },
+        ],
+      },
+      {
+        id: "senshi",
+        name: "センシ",
+        rarityValue: 5,
+        baseSkills: [
+          {
+            buffId: "dungeon-meal-dormitory",
+            buffName: "センシの大食堂",
+            roomType: "DORMITORY",
+            condition: { phase: "PHASE_2", level: 1 },
+            supported: false,
+            description: "宿舎配置時、配置宿舎のレベル1につき、魔物料理+1",
+            effects: [],
+          },
+        ],
+      },
+    ],
+  };
+  const roster = createDefaultRoster(dungeonCatalog);
+
+  const result = simulateBase({
+    catalog: dungeonCatalog,
+    roster,
+    baseLayout: { manufacture: 1, trading: 1, power: 3 },
+    objective: "balanced",
+    settings: { dormitoryLevel: 4 },
+  });
+
+  assert.equal(result.context.intermediateParameters.dungeonMeal, 4);
+  assert.equal(result.facilities.find((facility) => facility.type === "MANUFACTURE").selected[0].operator.name, "マルシル");
+  assert.equal(result.facilities.find((facility) => facility.type === "MANUFACTURE").selected[0].score, 4);
+  assert.equal(result.facilities.find((facility) => facility.type === "TRADING").selected[0].operator.name, "チルチャック");
+  assert.equal(result.facilities.find((facility) => facility.type === "TRADING").selected[0].score, 4);
+  assert.equal(result.unsupported.some((warning) => ["意外に美味しい", "馴染み深い香り", "センシの大食堂"].includes(warning.buffName)), false);
+});
+
 test("keeps representative simulateBase output stable for engine split", () => {
   const roster = createDefaultRoster(catalog);
   const result = simulateBase({
@@ -2730,17 +2802,17 @@ test("keeps real base catalog representative output stable", () => {
     })),
     timelinePoints: result.timeline.points.length,
   }, {
-    totals: { tradingLmdPerDay: 47132, goldEquivalentLmdPerDay: 38700, expValuePerDay: 30880, totalValuePerDay: 116712, lmdPerDay: 47132, expPerDay: 30880, goldUnitsPerDay: 77.4, score: 97362 },
-    dailyAverages: { tradingLmdPerDay: 45185, goldEquivalentLmdPerDay: 34135, expValuePerDay: 27375, totalValuePerDay: 106695.5, lmdPerDay: 45185, expPerDay: 27375, goldUnitsPerDay: 68.25, score: 89627.5 },
+    totals: { tradingLmdPerDay: 47732, goldEquivalentLmdPerDay: 38700, expValuePerDay: 30880, totalValuePerDay: 117312, lmdPerDay: 47732, expPerDay: 30880, goldUnitsPerDay: 77.4, score: 97962 },
+    dailyAverages: { tradingLmdPerDay: 45390.5, goldEquivalentLmdPerDay: 34236.5, expValuePerDay: 27375, totalValuePerDay: 107002, lmdPerDay: 45390.5, expPerDay: 27375, goldUnitsPerDay: 68.45, score: 89883.5 },
     facilityCount: 7,
     firstFacility: { type: "MANUFACTURE", product: "GOLD", speed: 105, selected: ["ウィーディ", "ユーネクテス", "スネグーラチカ"] },
     controlSelected: ["ヴィヴィアナ", "八幡海鈴", "ノーシス", "滌火ジェシカ", "デルフィーン"],
     unsupportedTop: [
-      { name: "意外に美味しい", category: "intermediate", operators: ["マルシル"] },
-      { name: "馴染み深い香り", category: "intermediate", operators: ["チルチャック"] },
       { name: "E.O.小隊", category: "tagCondition", operators: ["マントラ"] },
       { name: "オーバークロック", category: "tagCondition", operators: ["プリン"] },
       { name: "霞む視界", category: "tagCondition", operators: ["トター"] },
+      { name: "機械整備β", category: "tagCondition", operators: ["アランナ"] },
+      { name: "事業ドメイン", category: "tagCondition", operators: ["凛御シルバーアッシュ"] },
     ],
     timelinePoints: 24,
   });

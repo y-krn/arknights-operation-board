@@ -35,6 +35,7 @@ export function createEmptyIntermediateParameters() {
     ursusDrink: 0,
     infoReserve: 0,
     witchcraftCrystal: 0,
+    dungeonMeal: 0,
   };
 }
 
@@ -109,6 +110,9 @@ export function collectWorkDormIntermediateParameters(params, order, context, ow
       if (skill.roomType === "TRADING" && text.includes("宿舎にいるオペレーター1人につき、俗世之憂+1")) {
         addIntermediateValue(params, order, "worldlyWorry", context.dormOperators, skill, "dorm", operator);
       }
+      if (skill.roomType === "DORMITORY" && text.includes("宿舎配置時、配置宿舎のレベル1につき") && text.includes("魔物料理+1")) {
+        addIntermediateValue(params, order, "dungeonMeal", context.dormitoryLevel, skill, "dormitory-level", operator);
+      }
     }
   }
 }
@@ -141,6 +145,7 @@ export function finalizeIntermediateParameters(params) {
     ursusDrink: round(params.ursusDrink, 2),
     infoReserve: round(params.infoReserve, 2),
     witchcraftCrystal: round(params.witchcraftCrystal, 2),
+    dungeonMeal: round(params.dungeonMeal, 2),
   };
 }
 
@@ -185,6 +190,28 @@ export function evaluateIntermediateSkillEffect(skill, roomType, product, contex
       value,
       detail: "俗世之憂 " + round(worldlyWorry, 1),
       effectType: "tradingSpeedPerWorldlyWorry",
+      approximate: false,
+    };
+  }
+  if (roomType === "MANUFACTURE" && text.includes("魔物料理1つにつき製造効率+1%")) {
+    const dungeonMeal = Number(context.intermediateParameters?.dungeonMeal || 0);
+    const value = Math.floor(dungeonMeal);
+    if (value <= 0) return null;
+    return {
+      value,
+      detail: "魔物料理 " + round(dungeonMeal, 1),
+      effectType: "manufactureSpeedPerDungeonMeal",
+      approximate: false,
+    };
+  }
+  if (roomType === "TRADING" && text.includes("魔物料理1つにつき受注効率+1%")) {
+    const dungeonMeal = Number(context.intermediateParameters?.dungeonMeal || 0);
+    const value = Math.floor(dungeonMeal);
+    if (value <= 0) return null;
+    return {
+      value,
+      detail: "魔物料理 " + round(dungeonMeal, 1),
+      effectType: "tradingSpeedPerDungeonMeal",
       approximate: false,
     };
   }

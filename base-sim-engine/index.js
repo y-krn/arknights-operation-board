@@ -45,6 +45,7 @@ export function simulateBase({ catalog, roster, baseLayout, objective = "lmd", s
     context: {
       powerPlants: context.powerPlants,
       dormOperators: context.dormOperators,
+      dormitoryLevel: context.dormitoryLevel,
       meetingRoomLevel: context.meetingRoomLevel,
       globalSupportCount: context.globalEffects.length,
       supportAssignments: context.supportAssignments,

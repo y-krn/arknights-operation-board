@@ -15,7 +15,7 @@ const explicitFiles = [
   "scripts/generate-base-sim-data.js",
 ];
 
-const files = [...explicitFiles, ...collectJsFiles("base-sim-engine")]
+const files = [...explicitFiles, ...collectJsFiles("base-sim-engine"), ...collectJsFiles("base-sim-ui")]
   .filter((file, index, list) => fs.existsSync(file) && list.indexOf(file) === index);
 
 for (const file of files) {

@@ -1,0 +1,28 @@
+export function queryElements() {
+  return {
+    layoutPreset: document.querySelector("#layoutPreset"),
+    objective: document.querySelector("#objective"),
+    shiftMode: document.querySelector("#shiftMode"),
+    manufactureCount: document.querySelector("#manufactureCount"),
+    tradingCount: document.querySelector("#tradingCount"),
+    powerCount: document.querySelector("#powerCount"),
+    meetingRoomLevel: document.querySelector("#meetingRoomLevel"),
+    dormOperators: document.querySelector("#dormOperators"),
+    collectionInterval: document.querySelector("#collectionInterval"),
+    supportAssignments: document.querySelector("#supportAssignments"),
+    runSimulation: document.querySelector("#runSimulation"),
+    resetRoster: document.querySelector("#resetRoster"),
+    operatorSearch: document.querySelector("#operatorSearch"),
+    operatorRoster: document.querySelector("#operatorRoster"),
+    rosterSummary: document.querySelector("#rosterSummary"),
+    tradingLmd: document.querySelector("#tradingLmd"),
+    goldEquivalentLmd: document.querySelector("#goldEquivalentLmd"),
+    expValue: document.querySelector("#expValue"),
+    totalValue: document.querySelector("#totalValue"),
+    intermediateResults: document.querySelector("#intermediateResults"),
+    facilityResults: document.querySelector("#facilityResults"),
+    timelineResults: document.querySelector("#timelineResults"),
+    alternativeResults: document.querySelector("#alternativeResults"),
+    warningResults: document.querySelector("#warningResults"),
+  };
+}

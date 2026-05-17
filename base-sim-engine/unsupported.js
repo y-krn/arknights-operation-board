@@ -43,6 +43,8 @@ function isSkillSupportedByManualEvaluator(skill) {
   if (text.includes("5の俗世之憂が1の巫術の結晶に転化される")) return true;
   if (text.includes("巫術の結晶1につき") && text.includes("製造効率+")) return true;
   if (text.includes("ウルサスドリンク1本につき、保管上限+2")) return true;
+  if (text.includes("魔物料理1つにつき") && (text.includes("製造効率+1%") || text.includes("受注効率+1%"))) return true;
+  if (text.includes("宿舎配置時、配置宿舎のレベル1につき") && text.includes("魔物料理+1")) return true;
   if (text.includes("俗世之憂3につき") && text.includes("製造効率+1")) return true;
   if (text.includes("知覚情報") && (text.includes("思念連鎖") || text.includes("静かなる共鳴"))) return true;
   if (text.includes("パッション") && (text.includes("製造効率") || text.includes("受注効率") || text.includes("体力消費量"))) return true;
