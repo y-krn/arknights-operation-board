@@ -2577,6 +2577,51 @@ test("keeps representative simulateBase output stable for engine split", () => {
   });
 });
 
+test("keeps real base catalog representative output stable", () => {
+  const realCatalog = JSON.parse(fs.readFileSync(new URL("../data/base_sim_catalog.json", import.meta.url), "utf8"));
+  const roster = createDefaultRoster(realCatalog, { defaultOwned: true });
+  const result = simulateBase({
+    catalog: realCatalog,
+    roster,
+    baseLayout: { manufacture: 4, trading: 2, power: 3 },
+    objective: "balance",
+    settings: { shiftMode: "two-shift", collectionIntervalHours: 24, meetingRoomLevel: 3, dormOperators: 20 },
+  });
+
+  assert.deepEqual({
+    totals: result.totals,
+    dailyAverages: result.shiftPlan.dailyAverages,
+    facilityCount: result.facilities.length,
+    firstFacility: {
+      type: result.facilities[0].type,
+      product: result.facilities[0].product,
+      speed: result.facilities[0].speed,
+      selected: result.facilities[0].selected.map((candidate) => candidate.operator.name),
+    },
+    controlSelected: result.facilities.at(-1).selected.map((candidate) => candidate.operator.name),
+    unsupportedTop: result.unsupported.slice(0, 5).map((warning) => ({
+      name: warning.buffName,
+      category: warning.category,
+      operators: warning.operators.slice(0, 3),
+    })),
+    timelinePoints: result.timeline.points.length,
+  }, {
+    totals: { tradingLmdPerDay: 47132, goldEquivalentLmdPerDay: 38700, expValuePerDay: 30880, totalValuePerDay: 116712, lmdPerDay: 47132, expPerDay: 30880, goldUnitsPerDay: 77.4, score: 97362 },
+    dailyAverages: { tradingLmdPerDay: 45185, goldEquivalentLmdPerDay: 34135, expValuePerDay: 27375, totalValuePerDay: 106695.5, lmdPerDay: 45185, expPerDay: 27375, goldUnitsPerDay: 68.25, score: 89627.5 },
+    facilityCount: 7,
+    firstFacility: { type: "MANUFACTURE", product: "GOLD", speed: 105, selected: ["ウィーディ", "ユーネクテス", "スネグーラチカ"] },
+    controlSelected: ["ヴィヴィアナ", "八幡海鈴", "ノーシス", "滌火ジェシカ", "デルフィーン"],
+    unsupportedTop: [
+      { name: "赤松の騎士", category: "productFlow", operators: ["フレイムテイル"] },
+      { name: "「山河遠闊たり」", category: "intermediate", operators: ["リィン"] },
+      { name: "「和気生財」", category: "intermediate", operators: ["ウユウ"] },
+      { name: "アイドルのオーラ", category: "intermediate", operators: ["三角初華"] },
+      { name: "ウルサスドリンク", category: "intermediate", operators: ["Tachanka"] },
+    ],
+    timelinePoints: 24,
+  });
+});
+
 function projectSplitSnapshot(result) {
   return {
     totals: result.totals,

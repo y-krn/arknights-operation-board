@@ -19,10 +19,15 @@ base-sim-engine/
   context.js
   layout.js
   planning.js
+  room-selection.js
   scoring.js
+  totals.js
   effects/
     static-effects.js
     dynamic-effects.js
+    dynamic-capacity-effects.js
+    dynamic-order-effects.js
+    dynamic-tag-effects.js
     capacity-effects.js
     order-model-effects.js
     intermediate-effects.js
@@ -124,7 +129,7 @@ Initial contract:
 
 Mutation rules:
 
-- `planning.js` and `facilities/*` may add assigned operators through the
+- `planning.js`, `room-selection.js`, and `facilities/*` may add assigned operators through the
   assigned operator sets.
 - `effects/intermediate-effects.js` may replace `intermediateParameters` after
   each evaluation pass.
@@ -144,24 +149,35 @@ Layout helpers:
 
 ### `planning.js`
 
-Room planning orchestration:
+Small planning helpers:
 
-- `planManufacture()`
-- `planTrading()`
-- `calculateTotals()` (production aggregation; called by `simulateBase()` and second-shift)
+- `registerAssignedOperators()`
+
+The earlier room-planning responsibilities have been moved into domain modules.
+
+### `room-selection.js`
+
+Room candidate selection and room-state evaluation:
+
 - candidate selection
 - room candidate finalization
 - selection comparison
+- fullness/morale selection metric
 
-This module should call into `scoring.js`, `facilities/*`, and `effects/*` but should not contain skill-specific parsing.
+This module calls into `scoring.js`, `facilities/capacity.js`, and dynamic
+effect dispatch. It should not contain skill-specific parsing.
+
+### `totals.js`
+
+Production aggregation:
+
+- `calculateTotals()` (called by `simulateBase()` and second-shift)
 
 ### `scoring.js`
 
 Operator scoring core:
 
 - `scoreOperator()`
-- `evaluateStaticEffect()` dispatch
-- `evaluateDynamicEffect()` dispatch
 - `formatMatchedSkill()`
 - `compareCandidates()`
 - `totalCandidateScore()` (scoring helper used by planning, second-shift, and `roomSelectionMetric()`; do NOT place in `effects/morale-effects.js` despite code-order proximity)
@@ -183,7 +199,11 @@ Direct fixed effects from generated catalog:
 
 ### `effects/dynamic-effects.js`
 
-Shared dynamic-effect dispatch and room-state evaluation.
+Shared dynamic-effect dispatch only. Category-specific evaluators live in:
+
+- `effects/dynamic-capacity-effects.js`
+- `effects/dynamic-order-effects.js`
+- `effects/dynamic-tag-effects.js`
 
 ### `effects/capacity-effects.js`
 
@@ -310,20 +330,20 @@ Small numeric helpers:
 - `round()`
 - `clampInteger()`
 
-## Dependency Cycle (Accepted, Do Not "Fix")
+## Dependency Direction
 
-`shifts/second-shift.js` calls `buildRoomCandidates()`,
-`finalizeRoomCandidates()`, `compareCandidates()`, `roomSelectionMetric()`
-(planning + scoring), while `planSecondShift()` is reached from
-`simulateBase()`. `scoreOperator()` calls `inferCapacityVariableEffect()`,
-`inferOrderModelEffect()`, `evaluateStaticEffect()`, `evaluateDynamicEffect()`
-→ `effects/*`.
+The current split has no ES module import cycles. Keep it that way where
+reasonable:
 
-planning ↔ scoring ↔ effects ↔ shifts therefore form an accepted import
-cycle. ES module cycles are safe here because every cross-reference is used
-inside function bodies (lazy), never at module top-level. Do not restructure
-modules to eliminate the cycle — doing so risks changing behavior, which this
-split forbids.
+- `index.js` orchestrates.
+- `facilities/*` builds room plans and calls `room-selection.js`.
+- `room-selection.js` finalizes candidates and calls `scoring.js` plus dynamic effects.
+- `scoring.js` builds static score and effect descriptors.
+- `effects/*` contains skill-specific matching/evaluation.
+
+Do not reintroduce cycles just to move a small helper; prefer tiny local helper
+duplication over making `context.js`, `scoring.js`, and `effects/*` mutually
+dependent.
 
 ## Migration Order
 
@@ -347,6 +367,9 @@ split forbids.
 7. Move scoring and dynamic effect dispatch last, after its dependencies are stable.
 8. Replace root `base-sim-engine.js` with a thin re-export/import wrapper.
 9. Keep `base-sim.js` importing from the root wrapper or switch it to `base-sim-engine/index.js` once the split is complete.
+
+Current status: steps 1-9 are implemented. Follow-up work should be behavior
+improvements or UI refactors, not mechanical engine splitting.
 
 ## Browser Runtime Note
 
