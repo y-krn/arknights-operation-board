@@ -97,6 +97,11 @@ export function collectRoomVariableCapacityBonuses(candidates, facility, type, c
         const count = countSelectedSkillFamily(candidates, "$cc.sk.manu2", context.catalog);
         if (count > 0) bonuses.push(formatCapacityBonus(skill, Number(skillFamilyMatch[1]) * count, candidate.operator, "ラインテク系 x" + count));
       }
+      const ursusDrinkMatch = text.match(/ウルサスドリンク1本につき、保管上限\+(\d+)/);
+      if (ursusDrinkMatch && context) {
+        const drinks = Number(context.intermediateParameters?.ursusDrink || 0);
+        if (drinks > 0) bonuses.push(formatCapacityBonus(skill, Number(ursusDrinkMatch[1]) * drinks, candidate.operator, "ウルサスドリンク x" + round(drinks, 1)));
+      }
     }
     return bonuses;
   });

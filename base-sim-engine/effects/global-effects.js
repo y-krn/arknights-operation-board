@@ -33,6 +33,10 @@ export function inferControlIntermediateGlobalEffects(skill) {
   if (text.includes("全貿易所の受注効率+7%") && text.includes("アイルーと愉快な仲間たち")) {
     effects.push({ type: "tradingSpeedIfMhInControl", value: 7, tag: "$cc.tag.mh", approximate: false });
   }
+  if (text.includes("レッドパイン騎士団") && text.includes("作戦記録製造の製造効率+10%") && text.includes("金属製造の製造効率-10%")) {
+    effects.push({ type: "manufactureSpeedForTaggedOperator", value: 10, tag: "$cc.g.psk", products: ["EXP"], approximate: false });
+    effects.push({ type: "manufactureSpeedForTaggedOperator", value: -10, tag: "$cc.g.psk", products: ["GOLD"], approximate: false });
+  }
   const orderLimitMatch = text.match(/注文上限\+(\d+)/);
   if (orderLimitMatch && text.includes("ヘドリー")) {
     effects.push({ type: "orderLimitForNamedOperatorInTradingRoom", operatorNames: ["ヘドリー"], value: Number(orderLimitMatch[1]), approximate: false });

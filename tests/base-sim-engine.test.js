@@ -2508,6 +2508,130 @@ test("auto-selects control center operators for supported global effects", () =>
   ]);
 });
 
+test("applies Red Pine control product-flow bonuses", () => {
+  const redPineCatalog = {
+    ...catalog,
+    tagDictionary: {
+      "$cc.g.psk": { tag: "$cc.g.psk", label: "レッドパイン騎士団", category: "faction", operatorNames: ["Red Pine Worker"] },
+    },
+    operators: [
+      {
+        id: "flametail",
+        name: "フレイムテイル",
+        rarityValue: 6,
+        baseSkills: [
+          {
+            buffId: "red-pine-control",
+            buffName: "赤松の騎士",
+            roomType: "CONTROL",
+            condition: { level: 1 },
+            supported: false,
+            description: "制御中枢配置時、製造所に配置されたレッドパイン騎士団オペレーター1人につき、作戦記録製造の製造効率+10%、金属製造の製造効率-10%",
+            effects: [],
+          },
+        ],
+      },
+      {
+        id: "red-pine-worker",
+        name: "Red Pine Worker",
+        rarityValue: 5,
+        baseSkills: [
+          {
+            buffId: "red-pine-base",
+            buffName: "レッドパインβ",
+            roomType: "MANUFACTURE",
+            condition: { level: 1 },
+            supported: true,
+            effects: [{ type: "manufactureSpeed", value: 20, products: ["GOLD", "EXP"] }],
+          },
+        ],
+      },
+    ],
+  };
+  const roster = createDefaultRoster(redPineCatalog);
+
+  const exp = simulateBase({ catalog: redPineCatalog, roster, baseLayout: { manufacture: 1, trading: 0, power: 3 }, objective: "exp", settings: { supportAssignments: { CONTROL: ["flametail"] } } });
+  assert.equal(exp.facilities[0].product, "EXP");
+  assert.equal(exp.facilities[0].selected[0].score, 30);
+
+  const gold = simulateBase({ catalog: redPineCatalog, roster, baseLayout: { manufacture: 1, trading: 0, power: 3 }, objective: "lmd", settings: { supportAssignments: { CONTROL: ["flametail"] } } });
+  assert.equal(gold.facilities[0].product, "GOLD");
+  assert.equal(gold.facilities[0].selected[0].score, 10);
+  assert.equal(gold.unsupported.some((warning) => warning.buffName === "赤松の騎士"), false);
+});
+
+test("applies worldly worry trading and Ursus drink storage skills", () => {
+  const intermediateCatalog = {
+    ...catalog,
+    tagDictionary: {
+      "$cc.g.ussg": { tag: "$cc.g.ussg", label: "ウルサス学生自治団", category: "faction", operatorNames: ["Ursus Student"] },
+    },
+    operators: [
+      {
+        id: "wuyou",
+        name: "ウユウ",
+        rarityValue: 5,
+        baseSkills: [
+          {
+            buffId: "worldly-trade",
+            buffName: "「和気生財」",
+            roomType: "TRADING",
+            condition: { level: 1 },
+            supported: false,
+            description: "貿易所配置時、宿舎にいるオペレーター1人につき、俗世之憂+1、俗世之憂1につき、受注効率+1%",
+            effects: [],
+          },
+        ],
+      },
+      {
+        id: "tachanka",
+        name: "Tachanka",
+        rarityValue: 5,
+        baseSkills: [
+          {
+            buffId: "ursus-drink",
+            buffName: "ウルサスドリンク",
+            roomType: "CONTROL",
+            condition: { level: 1 },
+            supported: false,
+            description: "制御中枢配置時、制御中枢内のウルサス学生自治団所属オペレーター1人につき、ウルサスドリンク+1本",
+            effects: [],
+          },
+        ],
+      },
+      { id: "student", name: "Ursus Student", rarityValue: 4, baseSkills: [] },
+      {
+        id: "fuze",
+        name: "Fuze",
+        rarityValue: 5,
+        baseSkills: [
+          {
+            buffId: "fuze-drink-storage",
+            buffName: "寡黙な仕事人",
+            roomType: "MANUFACTURE",
+            condition: { level: 1 },
+            supported: false,
+            description: "製造所配置時、製造効率+20%。ウルサスドリンク1本につき、保管上限+2",
+            effects: [{ type: "manufactureSpeed", value: 20, products: ["GOLD", "EXP"] }],
+          },
+        ],
+      },
+    ],
+  };
+  const roster = createDefaultRoster(intermediateCatalog);
+
+  const trading = simulateBase({ catalog: intermediateCatalog, roster, baseLayout: { manufacture: 0, trading: 1, power: 3 }, objective: "lmd", settings: { dormOperators: 20 } });
+  assert.equal(trading.facilities[0].selected[0].operator.name, "ウユウ");
+  assert.equal(trading.facilities[0].selected[0].score, 20);
+  assert.equal(trading.unsupported.some((warning) => warning.buffName === "「和気生財」"), false);
+
+  const manufacture = simulateBase({ catalog: intermediateCatalog, roster, baseLayout: { manufacture: 1, trading: 0, power: 3 }, objective: "lmd", settings: { supportAssignments: { CONTROL: ["tachanka", "student"] } } });
+  assert.equal(manufacture.context.intermediateParameters.ursusDrink, 1);
+  assert.equal(manufacture.facilities[0].selected[0].operator.name, "Fuze");
+  assert.equal(manufacture.facilities[0].capacity.bonus, 2);
+  assert.equal(manufacture.unsupported.some((warning) => ["ウルサスドリンク", "寡黙な仕事人"].includes(warning.buffName)), false);
+});
+
 test("keeps representative simulateBase output stable for engine split", () => {
   const roster = createDefaultRoster(catalog);
   const result = simulateBase({
@@ -2612,11 +2736,11 @@ test("keeps real base catalog representative output stable", () => {
     firstFacility: { type: "MANUFACTURE", product: "GOLD", speed: 105, selected: ["ウィーディ", "ユーネクテス", "スネグーラチカ"] },
     controlSelected: ["ヴィヴィアナ", "八幡海鈴", "ノーシス", "滌火ジェシカ", "デルフィーン"],
     unsupportedTop: [
-      { name: "赤松の騎士", category: "productFlow", operators: ["フレイムテイル"] },
-      { name: "「山河遠闊たり」", category: "intermediate", operators: ["リィン"] },
-      { name: "「和気生財」", category: "intermediate", operators: ["ウユウ"] },
-      { name: "アイドルのオーラ", category: "intermediate", operators: ["三角初華"] },
-      { name: "ウルサスドリンク", category: "intermediate", operators: ["Tachanka"] },
+      { name: "意外に美味しい", category: "intermediate", operators: ["マルシル"] },
+      { name: "馴染み深い香り", category: "intermediate", operators: ["チルチャック"] },
+      { name: "E.O.小隊", category: "tagCondition", operators: ["マントラ"] },
+      { name: "オーバークロック", category: "tagCondition", operators: ["プリン"] },
+      { name: "霞む視界", category: "tagCondition", operators: ["トター"] },
     ],
     timelinePoints: 24,
   });

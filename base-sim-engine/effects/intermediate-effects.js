@@ -32,6 +32,9 @@ export function createEmptyIntermediateParameters() {
     perceptualInfo: 0,
     passion: 0,
     catnip: 0,
+    ursusDrink: 0,
+    infoReserve: 0,
+    witchcraftCrystal: 0,
   };
 }
 
@@ -51,6 +54,14 @@ export function collectFixedControlIntermediateParameters(params, order, context
       if (text.includes("制御中枢内のアイルーと愉快な仲間たち所属オペレーター1人につき") && text.includes("マタタビ+2")) {
         const mhCount = controlOperators.filter((controlOperator) => operatorMatchesTag(controlOperator, "$cc.tag.mh", context.catalog)).length;
         addIntermediateValue(params, order, "catnip", mhCount * 2, skill, "control-tag", operator);
+      }
+      if (text.includes("制御中枢内のウルサス学生自治団所属オペレーター1人につき") && text.includes("ウルサスドリンク+1")) {
+        const ussgCount = controlOperators.filter((controlOperator) => operatorMatchesTag(controlOperator, "$cc.g.ussg", context.catalog)).length;
+        addIntermediateValue(params, order, "ursusDrink", ussgCount, skill, "control-tag", operator);
+      }
+      if (text.includes("制御中枢内のレインボー小隊所属オペレーター1人につき") && text.includes("情報備蓄+1")) {
+        const rainbowCount = controlOperators.filter((controlOperator) => operatorMatchesTag(controlOperator, "$cc.g.R6", context.catalog)).length;
+        addIntermediateValue(params, order, "infoReserve", rainbowCount, skill, "control-tag", operator);
       }
     }
   }
@@ -95,6 +106,9 @@ export function collectWorkDormIntermediateParameters(params, order, context, ow
       if ((skill.roomType === "MANUFACTURE" || skill.roomType === "TRADING") && text.includes("宿舎中のオペレーター1人につき、知覚情報+1")) {
         addIntermediateValue(params, order, "perceptualInfo", context.dormOperators, skill, "dorm", operator);
       }
+      if (skill.roomType === "TRADING" && text.includes("宿舎にいるオペレーター1人につき、俗世之憂+1")) {
+        addIntermediateValue(params, order, "worldlyWorry", context.dormOperators, skill, "dorm", operator);
+      }
     }
   }
 }
@@ -124,6 +138,9 @@ export function finalizeIntermediateParameters(params) {
     silentResonance: round(params.perceptualInfo, 2),
     passion: round(params.passion, 2),
     catnip: round(params.catnip, 2),
+    ursusDrink: round(params.ursusDrink, 2),
+    infoReserve: round(params.infoReserve, 2),
+    witchcraftCrystal: round(params.witchcraftCrystal, 2),
   };
 }
 
@@ -158,6 +175,42 @@ export function evaluateIntermediateSkillEffect(skill, roomType, product, contex
       detail: "マタタビ " + round(catnip, 1),
       effectType: "tradingSpeedPerCatnip",
       approximate: false,
+    };
+  }
+  if (roomType === "TRADING" && text.includes("俗世之憂1につき") && text.includes("受注効率+1%")) {
+    const worldlyWorry = Number(context.intermediateParameters?.worldlyWorry || 0);
+    const value = Math.floor(worldlyWorry);
+    if (value <= 0) return null;
+    return {
+      value,
+      detail: "俗世之憂 " + round(worldlyWorry, 1),
+      effectType: "tradingSpeedPerWorldlyWorry",
+      approximate: false,
+    };
+  }
+  if (roomType === "MANUFACTURE" && text.includes("5の俗世之憂が1の巫術の結晶に転化される")) {
+    const worldlyWorry = Number(context.intermediateParameters?.worldlyWorry || 0);
+    const value = Math.floor(worldlyWorry / 5);
+    if (value <= 0) return null;
+    return {
+      value: 0,
+      detail: "巫術の結晶 " + value,
+      effectType: "convertWorldlyWorryToWitchcraftCrystal",
+      approximate: true,
+    };
+  }
+  if (roomType === "MANUFACTURE" && text.includes("巫術の結晶1につき") && text.includes("製造効率+")) {
+    const worldlyWorry = Number(context.intermediateParameters?.worldlyWorry || 0);
+    const crystal = Math.floor(worldlyWorry / 5);
+    const match = text.match(/巫術の結晶1につき、製造効率\+(\d+)%/);
+    const valuePerCrystal = match ? Number(match[1]) : 0;
+    const value = crystal * valuePerCrystal;
+    if (value <= 0) return null;
+    return {
+      value,
+      detail: "巫術の結晶 " + crystal,
+      effectType: "manufactureSpeedPerWitchcraftCrystal",
+      approximate: true,
     };
   }
   return null;

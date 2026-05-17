@@ -35,6 +35,14 @@ function isSkillSupportedByManualEvaluator(skill) {
   const text = skill.description || "";
   if (parseMoraleEffects(skill).length > 0) return true;
   if (text.includes("宿舎中のオペレーター1人につき、知覚情報+1")) return true;
+  if (text.includes("宿舎にいるオペレーター1人につき、俗世之憂+1") && text.includes("俗世之憂1につき、受注効率+1%")) return true;
+  if (text.includes("俗世之憂+15") && text.includes("知覚情報+10") && text.includes("体力が12")) return true;
+  if (text.includes("宿舎にいるオペレーター1人につきパッション+1")) return true;
+  if (text.includes("ウルサス学生自治団") && text.includes("ウルサスドリンク+1")) return true;
+  if (text.includes("レインボー小隊") && text.includes("情報備蓄+1")) return true;
+  if (text.includes("5の俗世之憂が1の巫術の結晶に転化される")) return true;
+  if (text.includes("巫術の結晶1につき") && text.includes("製造効率+")) return true;
+  if (text.includes("ウルサスドリンク1本につき、保管上限+2")) return true;
   if (text.includes("俗世之憂3につき") && text.includes("製造効率+1")) return true;
   if (text.includes("知覚情報") && (text.includes("思念連鎖") || text.includes("静かなる共鳴"))) return true;
   if (text.includes("パッション") && (text.includes("製造効率") || text.includes("受注効率") || text.includes("体力消費量"))) return true;
@@ -48,6 +56,7 @@ function isSkillSupportedByManualEvaluator(skill) {
   if (text.includes("注文上限増加量5につき") && text.includes("受注効率+25%")) return true;
   if (text.includes("オーダー数と注文上限数の差") || text.includes("オーダー数が1につき")) return true;
   if (text.includes("アイルーと愉快な仲間たち") && (text.includes("全製造所の製造効率+2%") || text.includes("全貿易所の受注効率+7%"))) return true;
+  if (text.includes("レッドパイン騎士団") && text.includes("作戦記録製造の製造効率+10%") && text.includes("金属製造の製造効率-10%")) return true;
   if (text.includes("ヘドリー") && text.includes("注文上限+")) return true;
   if (text.includes("イェラグ") && text.includes("注文上限+")) return true;
   if (text.includes("違約オーダー")) return true;
