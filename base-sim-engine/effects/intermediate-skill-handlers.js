@@ -122,7 +122,7 @@ export const INTERMEDIATE_SKILL_EFFECT_HANDLERS = [
     evaluate: ({ skill, context }) => {
       const worldlyWorry = intermediateValue(context, INTERMEDIATE_PARAMETERS.WORLDLY_WORRY);
       const crystal = Math.floor(worldlyWorry / 5);
-      const match = textOf(skill).match(/巫術の結晶1につき、製造効率+(d+)%/);
+      const match = textOf(skill).match(/巫術の結晶1につき、製造効率\+(\d+)%/);
       const valuePerCrystal = match ? Number(match[1]) : 0;
       return buildEffect({
         value: crystal * valuePerCrystal,

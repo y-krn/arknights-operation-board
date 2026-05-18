@@ -1,3 +1,5 @@
+import { isCapacityVariableEffectHandled } from "./capacity-effect-handlers.js";
+import { isIntermediateGenerationSkillHandled } from "./intermediate-generation-handlers.js";
 import { isIntermediateSkillEffectHandled } from "./intermediate-skill-handlers.js";
 import { parseMoraleEffects } from "./morale-effects.js";
 
@@ -16,14 +18,8 @@ export const SKILL_HANDLER_REGISTRY = [
     category: "intermediate",
     canHandle: (skill) => {
       const text = textOf(skill);
-      return isIntermediateSkillEffectHandled(skill)
-        || text.includes("宿舎中のオペレーター1人につき、知覚情報+1")
-        || (text.includes("宿舎にいるオペレーター1人につき、俗世之憂+1") && text.includes("俗世之憂1につき、受注効率+1%"))
-        || (text.includes("俗世之憂+15") && text.includes("知覚情報+10") && text.includes("体力が12"))
-        || text.includes("宿舎にいるオペレーター1人につきパッション+1")
-        || (text.includes("ウルサス学生自治団") && text.includes("ウルサスドリンク+1"))
-        || (text.includes("レインボー小隊") && text.includes("情報備蓄+1"))
-        || (text.includes("宿舎配置時、配置宿舎のレベル1につき") && text.includes("魔物料理+1"))
+      return isIntermediateGenerationSkillHandled(skill)
+        || isIntermediateSkillEffectHandled(skill)
         || (text.includes("知覚情報") && (text.includes("思念連鎖") || text.includes("静かなる共鳴")))
         || (text.includes("パッション") && (text.includes("製造効率") || text.includes("受注効率") || text.includes("体力消費量")))
         || text.includes("マタタビ");
@@ -34,15 +30,10 @@ export const SKILL_HANDLER_REGISTRY = [
     category: "capacity",
     canHandle: (skill) => {
       const text = textOf(skill);
-      return text.includes("ウルサスドリンク1本につき、保管上限+2")
-        || (text.includes("保管上限1上昇につき") && text.includes("製造効率+2%"))
-        || text.includes("配属オペレーター各自の保管上限増加値")
+      return isCapacityVariableEffectHandled(skill)
+        || text.includes("ウルサスドリンク1本につき、保管上限+2")
         || (/保管上限[+-]\d+|注文上限[+-]\d+|レベル1ごとに注文上限\+\d+/.test(text) && !/(増加量|差が|オーダー数|発動数)/.test(text))
-        || (text.includes("製造所に配置中のオペレーター1名につき") && text.includes("保管上限+"))
         || (text.includes("ラインテク系スキルの発動数1につき") && text.includes("保管上限+"))
-        || (text.includes("注文上限増加量1につき") && text.includes("受注効率+4%"))
-        || (text.includes("注文上限増加量5につき") && text.includes("受注効率+25%"))
-        || text.includes("オーダー数と注文上限数の差")
         || text.includes("オーダー数が1につき");
     },
   },
