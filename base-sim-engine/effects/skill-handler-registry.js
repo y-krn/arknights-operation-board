@@ -1,3 +1,4 @@
+import { isIntermediateSkillEffectHandled } from "./intermediate-skill-handlers.js";
 import { parseMoraleEffects } from "./morale-effects.js";
 
 function textOf(skill) {
@@ -15,17 +16,14 @@ export const SKILL_HANDLER_REGISTRY = [
     category: "intermediate",
     canHandle: (skill) => {
       const text = textOf(skill);
-      return text.includes("宿舎中のオペレーター1人につき、知覚情報+1")
+      return isIntermediateSkillEffectHandled(skill)
+        || text.includes("宿舎中のオペレーター1人につき、知覚情報+1")
         || (text.includes("宿舎にいるオペレーター1人につき、俗世之憂+1") && text.includes("俗世之憂1につき、受注効率+1%"))
         || (text.includes("俗世之憂+15") && text.includes("知覚情報+10") && text.includes("体力が12"))
         || text.includes("宿舎にいるオペレーター1人につきパッション+1")
         || (text.includes("ウルサス学生自治団") && text.includes("ウルサスドリンク+1"))
         || (text.includes("レインボー小隊") && text.includes("情報備蓄+1"))
-        || text.includes("5の俗世之憂が1の巫術の結晶に転化される")
-        || (text.includes("巫術の結晶1につき") && text.includes("製造効率+"))
-        || (text.includes("魔物料理1つにつき") && (text.includes("製造効率+1%") || text.includes("受注効率+1%")))
         || (text.includes("宿舎配置時、配置宿舎のレベル1につき") && text.includes("魔物料理+1"))
-        || (text.includes("俗世之憂3につき") && text.includes("製造効率+1"))
         || (text.includes("知覚情報") && (text.includes("思念連鎖") || text.includes("静かなる共鳴")))
         || (text.includes("パッション") && (text.includes("製造効率") || text.includes("受注効率") || text.includes("体力消費量")))
         || text.includes("マタタビ");
@@ -75,4 +73,64 @@ export function findSkillHandler(skill) {
 
 export function isHandledBySkillRegistry(skill) {
   return Boolean(findSkillHandler(skill));
+}
+
+
+export const UNSUPPORTED_SKILL_CLASSIFIERS = [
+  {
+    category: "supportFacility",
+    reason: "発電所/宿舎の効果はMVP最適化では限定対応",
+    priority: 6,
+    matches: (skill) => ["POWER", "DORMITORY"].includes(skill.roomType),
+  },
+  {
+    category: "outOfScope",
+    reason: "現在のMVP指標外",
+    priority: 9,
+    matches: (skill) => /手がかり|応接|事務|連絡速度|公開求人|訓練|加工|副産物/.test(textOf(skill)),
+  },
+  {
+    category: "orderModel",
+    reason: "高価値オーダーの注文価値モデルが未実装",
+    priority: 1,
+    matches: (skill) => /高価値オーダー/.test(textOf(skill)),
+  },
+  {
+    category: "productFlow",
+    reason: "製品ライン/製品間相互作用の追加整理が必要",
+    priority: 2,
+    matches: (skill) => /純金生産ライン|金属.*作戦記録|作戦記録.*金属/.test(textOf(skill)),
+  },
+  {
+    category: "intermediate",
+    reason: "中間パラメータ式の未対応パターン",
+    priority: 3,
+    matches: (skill) => /俗世|知覚|思念|静かなる|パッション|マタタビ/.test(textOf(skill)) || (skill.intermediateRefs || []).length > 0,
+  },
+  {
+    category: "capacity",
+    reason: "上限/注文数モデルの未対応パターン",
+    priority: 4,
+    matches: (skill) => /保管上限|注文上限|オーダー数/.test(textOf(skill)),
+  },
+  {
+    category: "tagCondition",
+    reason: "タグ条件の未対応パターン",
+    priority: 5,
+    matches: (skill) => (skill.conditionTags || []).length > 0,
+  },
+  {
+    category: "morale",
+    reason: "体力/休憩モデルの未対応パターン",
+    priority: 6,
+    matches: (skill) => /体力|疲労|宿舎/.test(textOf(skill)),
+  },
+];
+
+export function classifyUnsupportedSkill(skill) {
+  return UNSUPPORTED_SKILL_CLASSIFIERS.find((classifier) => classifier.matches(skill)) || {
+    category: "manualRule",
+    reason: "手書き evaluator が必要",
+    priority: 7,
+  };
 }
